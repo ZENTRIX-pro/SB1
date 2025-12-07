@@ -1,0 +1,28 @@
+import { motion } from "framer-motion";
+import { Hero } from "@/components/hero";
+import { CategoryScroll } from "@/components/category-scroll";
+import { NewArrivals } from "@/components/new-arrivals";
+import { TrendingSection } from "@/components/trending-section";
+import { HeritageEdition } from "@/components/heritage-edition";
+import { TrustBadges } from "@/components/trust-badges";
+import { Footer } from "@/components/footer";
+
+export default function Home() {
+  return (
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="bg-white"
+      data-testid="page-home"
+    >
+      <Hero />
+      <CategoryScroll />
+      <NewArrivals />
+      <TrendingSection />
+      <HeritageEdition />
+      <TrustBadges />
+      <Footer />
+    </motion.main>
+  );
+}
