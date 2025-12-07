@@ -5,6 +5,7 @@ import { Minus, Plus, Check, ShoppingBag } from "lucide-react";
 import { getProductById, categories } from "@/lib/data";
 import { useCart } from "@/lib/cart-context";
 import { Footer } from "@/components/footer";
+import { CustomerReviews } from "@/components/customer-reviews";
 
 export default function Product() {
   const { id } = useParams<{ id: string }>();
@@ -271,6 +272,8 @@ export default function Product() {
                   </p>
                 </div>
               </div>
+
+              <CustomerReviews productId={id || ""} />
             </motion.div>
           </div>
         </section>
