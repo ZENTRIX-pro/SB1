@@ -1,47 +1,44 @@
-# ZENTRIX E-Commerce Refactor - COMPLETED
+# Project Import Setup - ZENTRIX E-Commerce
 
-## Status: All Tasks Complete
+## Current Status
+Setting up a GitHub import of ZENTRIX luxury e-commerce website to run in Replit environment.
 
-The ZENTRIX e-commerce refactor has been successfully completed. All 10 tasks have been marked as completed with architect approval.
+## Completed
+1. ✅ Installed Node.js 20
+2. ✅ Installed npm dependencies successfully (479 packages)
+3. ✅ Verified vite.config.ts already has correct configuration:
+   - `host: "0.0.0.0"` ✓
+   - `allowedHosts: true` ✓
+   - Port will be 5000 (configured in server/index.ts)
 
-## Completed Tasks Summary
+## Project Structure
+- **Location**: All code is in the `IP/` directory
+- **Type**: Full-stack React + Express application
+- **Frontend**: React with Vite, TailwindCSS, shadcn/ui components
+- **Backend**: Express server with in-memory storage
+- **Database**: Has drizzle config but currently using in-memory storage (MemStorage class)
+- **Package manager**: npm
+- **Dev command**: `npm run dev` (runs `NODE_ENV=development tsx server/index.ts`)
+- **Port**: 5000 (configured in server/index.ts, listens on 0.0.0.0)
 
-1. **Hero.tsx** - New responsive component with separate Embla instances for mobile (h-[75vh], 4:5 aspect) and desktop (center-mode 60% active slide carousel)
-2. **Contact page** - `/contact` with Email Support (shop.with.zentrix@gmail.com) and Live Chat cards only
-3. **Heritage Edition** - Split-screen component with bg-stone-900
-4. **Homepage structure** - Hero -> CategoryScroll -> NewArrivals -> TrendingSection -> HeritageEdition -> TrustBadges -> Footer
-5. **ProductCard.tsx** - Removed buttons, entire card clickable to /product/:id
-6. **Checkout page** - Clean form with Razorpay (#3395FF) and PayPal (#FFC439) buttons
-7. **Mobile drawer** - Links: Home, Shop, Heritage, Support
-8. **Footer social** - Facebook and Instagram URLs hardcoded
-9. **Routes** - Added /about, /contact, /shipping
-10. **Final testing** - All verified working
+## Next Steps (From Task List)
+1. Setup workflow to run dev server on port 5000
+2. Start workflow and verify console logs
+3. Configure deployment settings
+4. Mark project import as complete
 
-## Key Fix Applied
+## Important Notes
+- The vite config is already correctly configured for Replit proxy
+- Server already binds to 0.0.0.0:5000 (correct for frontend)
+- No backend port conflict - this is a single server serving both frontend and backend
+- LSP errors exist but are expected until workflow runs (types will resolve)
+- No database setup needed - using in-memory storage currently
+- Working directory: IP/
 
-The Hero carousel had a bug where mobile and desktop shared a single Embla ref. Fixed by:
-- Creating separate hooks: `mobileEmblaRef/mobileEmblaApi` and `desktopEmblaRef/desktopEmblaApi`
-- Separate state: `mobileIndex` and `desktopIndex`
-- Separate useEffect hooks for autoplay and selection tracking
-
-## Application Status
-- Workflow "Start application" is RUNNING on port 5000
-- All pages tested and verified working
-
-## Files Modified/Created
-- client/src/components/hero.tsx (NEW)
-- client/src/components/heritage-edition.tsx (NEW)
-- client/src/pages/contact.tsx (NEW)
-- client/src/pages/about.tsx (NEW)
-- client/src/pages/shipping.tsx (NEW)
-- client/src/pages/home.tsx (MODIFIED)
-- client/src/pages/checkout.tsx (MODIFIED)
-- client/src/pages/support.tsx (MODIFIED)
-- client/src/components/product-card.tsx (MODIFIED)
-- client/src/components/footer.tsx (MODIFIED)
-- client/src/components/mobile-drawer.tsx (MODIFIED)
-- client/src/App.tsx (MODIFIED)
-
-## Next Steps for User
-- The app is ready for publishing/deployment
-- User may want to integrate actual payment processing (Stripe/Razorpay)
+## Task List ID Reference
+- Task 1: Install deps (COMPLETED)
+- Task 2: Verify vite config (IN_PROGRESS - needs completion)
+- Task 3: Setup workflow
+- Task 4: Verify logs
+- Task 5: Configure deployment
+- Task 6: Mark complete
