@@ -3,6 +3,7 @@ import { Hero } from "@/components/hero";
 import { CategoryScroll } from "@/components/category-scroll";
 import { NewArrivals } from "@/components/new-arrivals";
 import { TrendingSection } from "@/components/trending-section";
+import { SignatureSeries } from "@/components/signature-series";
 import { HeritageEdition } from "@/components/heritage-edition";
 import { TrustBadges } from "@/components/trust-badges";
 import { Footer } from "@/components/footer";
@@ -20,6 +21,7 @@ export default function Home() {
       <CategoryScroll />
       <NewArrivals />
       <TrendingSection />
+      <SignatureSeries />
       <HeritageEdition />
       <TrustBadges />
       <Footer />
