@@ -8,7 +8,7 @@ import { MobileDrawer } from "@/components/mobile-drawer";
 const navLinks = [
   { name: "Men", href: "/category/men" },
   { name: "Women", href: "/category/women" },
-  { name: "Heritage", href: "/category/heritage" },
+  { name: "Jewelry", href: "/category/jewelry" },
   { name: "Accessories", href: "/category/leather" },
 ];
 
@@ -51,7 +51,7 @@ export function Navbar() {
         <div className="max-w-[1200px] mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-14">
             <Link href="/" data-testid="link-home">
-              <span className="font-heading text-xl font-semibold tracking-tight text-black cursor-pointer">
+              <span className="text-xl font-semibold tracking-[0.15em] text-black cursor-pointer" style={{ fontFamily: 'Cinzel, serif' }}>
                 ZENTRIX
               </span>
             </Link>

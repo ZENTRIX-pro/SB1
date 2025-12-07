@@ -53,23 +53,23 @@ export const heroSlides = [
     title: "Step Into Tomorrow",
     subtitle: "Z-Footwear Collection",
     cta: "Shop Footwear",
-    link: "/category/footwear"
+    link: "/category/mens-footwear"
   },
   {
     id: 4,
     image: cinematicHeroImage,
     title: "Heritage Edition",
     subtitle: "Timeless Artisan Craft",
-    cta: "Explore Heritage",
-    link: "/category/heritage"
+    cta: "Explore Jewelry",
+    link: "/category/jewelry"
   },
   {
     id: 5,
     image: lifestyleCategoryImage,
     title: "Live Luxuriously",
-    subtitle: "Premium Lifestyle",
-    cta: "Shop Lifestyle",
-    link: "/category/lifestyle"
+    subtitle: "Premium Tech",
+    cta: "Shop Tech",
+    link: "/category/tech"
   }
 ];
 
@@ -82,45 +82,52 @@ export const cinematicHero = {
 export const categories: Category[] = [
   {
     id: "1",
-    name: "Heritage Edition",
-    slug: "heritage",
-    description: "Artisan Craft, Timeless Elegance",
-    image: cinematicHeroImage
-  },
-  {
-    id: "2",
-    name: "Men",
+    name: "Men's Apparel",
     slug: "men",
-    description: "Luxury Suits & Premium Fashion",
+    description: "Luxury Suits & Premium Shirts",
     image: menCategoryImage
   },
   {
-    id: "3",
-    name: "Women",
+    id: "2",
+    name: "Women's Apparel",
     slug: "women",
-    description: "Elegant Evening Wear",
+    description: "Elegant Dresses & Evening Wear",
     image: womenCategoryImage
   },
   {
-    id: "4",
-    name: "Footwear",
-    slug: "footwear",
-    description: "Premium Sneakers & Boots",
+    id: "3",
+    name: "Men's Footwear",
+    slug: "mens-footwear",
+    description: "Formal Shoes & Premium Sneakers",
     image: footwearCategoryImage
   },
   {
+    id: "4",
+    name: "Women's Footwear",
+    slug: "womens-footwear",
+    description: "Luxury Heels & Designer Boots",
+    image: womensFootwearImage
+  },
+  {
     id: "5",
-    name: "Tech & Gadgets",
-    slug: "tech",
-    description: "Smart Devices & Electronics",
-    image: techCategoryImage
+    name: "Jewelry & Adornments",
+    slug: "jewelry",
+    description: "Premium Necklaces & Signature Rings",
+    image: smartRingImage
   },
   {
     id: "6",
-    name: "Accessories",
+    name: "Wallets & Carry",
     slug: "leather",
-    description: "Bags, Wallets & Lifestyle",
-    image: leatherCategoryImage
+    description: "Men's Bags & Luxury Wallets",
+    image: walletImage
+  },
+  {
+    id: "7",
+    name: "Tech Lifestyle",
+    slug: "tech",
+    description: "Premium Gadgets & Smart Devices",
+    image: techCategoryImage
   }
 ];
 
@@ -195,13 +202,13 @@ export const products: Product[] = [
     colors: ["Black", "Ivory"]
   },
 
-  // Footwear - 3 products
+  // Men's Footwear - 3 products
   {
     id: "f1",
     name: "ZENTRIX AirFlow Sneaker",
     description: "Where innovation meets luxury. Handcrafted Italian leather upper with proprietary cushioning technology. Each pair is individually numbered and crafted to perfection.",
     price: 395,
-    category: "footwear",
+    category: "mens-footwear",
     image: whiteSneakerImage,
     isNew: true,
     sizes: ["40", "41", "42", "43", "44", "45"],
@@ -212,7 +219,7 @@ export const products: Product[] = [
     name: "ZENTRIX Chelsea Boot",
     description: "Timeless British heritage reimagined. Premium calfskin leather with Goodyear welt construction ensures both durability and style that only improves with age.",
     price: 545,
-    category: "footwear",
+    category: "mens-footwear",
     image: bootsImage,
     isNew: false,
     sizes: ["40", "41", "42", "43", "44", "45"],
@@ -223,7 +230,7 @@ export const products: Product[] = [
     name: "ZENTRIX Velocity High-Top",
     description: "Street luxury elevated. Premium leather construction with signature sole technology. A bold statement piece for those who lead, not follow.",
     price: 425,
-    category: "footwear",
+    category: "mens-footwear",
     image: whiteSneakerImage,
     isNew: true,
     sizes: ["40", "41", "42", "43", "44", "45"],
@@ -265,13 +272,13 @@ export const products: Product[] = [
     colors: ["Black", "Brown"]
   },
 
-  // Lifestyle - 3 products
+  // Tech Lifestyle - 3 products
   {
     id: "z1",
     name: "ZENTRIX Titan Smart Ring",
     description: "Technology meets elegance. Track your wellness, control your devices, and make payments with a gesture. Crafted from aerospace-grade titanium.",
     price: 395,
-    category: "lifestyle",
+    category: "jewelry",
     image: smartRingImage,
     isNew: true,
     sizes: ["6", "7", "8", "9", "10", "11"],
@@ -282,7 +289,7 @@ export const products: Product[] = [
     name: "ZENTRIX Executive Desk Set",
     description: "Elevate your workspace with this curated collection. Premium leather and brushed steel combine in a set that makes every desk a statement.",
     price: 285,
-    category: "lifestyle",
+    category: "tech",
     image: deskOrganizerImage,
     isNew: false,
     sizes: ["One Size"],
@@ -293,20 +300,20 @@ export const products: Product[] = [
     name: "ZENTRIX Noir Sculpture Vase",
     description: "Art meets function. This hand-finished ceramic piece brings modern minimalism to any space. A conversation starter and design object in one.",
     price: 165,
-    category: "lifestyle",
+    category: "tech",
     image: vaseImage,
     isNew: true,
     sizes: ["One Size"],
     colors: ["Matte Black", "Cream"]
   },
 
-  // Beauty & Glow - 3 products
+  // Jewelry & Adornments - 3 products
   {
     id: "b1",
     name: "ZENTRIX Luminance Serum",
     description: "Revolutionary anti-aging formula infused with 24k gold particles and hyaluronic acid. Clinically proven to restore radiance and reduce fine lines in just 14 days.",
     price: 285,
-    category: "beauty",
+    category: "jewelry",
     image: beautyCategoryImage,
     isNew: true,
     sizes: ["30ml", "50ml"],
@@ -317,7 +324,7 @@ export const products: Product[] = [
     name: "ZENTRIX Noir Eau de Parfum",
     description: "A bold, sophisticated fragrance crafted by master perfumers in Grasse. Notes of bergamot, oud wood, and amber create an unforgettable signature scent.",
     price: 245,
-    category: "beauty",
+    category: "jewelry",
     image: beautyCategoryImage,
     isNew: true,
     sizes: ["50ml", "100ml"],
@@ -328,7 +335,7 @@ export const products: Product[] = [
     name: "ZENTRIX Velvet Skin Cream",
     description: "Ultra-luxurious moisturizer with rare botanical extracts and Swiss alpine stem cells. Experience the ultimate in skin transformation and hydration.",
     price: 195,
-    category: "beauty",
+    category: "jewelry",
     image: beautyCategoryImage,
     isNew: false,
     sizes: ["50ml"],

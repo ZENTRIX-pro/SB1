@@ -16,6 +16,10 @@ import Support from "@/pages/support";
 import Contact from "@/pages/contact";
 import About from "@/pages/about";
 import Shipping from "@/pages/shipping";
+import Careers from "@/pages/careers";
+import Stores from "@/pages/stores";
+import Press from "@/pages/press";
+import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -29,6 +33,10 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/about" component={About} />
       <Route path="/shipping" component={Shipping} />
+      <Route path="/careers" component={Careers} />
+      <Route path="/stores" component={Stores} />
+      <Route path="/press" component={Press} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

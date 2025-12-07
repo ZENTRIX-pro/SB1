@@ -72,7 +72,7 @@ export function Hero() {
 
   return (
     <>
-      <section className="md:hidden h-[75vh] pt-14 bg-black overflow-hidden">
+      <section className="md:hidden h-[55vh] pt-14 bg-black overflow-hidden">
         <div className="h-full overflow-hidden" ref={mobileEmblaRef}>
           <div className="flex h-full">
             {heroSlides.map((slide) => (

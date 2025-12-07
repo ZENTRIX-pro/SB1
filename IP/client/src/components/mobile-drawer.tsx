@@ -9,8 +9,9 @@ interface MobileDrawerProps {
 
 const drawerLinks = [
   { name: "Home", href: "/", icon: Home },
-  { name: "Shop", href: "/category/all", icon: ShoppingBag },
-  { name: "Heritage", href: "/category/heritage", icon: Crown },
+  { name: "Shop Men", href: "/category/men", icon: ShoppingBag },
+  { name: "Shop Women", href: "/category/women", icon: ShoppingBag },
+  { name: "Jewelry", href: "/category/jewelry", icon: Crown },
   { name: "Support", href: "/support", icon: HeadphonesIcon },
 ];
 

@@ -1,13 +1,13 @@
 import { Link } from "wouter";
-import { SiInstagram, SiX, SiFacebook, SiPinterest } from "react-icons/si";
+import { SiInstagram, SiFacebook, SiPinterest } from "react-icons/si";
 
 const footerLinks = {
   shop: [
-    { name: "Men", href: "/category/men" },
-    { name: "Women", href: "/category/women" },
-    { name: "Footwear", href: "/category/footwear" },
-    { name: "Accessories", href: "/category/leather" },
-    { name: "Lifestyle", href: "/category/lifestyle" },
+    { name: "Men's Apparel", href: "/category/men" },
+    { name: "Women's Apparel", href: "/category/women" },
+    { name: "Footwear", href: "/category/mens-footwear" },
+    { name: "Jewelry", href: "/category/jewelry" },
+    { name: "Tech Lifestyle", href: "/category/tech" },
   ],
   company: [
     { name: "About Us", href: "/about" },
@@ -18,14 +18,13 @@ const footerLinks = {
   support: [
     { name: "Contact", href: "/contact" },
     { name: "Shipping", href: "/shipping" },
-    { name: "Returns", href: "/returns" },
-    { name: "FAQ", href: "/faq" },
+    { name: "Support", href: "/support" },
+    { name: "Email Us", href: "mailto:shop.with.zentrix@gmail.com" },
   ],
 };
 
 const socialLinks = [
   { icon: SiInstagram, href: "https://www.instagram.com/zentrix.gear?igsh=ZDNpNGh3MXhlYm5o", label: "Instagram" },
-  { icon: SiX, href: "https://x.com", label: "X" },
   { icon: SiFacebook, href: "https://www.facebook.com/share/17U6B59QsA/", label: "Facebook" },
   { icon: SiPinterest, href: "https://pinterest.com", label: "Pinterest" },
 ];
@@ -37,7 +36,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
           <div className="col-span-2 lg:col-span-2">
             <Link href="/">
-              <span className="text-lg font-semibold text-black cursor-pointer" data-testid="link-footer-logo">
+              <span className="text-lg font-semibold tracking-[0.15em] text-black cursor-pointer" style={{ fontFamily: 'Cinzel, serif' }} data-testid="link-footer-logo">
                 ZENTRIX
               </span>
             </Link>
