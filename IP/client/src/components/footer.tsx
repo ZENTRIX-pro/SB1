@@ -45,18 +45,19 @@ export function Footer() {
               Crafted for those who seek excellence in every detail.
             </p>
 
-            <div className="mt-6">
-              <p className="text-xs text-neutral-500 mb-3">Join our newsletter</p>
+            <div className="mt-6 bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-2xl p-5">
+              <p className="text-amber-400 font-semibold text-sm mb-1">Join the Inner Circle</p>
+              <p className="text-neutral-300 text-xs mb-4">Get 10% off your first handcrafted order.</p>
               <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="email"
                   placeholder="Email address"
-                  className="flex-1 bg-white px-4 py-2.5 rounded-xl text-sm text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 bg-white/10 border border-white/20 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
                   data-testid="input-newsletter-email"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 bg-black text-white text-sm font-medium rounded-xl hover:bg-neutral-800 transition-colors"
+                  className="px-4 py-2.5 bg-amber-400 text-black text-sm font-semibold rounded-xl hover:bg-amber-300 transition-colors"
                   data-testid="button-newsletter-submit"
                 >
                   Subscribe

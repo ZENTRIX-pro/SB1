@@ -6,6 +6,7 @@ import { TrendingSection } from "@/components/trending-section";
 import { SignatureSeries } from "@/components/signature-series";
 import { HeritageEdition } from "@/components/heritage-edition";
 import { TrustBadges } from "@/components/trust-badges";
+import { ClienteleStories } from "@/components/clientele-stories";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
       <SignatureSeries />
       <HeritageEdition />
       <TrustBadges />
+      <ClienteleStories />
       <Footer />
     </motion.main>
   );
