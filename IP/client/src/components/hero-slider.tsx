@@ -50,7 +50,7 @@ export function HeroSlider() {
   };
 
   return (
-    <section className="relative h-[60vh] md:h-[80vh] w-full overflow-hidden bg-black" data-testid="hero-section">
+    <section className="relative h-[80vh] md:h-[70vh] w-full overflow-hidden bg-black" data-testid="hero-section">
       {/* Background Image */}
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div

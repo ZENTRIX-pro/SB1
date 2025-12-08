@@ -108,13 +108,13 @@ export function Hero() {
 
   if (isLoading || heroSlides.length === 0) {
     return (
-      <section className="h-[60vh] md:h-[80vh] bg-neutral-100 animate-pulse" />
+      <section className="h-[80vh] md:h-[70vh] bg-neutral-100 animate-pulse" />
     );
   }
 
   return (
     <>
-      <section className="md:hidden h-[60vh] pt-14 bg-black overflow-hidden">
+      <section className="md:hidden h-[80vh] pt-14 bg-black overflow-hidden">
         <div className="h-full overflow-hidden" ref={mobileEmblaRef}>
           <div className="flex h-full">
             {heroSlides.map((slide) => (
@@ -174,7 +174,7 @@ export function Hero() {
         </div>
       </section>
 
-      <section className="hidden md:block h-[80vh] pt-16 bg-white overflow-hidden">
+      <section className="hidden md:block h-[70vh] pt-16 bg-white overflow-hidden">
         <div className="relative max-w-[1400px] mx-auto px-6 h-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
