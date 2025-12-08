@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { CartProvider } from "@/lib/cart-context";
+import { ShopifyProvider } from "@/lib/shopify-context";
 import { products } from "@/lib/data";
 import { Navbar } from "@/components/navbar";
 import { CartDrawer } from "@/components/cart-drawer";
@@ -43,14 +44,16 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
-          <CartProvider products={products}>
-            <div className="min-h-screen bg-background">
-              <Navbar />
-              <CartDrawer />
-              <Router />
-            </div>
-            <Toaster />
-          </CartProvider>
+          <ShopifyProvider>
+            <CartProvider products={products}>
+              <div className="min-h-screen bg-background">
+                <Navbar />
+                <CartDrawer />
+                <Router />
+              </div>
+              <Toaster />
+            </CartProvider>
+          </ShopifyProvider>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

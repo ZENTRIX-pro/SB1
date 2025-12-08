@@ -1,10 +1,41 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { products } from "@/lib/data";
-
-const trendingProducts = products.slice(0, 4);
+import { useShopify } from "@/lib/shopify-context";
+import { ProductSkeleton } from "@/components/product-skeleton";
 
 export function TrendingSection() {
+  const { products, isLoading } = useShopify();
+  
+  const trendingProducts = products.slice(0, 4);
+
+  if (isLoading) {
+    return (
+      <section className="py-12 bg-neutral-50">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-neutral-500 mb-1">
+                Best Sellers
+              </p>
+              <h2 className="font-heading text-2xl md:text-3xl font-semibold text-black">
+                Trending Now
+              </h2>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <ProductSkeleton key={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (trendingProducts.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-12 bg-neutral-50">
       <div className="max-w-[1200px] mx-auto px-4 md:px-6">
@@ -40,12 +71,12 @@ export function TrendingSection() {
               className="group flex-none snap-start"
               style={{ width: 'calc(66.666% - 8px)' }}
             >
-              <Link href={`/product/${product.id}`}>
+              <Link href={`/product/${product.handle}`}>
                 <div className="cursor-pointer">
                   <div className="relative aspect-[4/5] overflow-hidden bg-white rounded-2xl mb-4">
                     <img
-                      src={product.image}
-                      alt={product.name}
+                      src={product.images[0]?.src || "https://placehold.co/400x500?text=No+Image"}
+                      alt={product.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-4 left-4">
@@ -54,11 +85,11 @@ export function TrendingSection() {
                       </span>
                     </div>
                   </div>
-                  <h3 className="font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors text-sm">
-                    {product.name}
+                  <h3 className="font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors text-sm line-clamp-1">
+                    {product.title}
                   </h3>
                   <p className="text-neutral-500 text-sm">
-                    ${product.price.toLocaleString()}
+                    ${parseFloat(product.variants[0]?.price.amount || "0").toLocaleString()}
                   </p>
                 </div>
               </Link>
@@ -76,12 +107,12 @@ export function TrendingSection() {
               transition={{ delay: idx * 0.1, duration: 0.4 }}
               className="group"
             >
-              <Link href={`/product/${product.id}`}>
+              <Link href={`/product/${product.handle}`}>
                 <div className="cursor-pointer">
                   <div className="relative aspect-[4/5] overflow-hidden bg-white rounded-2xl mb-4">
                     <img
-                      src={product.image}
-                      alt={product.name}
+                      src={product.images[0]?.src || "https://placehold.co/400x500?text=No+Image"}
+                      alt={product.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-4 left-4">
@@ -90,11 +121,11 @@ export function TrendingSection() {
                       </span>
                     </div>
                   </div>
-                  <h3 className="font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors">
-                    {product.name}
+                  <h3 className="font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors line-clamp-1">
+                    {product.title}
                   </h3>
                   <p className="text-neutral-500">
-                    ${product.price.toLocaleString()}
+                    ${parseFloat(product.variants[0]?.price.amount || "0").toLocaleString()}
                   </p>
                 </div>
               </Link>
