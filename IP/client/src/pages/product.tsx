@@ -6,6 +6,7 @@ import { getProductById, categories } from "@/lib/data";
 import { useCart } from "@/lib/cart-context";
 import { Footer } from "@/components/footer";
 import { CustomerReviews } from "@/components/customer-reviews";
+import { ShopifyBuyButton } from "@/components/ShopifyBuyButton";
 
 export default function Product() {
   const { id } = useParams<{ id: string }>();
@@ -235,13 +236,17 @@ export default function Product() {
                     )}
                   </AnimatePresence>
                 </button>
-                <button
-                  onClick={handleBuyNow}
-                  className="flex-1 px-6 py-3.5 bg-black hover:bg-neutral-800 rounded-full text-sm font-medium text-white transition-colors"
-                  data-testid="button-buy-now"
-                >
-                  Buy Now — ${(product.price * quantity).toLocaleString()}
-                </button>
+                {product.id === "z1" ? (
+                  <ShopifyBuyButton productId="7450552172647" />
+                ) : (
+                  <button
+                    onClick={handleBuyNow}
+                    className="flex-1 px-6 py-3.5 bg-black hover:bg-neutral-800 rounded-full text-sm font-medium text-white transition-colors"
+                    data-testid="button-buy-now"
+                  >
+                    Buy Now — ${(product.price * quantity).toLocaleString()}
+                  </button>
+                )}
               </div>
 
               <div className="mt-10 pt-8 border-t border-neutral-200 space-y-6">
