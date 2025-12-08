@@ -47,26 +47,24 @@ Preferred communication style: Simple, everyday language.
 - Products and collections fetched in real-time from Shopify
 - All product data managed through Shopify admin
 
-**Tag-Based Section Control:**
-Control which products appear in featured sections by adding tags in Shopify:
-- **"New"** or **"New Arrival"** → Appears in New Arrivals section on homepage
-- **"Trending"** or **"Bestseller"** → Appears in Trending Now section
-- **"Signature"** → Appears in Signature Series section (gold badge)
-- **"Heritage"** → Appears on dedicated /heritage page
+**STRICT Collection-Based Architecture:**
+All product sections fetch STRICTLY from specific Shopify collections. If a collection is empty, the section shows no products - NO fallbacks to "All Products".
 
-**Collection Handle Mappings:**
+**Collection Handle Mappings (COLLECTION_HANDLES in shopify.ts):**
 The frontend uses exact Shopify collection handles:
-- `signature-series` - Signature Series products
-- `trending-now` - Trending Now products
-- `new-arrivals` - New Arrivals products
-- `heritage` - Heritage collection
-- `male-apparel` - Men's clothing
-- `female-apparel` - Women's clothing
+- `men` - Men's apparel collection
+- `women` - Women's apparel collection
 - `male-footwear` - Men's footwear
 - `female-footwear` - Women's footwear
-- `jewelry-accessories` - Jewelry & Accessories
-- `wallets-cards` - Wallets & Cards
-- `tech-lifestyle` - Tech & Lifestyle products
+- `jewelry` - Jewelry & Accessories
+- `bags` - Handbags & Carry
+- `wallets` - Wallets & Cards
+- `tech` - Tech & Lifestyle products
+- `signature` - Signature Series featured products
+- `heritage` - Heritage collection
+- `trending` - Trending Now products
+- `new` - New Arrivals products
+- `hero-slider` - CMS content for homepage hero slider
 
 **Key Files:**
 - `IP/client/src/lib/shopify.ts` - Shopify Storefront API client with collection fetching
@@ -88,7 +86,7 @@ Each story page features:
 - Full-screen hero with cinematic imagery
 - Compelling narrative description
 - Curated product grid from Shopify collection
-- Graceful fallback to all products if collection is empty
+- Strict collection architecture - NO fallback to all products
 
 ### Backend Architecture
 
