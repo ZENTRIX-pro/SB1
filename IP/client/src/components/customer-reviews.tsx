@@ -155,10 +155,10 @@ function ReviewFormModal({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md mx-4"
+            className="fixed inset-x-0 top-1/2 -translate-y-1/2 z-50 w-[90%] max-w-md mx-auto md:w-full"
           >
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-              <div className="flex items-center justify-between p-5 border-b border-neutral-100">
+            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between p-4 md:p-5 border-b border-neutral-100 sticky top-0 bg-white">
                 <h2 className="text-lg font-semibold text-black">Write a Review</h2>
                 <button
                   onClick={onClose}
@@ -168,7 +168,7 @@ function ReviewFormModal({
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-6 space-y-5">
+              <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4 md:space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">
                     Your Name
@@ -178,7 +178,7 @@ function ReviewFormModal({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your name"
-                    className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-black focus:outline-none transition-colors text-sm"
+                    className="w-full px-4 py-3.5 rounded-xl border border-neutral-200 focus:border-black focus:outline-none transition-colors text-base"
                   />
                 </div>
 
@@ -198,7 +198,7 @@ function ReviewFormModal({
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Sum up your experience"
-                    className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-black focus:outline-none transition-colors text-sm"
+                    className="w-full px-4 py-3.5 rounded-xl border border-neutral-200 focus:border-black focus:outline-none transition-colors text-base"
                   />
                 </div>
 
@@ -211,7 +211,7 @@ function ReviewFormModal({
                     onChange={(e) => setComment(e.target.value)}
                     placeholder="Share your experience with this product"
                     rows={4}
-                    className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-black focus:outline-none transition-colors text-sm resize-none"
+                    className="w-full px-4 py-3.5 rounded-xl border border-neutral-200 focus:border-black focus:outline-none transition-colors text-base resize-none"
                   />
                 </div>
 
