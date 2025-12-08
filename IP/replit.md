@@ -45,14 +45,29 @@ The MVP is complete with full frontend functionality:
 ### How It Works
 1. Products are fetched from Shopify Storefront API on page load
 2. New Arrivals and Trending sections display your Shopify products
-3. Product detail pages show all images from Shopify
-4. "Buy Now" button redirects to Shopify checkout with selected quantity
-5. Changes in Shopify Admin reflect immediately on the website
+3. Product detail pages show all images from Shopify with gallery navigation
+4. **On-site variant selection** - Size/Color buttons with availability checking
+5. **Direct checkout** - "Buy Now" builds URL with selected variant + quantity
+6. Changes in Shopify Admin reflect immediately on the website
+
+### Product Page Features
+- **Image Gallery:** All product images with prev/next navigation, thumbnail strip
+- **Option Selectors:** Dynamic Size/Color buttons based on Shopify data
+- **Availability Checking:** Unavailable variants shown as disabled/struck-through
+- **Quantity Selector:** Premium gold-bordered increment/decrement control
+- **Price Updates:** Price changes based on selected variant
+- **Direct Checkout URL:** `https://p52yuw-uq.myshopify.com/cart/{variantId}:{quantity}`
 
 ### Files
-- `lib/shopify.ts` - Shopify client and API functions
+- `lib/shopify.ts` - Shopify client, types, and helper utilities
 - `lib/shopify-context.tsx` - React context for global product state
 - `components/product-skeleton.tsx` - Loading state components
+
+### Helper Functions (shopify.ts)
+- `findVariantByOptions(variants, options)` - Resolves variant from selected options
+- `buildCheckoutUrl(variantId, quantity)` - Generates direct checkout URL
+- `extractNumericVariantId(variantId)` - Extracts numeric ID from GraphQL ID
+- `formatPrice(amount, currency)` - Formats price for display
 
 ## Architecture
 
