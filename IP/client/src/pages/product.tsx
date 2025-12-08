@@ -7,7 +7,11 @@ import {
   fetchProductByHandle, 
   ShopifyProduct, 
   ShopifyVariant,
+  ShopifyImage,
   findVariantByOptions,
+  getVariantImageForOption,
+  getUniqueOptionValues,
+  isVariantAvailable,
   buildCheckoutUrl,
   formatPrice 
 } from "@/lib/shopify";
@@ -15,12 +19,22 @@ import { Footer } from "@/components/footer";
 import { CustomerReviews } from "@/components/customer-reviews";
 import { LoadingScreen } from "@/components/product-skeleton";
 
-function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images"]; productTitle: string }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+interface ImageGalleryProps {
+  images: ShopifyImage[];
+  productTitle: string;
+  selectedImageIndex?: number;
+  onImageChange?: (index: number) => void;
+}
+
+function ImageGallery({ images, productTitle, selectedImageIndex, onImageChange }: ImageGalleryProps) {
+  const [internalIndex, setInternalIndex] = useState(0);
+  const currentIndex = selectedImageIndex !== undefined ? selectedImageIndex : internalIndex;
 
   useEffect(() => {
-    setCurrentIndex(0);
-  }, [images]);
+    if (selectedImageIndex === undefined) {
+      setInternalIndex(0);
+    }
+  }, [images, selectedImageIndex]);
 
   if (!images || images.length === 0) {
     return (
@@ -34,12 +48,20 @@ function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images
     );
   }
 
+  const handleIndexChange = (newIndex: number) => {
+    if (onImageChange) {
+      onImageChange(newIndex);
+    } else {
+      setInternalIndex(newIndex);
+    }
+  };
+
   const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
+    handleIndexChange((currentIndex + 1) % images.length);
   };
 
   const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    handleIndexChange((currentIndex - 1 + images.length) % images.length);
   };
 
   return (
@@ -48,8 +70,8 @@ function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images
         <AnimatePresence mode="wait">
           <motion.img
             key={currentIndex}
-            src={images[currentIndex].src}
-            alt={images[currentIndex].altText || productTitle}
+            src={images[currentIndex]?.src}
+            alt={images[currentIndex]?.altText || productTitle}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -78,7 +100,7 @@ function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images
               {images.map((_, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setCurrentIndex(idx)}
+                  onClick={() => handleIndexChange(idx)}
                   className={`w-2 h-2 rounded-full transition-all ${
                     idx === currentIndex ? "bg-black w-6" : "bg-black/30"
                   }`}
@@ -95,7 +117,7 @@ function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images
           {images.map((img, idx) => (
             <button
               key={idx}
-              onClick={() => setCurrentIndex(idx)}
+              onClick={() => handleIndexChange(idx)}
               className={`flex-none w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
                 idx === currentIndex ? "border-amber-500 ring-2 ring-amber-500/30" : "border-transparent hover:border-neutral-300"
               }`}
@@ -124,10 +146,12 @@ interface OptionSelectorProps {
 function OptionSelector({ option, selectedValue, onSelect, variants, currentOptions }: OptionSelectorProps) {
   const isColorOption = option.name.toLowerCase() === "color" || option.name.toLowerCase() === "colour";
   
+  const uniqueValues = getUniqueOptionValues(option);
+  
   const getValueAvailability = (value: string): boolean => {
     const testOptions = { ...currentOptions, [option.name]: value };
     const variant = findVariantByOptions(variants, testOptions);
-    return variant?.available ?? false;
+    return isVariantAvailable(variant);
   };
 
   return (
@@ -138,7 +162,7 @@ function OptionSelector({ option, selectedValue, onSelect, variants, currentOpti
         </label>
       </div>
       <div className="flex flex-wrap gap-2">
-        {option.values.map((value) => {
+        {uniqueValues.map((value) => {
           const isSelected = selectedValue === value;
           const isAvailable = getValueAvailability(value);
           
@@ -147,13 +171,10 @@ function OptionSelector({ option, selectedValue, onSelect, variants, currentOpti
               <button
                 key={value}
                 onClick={() => onSelect(value)}
-                disabled={!isAvailable}
                 className={`relative w-10 h-10 rounded-full border-2 transition-all ${
                   isSelected 
                     ? "border-amber-500 ring-2 ring-amber-500/30" 
-                    : isAvailable 
-                      ? "border-neutral-300 hover:border-neutral-400" 
-                      : "border-neutral-200 opacity-40 cursor-not-allowed"
+                    : "border-neutral-300 hover:border-neutral-400"
                 }`}
                 style={{ backgroundColor: value.toLowerCase() }}
                 title={value}
@@ -165,11 +186,6 @@ function OptionSelector({ option, selectedValue, onSelect, variants, currentOpti
                       : "text-white"
                   }`} />
                 )}
-                {!isAvailable && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-full h-0.5 bg-neutral-400 rotate-45 absolute" />
-                  </div>
-                )}
               </button>
             );
           }
@@ -178,13 +194,12 @@ function OptionSelector({ option, selectedValue, onSelect, variants, currentOpti
             <button
               key={value}
               onClick={() => onSelect(value)}
-              disabled={!isAvailable}
               className={`min-w-[3rem] px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 isSelected
                   ? "bg-black text-white"
                   : isAvailable
                     ? "bg-neutral-100 text-black hover:bg-neutral-200"
-                    : "bg-neutral-50 text-neutral-300 cursor-not-allowed line-through"
+                    : "bg-neutral-50 text-neutral-400 hover:bg-neutral-100"
               }`}
             >
               {value}
@@ -248,6 +263,7 @@ export default function Product() {
   const [error, setError] = useState<string | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [quantity, setQuantity] = useState(1);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -272,7 +288,7 @@ export default function Product() {
         const initialOptions: Record<string, string> = {};
         foundProduct.options.forEach((opt) => {
           if (opt.values.length > 0) {
-            const firstAvailableVariant = foundProduct!.variants.find((v) => v.available);
+            const firstAvailableVariant = foundProduct!.variants.find((v) => isVariantAvailable(v));
             const matchingOption = firstAvailableVariant?.selectedOptions.find(
               (so) => so.name === opt.name
             );
@@ -281,6 +297,7 @@ export default function Product() {
         });
         setSelectedOptions(initialOptions);
         setQuantity(1);
+        setSelectedImageIndex(0);
         setError(null);
       } else if (!contextLoading) {
         setError("Product not found");
@@ -302,15 +319,36 @@ export default function Product() {
       ...prev,
       [optionName]: value,
     }));
+    
+    if (product && (optionName.toLowerCase() === "color" || optionName.toLowerCase() === "colour")) {
+      const variantImage = getVariantImageForOption(product.variants, optionName, value, product.images);
+      if (variantImage) {
+        const imageIndex = product.images.findIndex((img) => img.src === variantImage.src);
+        if (imageIndex !== -1) {
+          setSelectedImageIndex(imageIndex);
+        }
+      }
+    }
   };
 
   const handleBuyNow = () => {
-    if (!selectedVariant || !selectedVariant.available) {
-      return;
+    try {
+      let variantToCheckout = selectedVariant;
+      
+      if (!variantToCheckout && product && product.variants.length > 0) {
+        variantToCheckout = product.variants[0];
+      }
+      
+      if (!variantToCheckout) {
+        console.error("No variant available for checkout");
+        return;
+      }
+      
+      const checkoutUrl = buildCheckoutUrl(variantToCheckout.id, quantity);
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      console.error("Checkout error:", error);
     }
-    
-    const checkoutUrl = buildCheckoutUrl(selectedVariant.id, quantity);
-    window.location.href = checkoutUrl;
   };
 
   const currentPrice = selectedVariant 
@@ -323,10 +361,9 @@ export default function Product() {
     ? formatPrice(selectedVariant.compareAtPrice.amount, selectedVariant.compareAtPrice.currencyCode)
     : null;
 
-  const isAvailable = selectedVariant?.available ?? false;
+  const canBuy = product && product.variants.length > 0;
   const hasOptions = product?.options && product.options.length > 0 && 
     !(product.options.length === 1 && product.options[0].values.length === 1);
-  const needsOptionSelection = hasOptions && Object.keys(selectedOptions).length === 0;
 
   if (isLoading || contextLoading) {
     return <LoadingScreen />;
@@ -384,7 +421,12 @@ export default function Product() {
             transition={{ duration: 0.5 }}
             className="lg:sticky lg:top-24 lg:self-start"
           >
-            <ImageGallery images={product.images} productTitle={product.title} />
+            <ImageGallery 
+              images={product.images} 
+              productTitle={product.title}
+              selectedImageIndex={selectedImageIndex}
+              onImageChange={setSelectedImageIndex}
+            />
           </motion.div>
 
           <motion.div
@@ -439,27 +481,17 @@ export default function Product() {
             <div className="pt-4 space-y-3">
               <motion.button
                 onClick={handleBuyNow}
-                disabled={!isAvailable || needsOptionSelection}
-                whileHover={isAvailable && !needsOptionSelection ? { scale: 1.02 } : {}}
-                whileTap={isAvailable && !needsOptionSelection ? { scale: 0.98 } : {}}
+                disabled={!canBuy}
+                whileHover={canBuy ? { scale: 1.02 } : {}}
+                whileTap={canBuy ? { scale: 0.98 } : {}}
                 className={`w-full py-4 rounded-full text-base font-semibold transition-all ${
-                  isAvailable && !needsOptionSelection
+                  canBuy
                     ? "bg-black text-white hover:bg-neutral-800"
                     : "bg-neutral-200 text-neutral-500 cursor-not-allowed"
                 }`}
               >
-                {needsOptionSelection 
-                  ? "Select Options" 
-                  : isAvailable 
-                    ? `Buy Now - ${currentPrice}` 
-                    : "Out of Stock"}
+                {canBuy ? `Buy Now - ${currentPrice}` : "Unavailable"}
               </motion.button>
-
-              {!isAvailable && selectedVariant && (
-                <p className="text-center text-sm text-red-500">
-                  This variant is currently unavailable.
-                </p>
-              )}
             </div>
 
             <div className="border-t border-neutral-100 pt-6">

@@ -1,8 +1,11 @@
 import Client from "shopify-buy";
 
+const SHOPIFY_DOMAIN = "p52yuw-uq.myshopify.com";
+const STOREFRONT_TOKEN = "c65b638b635b6782cc4d5a467c024378";
+
 const client = Client.buildClient({
-  domain: "p52yuw-uq.myshopify.com",
-  storefrontAccessToken: "c65b638b635b6782cc4d5a467c024378",
+  domain: SHOPIFY_DOMAIN,
+  storefrontAccessToken: STOREFRONT_TOKEN,
   apiVersion: "2024-01",
 });
 
@@ -25,6 +28,10 @@ export interface ShopifyVariant {
   available: boolean;
   sku: string;
   selectedOptions: SelectedOption[];
+  image?: {
+    src: string;
+    altText: string | null;
+  } | null;
 }
 
 export interface ShopifyImage {
@@ -98,11 +105,15 @@ function transformProduct(product: any): ShopifyProduct {
         name: opt.name,
         value: opt.value,
       })) || [],
+      image: variant.image ? {
+        src: variant.image.src,
+        altText: variant.image.altText || null,
+      } : null,
     })) || [],
     options: product.options?.map((opt: any) => ({
       id: opt.id || String(Math.random()),
       name: opt.name,
-      values: opt.values?.map((v: any) => typeof v === "string" ? v : v.value) || [],
+      values: Array.from(new Set(opt.values?.map((v: any) => typeof v === "string" ? v : v.value) || [])),
     })) || [],
   };
 }
@@ -200,6 +211,40 @@ export function findVariantByOptions(
   }) || null;
 }
 
+export function getUniqueOptionValues(option: { name: string; values: string[] }): string[] {
+  return Array.from(new Set(option.values));
+}
+
+export function getVariantImageForOption(
+  variants: ShopifyVariant[],
+  optionName: string,
+  optionValue: string,
+  images: ShopifyImage[]
+): ShopifyImage | null {
+  const matchingVariant = variants.find((variant) => 
+    variant.selectedOptions.some(
+      (opt) => opt.name.toLowerCase() === optionName.toLowerCase() && opt.value === optionValue
+    )
+  );
+  
+  if (matchingVariant?.image) {
+    const matchingImage = images.find((img) => img.src === matchingVariant.image?.src);
+    if (matchingImage) return matchingImage;
+    return {
+      id: String(Math.random()),
+      src: matchingVariant.image.src,
+      altText: matchingVariant.image.altText,
+    };
+  }
+  
+  return null;
+}
+
+export function isVariantAvailable(variant: ShopifyVariant | null): boolean {
+  if (!variant) return true;
+  return variant.available ?? true;
+}
+
 export function extractNumericVariantId(variantId: string): string {
   const match = variantId.match(/ProductVariant\/(\d+)/);
   return match ? match[1] : variantId.split("/").pop() || variantId;
@@ -207,7 +252,7 @@ export function extractNumericVariantId(variantId: string): string {
 
 export function buildCheckoutUrl(variantId: string, quantity: number): string {
   const numericId = extractNumericVariantId(variantId);
-  return `https://p52yuw-uq.myshopify.com/cart/${numericId}:${quantity}`;
+  return `https://${SHOPIFY_DOMAIN}/cart/${numericId}:${quantity}`;
 }
 
 export function formatPrice(amount: string, currencyCode: string = "USD"): string {

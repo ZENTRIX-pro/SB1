@@ -16,7 +16,7 @@ export function CategoryScroll() {
         </motion.h2>
       </div>
 
-      <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 px-4 pb-6">
+      <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-5 px-4 pb-6">
         {categories.map((category, idx) => (
           <Link key={category.id} href={`/category/${category.slug}`}>
             <motion.div
@@ -28,7 +28,7 @@ export function CategoryScroll() {
               className="cursor-pointer group flex-none snap-start flex flex-col items-center"
             >
               <div
-                className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-amber-500"
+                className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-amber-500 shadow-lg"
               >
                 <img
                   src={category.image}
@@ -36,7 +36,7 @@ export function CategoryScroll() {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
-              <p className="text-black font-medium text-sm mt-3 text-center whitespace-nowrap">
+              <p className="text-black font-medium text-sm mt-3 text-center whitespace-nowrap max-w-[96px] truncate">
                 {category.name}
               </p>
             </motion.div>
