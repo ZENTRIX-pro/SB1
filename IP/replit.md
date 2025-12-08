@@ -18,6 +18,13 @@ The MVP is complete with full frontend functionality:
 - Contact, About, Shipping, and Support pages
 
 ## Recent Changes (December 2024)
+- **Shopify Storefront API Integration** - Products now sync automatically from Shopify
+- **Direct-to-Checkout Flow** - Buy Now button redirects directly to Shopify checkout with quantity
+- **Image Gallery** - Product pages show all images from Shopify with navigation
+- **Premium Quantity Selector** - Gold-bordered quantity selector on product pages
+- **Loading States** - Beautiful skeleton loaders while fetching Shopify data
+- Fixed mobile category slider with large premium circles and gold borders
+- Fixed "Write a Review" modal to be responsive on mobile (90% width, centered)
 - Created new Hero.tsx with separate Embla instances for mobile/desktop carousels
 - Added Heritage Edition section with bg-stone-900 and split layout
 - Restructured homepage: Hero -> CategoryScroll -> NewArrivals -> TrendingSection -> HeritageEdition -> TrustBadges -> Footer
@@ -26,6 +33,26 @@ The MVP is complete with full frontend functionality:
 - Updated mobile drawer links: Home, Shop, Heritage, Support
 - Updated Footer with Facebook and Instagram social links
 - Added routes: /about, /contact, /shipping
+
+## Shopify Integration
+
+**Your Shopify Admin Panel IS your dashboard.** Add products in Shopify, and they appear on the website automatically.
+
+### Configuration
+- **Domain:** `p52yuw-uq.myshopify.com`
+- **Storefront Access Token:** Configured in `lib/shopify.ts`
+
+### How It Works
+1. Products are fetched from Shopify Storefront API on page load
+2. New Arrivals and Trending sections display your Shopify products
+3. Product detail pages show all images from Shopify
+4. "Buy Now" button redirects to Shopify checkout with selected quantity
+5. Changes in Shopify Admin reflect immediately on the website
+
+### Files
+- `lib/shopify.ts` - Shopify client and API functions
+- `lib/shopify-context.tsx` - React context for global product state
+- `components/product-skeleton.tsx` - Loading state components
 
 ## Architecture
 
