@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, Link, useLocation } from "wouter";
+import { useParams, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Minus, Plus, Check, ShoppingBag } from "lucide-react";
 import { getProductById, categories } from "@/lib/data";
@@ -11,7 +11,6 @@ export default function Product() {
   const { id } = useParams<{ id: string }>();
   const product = getProductById(id || "");
   const { addItem } = useCart();
-  const [, setLocation] = useLocation();
   
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -45,13 +44,9 @@ export default function Product() {
   };
 
   const handleBuyNow = () => {
-    addItem(
-      product,
-      quantity,
-      selectedSize || product.sizes?.[0],
-      selectedColor || product.colors?.[0]
-    );
-    setLocation("/checkout");
+    if (product.shopifyUrl) {
+      window.location.href = product.shopifyUrl;
+    }
   };
 
   return (
@@ -242,7 +237,7 @@ export default function Product() {
                 </button>
                 <button
                   onClick={handleBuyNow}
-                  className="flex-1 px-6 py-3.5 bg-blue-600 hover:bg-blue-700 rounded-full text-sm font-medium text-white transition-colors"
+                  className="flex-1 px-6 py-3.5 bg-black hover:bg-neutral-800 rounded-full text-sm font-medium text-white transition-colors"
                   data-testid="button-buy-now"
                 >
                   Buy Now — ${(product.price * quantity).toLocaleString()}

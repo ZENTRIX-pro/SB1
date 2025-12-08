@@ -3,8 +3,11 @@ import { z } from "zod";
 export const productCategories = [
   "men",
   "women", 
-  "footwear",
+  "mens-footwear",
+  "womens-footwear",
   "leather",
+  "jewelry",
+  "tech",
   "lifestyle"
 ] as const;
 
@@ -15,11 +18,12 @@ export const productSchema = z.object({
   name: z.string(),
   description: z.string(),
   price: z.number(),
-  category: z.enum(productCategories),
+  category: z.string(),
   image: z.string(),
   isNew: z.boolean().default(false),
   sizes: z.array(z.string()).optional(),
   colors: z.array(z.string()).optional(),
+  shopifyUrl: z.string().optional(),
 });
 
 export type Product = z.infer<typeof productSchema>;
@@ -43,14 +47,13 @@ export type InsertCartItem = z.infer<typeof insertCartItemSchema>;
 export const categorySchema = z.object({
   id: z.string(),
   name: z.string(),
-  slug: z.enum(productCategories),
+  slug: z.string(),
   description: z.string(),
   image: z.string(),
 });
 
 export type Category = z.infer<typeof categorySchema>;
 
-// Users schema (keeping existing)
 export const users = {
   id: z.string(),
   username: z.string(),

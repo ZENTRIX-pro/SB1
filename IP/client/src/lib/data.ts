@@ -30,6 +30,9 @@ import crossbodyImage from "@assets/generated_images/crossbody_bag_product_shot.
 import menJacketImage from "@assets/generated_images/men_category_jacket_image.png";
 import womenDressImage from "@assets/generated_images/women_category_dress_image.png";
 
+const SHOPIFY_BASE_URL = "https://p52yuw-uq.myshopify.com";
+const SMART_RING_SHOPIFY_URL = "https://p52yuw-uq.myshopify.com/products/health-smart-ring-fitness-tracker-with-heart-rate-blood-oxygen-heart-rate-variability-sleep-monitoring-step-count-ip68-compatible-with-iphone-and-android-no-subscription-fee-required";
+
 export const heroSlides = [
   {
     id: 1,
@@ -132,7 +135,6 @@ export const categories: Category[] = [
 ];
 
 export const products: Product[] = [
-  // Men - 3 products
   {
     id: "m1",
     name: "ZENTRIX Noir Tailored Suit",
@@ -142,7 +144,8 @@ export const products: Product[] = [
     image: navySuitImage,
     isNew: true,
     sizes: ["S", "M", "L", "XL"],
-    colors: ["Navy", "Charcoal", "Black"]
+    colors: ["Navy", "Charcoal", "Black"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "m2",
@@ -153,7 +156,8 @@ export const products: Product[] = [
     image: menJacketImage,
     isNew: false,
     sizes: ["S", "M", "L", "XL"],
-    colors: ["Charcoal", "Camel"]
+    colors: ["Charcoal", "Camel"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "m3",
@@ -164,10 +168,9 @@ export const products: Product[] = [
     image: whiteShirtImage,
     isNew: true,
     sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["White", "Sky Blue", "Black"]
+    colors: ["White", "Sky Blue", "Black"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
-
-  // Women - 3 products
   {
     id: "w1",
     name: "ZENTRIX Aurora Evening Gown",
@@ -177,7 +180,8 @@ export const products: Product[] = [
     image: goldGownImage,
     isNew: true,
     sizes: ["XS", "S", "M", "L"],
-    colors: ["Champagne Gold", "Midnight Black"]
+    colors: ["Champagne Gold", "Midnight Black"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "w2",
@@ -188,7 +192,8 @@ export const products: Product[] = [
     image: burgundyDressImage,
     isNew: false,
     sizes: ["XS", "S", "M", "L", "XL"],
-    colors: ["Burgundy", "Emerald", "Noir"]
+    colors: ["Burgundy", "Emerald", "Noir"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "w3",
@@ -199,10 +204,9 @@ export const products: Product[] = [
     image: womenDressImage,
     isNew: true,
     sizes: ["XS", "S", "M", "L"],
-    colors: ["Black", "Ivory"]
+    colors: ["Black", "Ivory"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
-
-  // Men's Footwear - 3 products
   {
     id: "f1",
     name: "ZENTRIX AirFlow Sneaker",
@@ -212,7 +216,8 @@ export const products: Product[] = [
     image: whiteSneakerImage,
     isNew: true,
     sizes: ["40", "41", "42", "43", "44", "45"],
-    colors: ["Pure White", "Obsidian"]
+    colors: ["Pure White", "Obsidian"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "f2",
@@ -223,7 +228,8 @@ export const products: Product[] = [
     image: bootsImage,
     isNew: false,
     sizes: ["40", "41", "42", "43", "44", "45"],
-    colors: ["Black", "Cognac"]
+    colors: ["Black", "Cognac"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "f3",
@@ -234,10 +240,9 @@ export const products: Product[] = [
     image: whiteSneakerImage,
     isNew: true,
     sizes: ["40", "41", "42", "43", "44", "45"],
-    colors: ["Triple White", "Shadow Black"]
+    colors: ["Triple White", "Shadow Black"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
-
-  // Leather & Carry - 3 products
   {
     id: "l1",
     name: "ZENTRIX Noir Tote",
@@ -247,7 +252,8 @@ export const products: Product[] = [
     image: toteImage,
     isNew: true,
     sizes: ["One Size"],
-    colors: ["Black", "Tan"]
+    colors: ["Black", "Tan"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "l2",
@@ -258,7 +264,8 @@ export const products: Product[] = [
     image: backpackImage,
     isNew: false,
     sizes: ["One Size"],
-    colors: ["Black", "Navy"]
+    colors: ["Black", "Navy"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "l3",
@@ -269,10 +276,9 @@ export const products: Product[] = [
     image: walletImage,
     isNew: true,
     sizes: ["One Size"],
-    colors: ["Black", "Brown"]
+    colors: ["Black", "Brown"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
-
-  // Tech Lifestyle - 3 products
   {
     id: "z1",
     name: "ZENTRIX Titan Smart Ring",
@@ -282,7 +288,8 @@ export const products: Product[] = [
     image: smartRingImage,
     isNew: true,
     sizes: ["6", "7", "8", "9", "10", "11"],
-    colors: ["Titanium Black", "Platinum"]
+    colors: ["Titanium Black", "Platinum"],
+    shopifyUrl: SMART_RING_SHOPIFY_URL
   },
   {
     id: "z2",
@@ -293,7 +300,8 @@ export const products: Product[] = [
     image: deskOrganizerImage,
     isNew: false,
     sizes: ["One Size"],
-    colors: ["Black/Steel", "Brown/Gold"]
+    colors: ["Black/Steel", "Brown/Gold"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "z3",
@@ -304,10 +312,9 @@ export const products: Product[] = [
     image: vaseImage,
     isNew: true,
     sizes: ["One Size"],
-    colors: ["Matte Black", "Cream"]
+    colors: ["Matte Black", "Cream"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
-
-  // Jewelry & Adornments - 3 products
   {
     id: "b1",
     name: "ZENTRIX Luminance Serum",
@@ -317,7 +324,8 @@ export const products: Product[] = [
     image: beautyCategoryImage,
     isNew: true,
     sizes: ["30ml", "50ml"],
-    colors: ["Gold"]
+    colors: ["Gold"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "b2",
@@ -328,7 +336,8 @@ export const products: Product[] = [
     image: beautyCategoryImage,
     isNew: true,
     sizes: ["50ml", "100ml"],
-    colors: ["Noir"]
+    colors: ["Noir"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "b3",
@@ -339,10 +348,9 @@ export const products: Product[] = [
     image: beautyCategoryImage,
     isNew: false,
     sizes: ["50ml"],
-    colors: ["Pearl"]
+    colors: ["Pearl"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
-
-  // Tech & Gadgets - 3 products
   {
     id: "t1",
     name: "ZENTRIX Aura Headphones",
@@ -352,7 +360,8 @@ export const products: Product[] = [
     image: techCategoryImage,
     isNew: true,
     sizes: ["One Size"],
-    colors: ["Obsidian Black", "Titanium Silver"]
+    colors: ["Obsidian Black", "Titanium Silver"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "t2",
@@ -363,7 +372,8 @@ export const products: Product[] = [
     image: techCategoryImage,
     isNew: true,
     sizes: ["One Size"],
-    colors: ["Matte Black", "White"]
+    colors: ["Matte Black", "White"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "t3",
@@ -374,10 +384,9 @@ export const products: Product[] = [
     image: techCategoryImage,
     isNew: false,
     sizes: ["One Size"],
-    colors: ["Space Gray", "Gold"]
+    colors: ["Space Gray", "Gold"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
-
-  // Women's Footwear - 3 products
   {
     id: "wf1",
     name: "ZENTRIX Elegance Stiletto",
@@ -387,7 +396,8 @@ export const products: Product[] = [
     image: womensFootwearImage,
     isNew: true,
     sizes: ["35", "36", "37", "38", "39", "40", "41"],
-    colors: ["Noir", "Nude", "Scarlet"]
+    colors: ["Noir", "Nude", "Scarlet"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "wf2",
@@ -398,7 +408,8 @@ export const products: Product[] = [
     image: womensFootwearImage,
     isNew: false,
     sizes: ["35", "36", "37", "38", "39", "40", "41"],
-    colors: ["Black", "Burgundy", "Camel"]
+    colors: ["Black", "Burgundy", "Camel"],
+    shopifyUrl: SHOPIFY_BASE_URL
   },
   {
     id: "wf3",
@@ -409,7 +420,8 @@ export const products: Product[] = [
     image: womensFootwearImage,
     isNew: true,
     sizes: ["35", "36", "37", "38", "39", "40", "41"],
-    colors: ["Patent Black", "Blush", "Navy"]
+    colors: ["Patent Black", "Blush", "Navy"],
+    shopifyUrl: SHOPIFY_BASE_URL
   }
 ];
 

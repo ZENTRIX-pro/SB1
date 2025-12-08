@@ -27,7 +27,7 @@ export function HeroCarousel() {
       <div className="max-w-[1200px] mx-auto">
         <div className="md:hidden">
           <div
-            className="relative overflow-hidden rounded-2xl aspect-video"
+            className="relative overflow-hidden rounded-2xl h-[55vh]"
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
           >
@@ -38,25 +38,25 @@ export function HeroCarousel() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.4 }}
-                className="relative w-full h-full"
+                className="absolute inset-0"
               >
                 <Link href={heroSlides[currentIndex].link}>
-                  <div className="relative w-full aspect-video cursor-pointer">
+                  <div className="relative w-full h-full cursor-pointer">
                     <img
                       src={heroSlides[currentIndex].image}
                       alt={heroSlides[currentIndex].title}
                       className="w-full h-full object-cover rounded-2xl"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent rounded-2xl" />
-                    <div className="absolute bottom-4 left-4 right-4">
+                    <div className="absolute bottom-6 left-4 right-4">
                       <p className="text-xs text-white/80 uppercase tracking-wider mb-1">
                         {heroSlides[currentIndex].subtitle}
                       </p>
-                      <h2 className="text-xl font-semibold text-white mb-2">
+                      <h2 className="text-2xl font-semibold text-white mb-3">
                         {heroSlides[currentIndex].title}
                       </h2>
-                      <span className="text-sm text-white/90 hover:text-white">
-                        {heroSlides[currentIndex].cta} →
+                      <span className="inline-block px-5 py-2.5 bg-white text-black text-sm font-medium rounded-full">
+                        {heroSlides[currentIndex].cta}
                       </span>
                     </div>
                   </div>
@@ -66,24 +66,24 @@ export function HeroCarousel() {
 
             <button
               onClick={prevSlide}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-lg"
             >
-              <ChevronLeft className="w-4 h-4 text-black" />
+              <ChevronLeft className="w-5 h-5 text-black" />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-lg"
             >
-              <ChevronRight className="w-4 h-4 text-black" />
+              <ChevronRight className="w-5 h-5 text-black" />
             </button>
 
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
               {heroSlides.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
-                  className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                    idx === currentIndex ? "bg-white" : "bg-white/50"
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    idx === currentIndex ? "bg-white w-6" : "bg-white/50"
                   }`}
                 />
               ))}

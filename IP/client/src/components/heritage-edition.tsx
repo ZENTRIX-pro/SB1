@@ -36,7 +36,7 @@ export function HeritageEdition() {
             <p className="text-amber-400 text-xs uppercase tracking-[0.3em] mb-4 font-medium">
               Heritage Collection
             </p>
-            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-amber-50 mb-6 leading-tight">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-amber-400 mb-6 leading-tight" style={{ fontFamily: 'Cinzel, Playfair Display, serif' }}>
               The Royal Weave
             </h2>
             <p className="text-neutral-300 text-base md:text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
@@ -50,7 +50,7 @@ export function HeritageEdition() {
                 </button>
               </Link>
               <Link href="/category/women">
-                <button className="px-8 py-3.5 border border-amber-400/40 text-amber-50 font-medium rounded-full hover:bg-amber-400/10 transition-colors">
+                <button className="px-8 py-3.5 border border-amber-400/40 text-amber-400 font-medium rounded-full hover:bg-amber-400/10 transition-colors">
                   View Lookbook
                 </button>
               </Link>
@@ -58,15 +58,15 @@ export function HeritageEdition() {
 
             <div className="mt-12 pt-8 border-t border-neutral-700 grid grid-cols-3 gap-6 max-w-md mx-auto lg:mx-0">
               <div className="text-center lg:text-left">
-                <p className="font-heading text-2xl md:text-3xl font-semibold text-amber-50">50+</p>
+                <p className="text-2xl md:text-3xl font-semibold text-amber-400" style={{ fontFamily: 'Cinzel, serif' }}>50+</p>
                 <p className="text-neutral-400 text-xs uppercase tracking-wider mt-1">Artisans</p>
               </div>
               <div className="text-center lg:text-left">
-                <p className="font-heading text-2xl md:text-3xl font-semibold text-amber-50">100%</p>
+                <p className="text-2xl md:text-3xl font-semibold text-amber-400" style={{ fontFamily: 'Cinzel, serif' }}>100%</p>
                 <p className="text-neutral-400 text-xs uppercase tracking-wider mt-1">Handcrafted</p>
               </div>
               <div className="text-center lg:text-left">
-                <p className="font-heading text-2xl md:text-3xl font-semibold text-amber-50">Ltd</p>
+                <p className="text-2xl md:text-3xl font-semibold text-amber-400" style={{ fontFamily: 'Cinzel, serif' }}>Ltd</p>
                 <p className="text-neutral-400 text-xs uppercase tracking-wider mt-1">Edition</p>
               </div>
             </div>

@@ -11,7 +11,6 @@ import { CartDrawer } from "@/components/cart-drawer";
 import Home from "@/pages/home";
 import Category from "@/pages/category";
 import Product from "@/pages/product";
-import Checkout from "@/pages/checkout";
 import Support from "@/pages/support";
 import Contact from "@/pages/contact";
 import About from "@/pages/about";
@@ -19,7 +18,6 @@ import Shipping from "@/pages/shipping";
 import Careers from "@/pages/careers";
 import Stores from "@/pages/stores";
 import Press from "@/pages/press";
-import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -28,7 +26,6 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/category/:slug" component={Category} />
       <Route path="/product/:id" component={Product} />
-      <Route path="/checkout" component={Checkout} />
       <Route path="/support" component={Support} />
       <Route path="/contact" component={Contact} />
       <Route path="/about" component={About} />
@@ -36,7 +33,6 @@ function Router() {
       <Route path="/careers" component={Careers} />
       <Route path="/stores" component={Stores} />
       <Route path="/press" component={Press} />
-      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
