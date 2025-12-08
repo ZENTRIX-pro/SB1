@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { StoryLayout } from "@/components/story-layout";
-import { fetchCollectionByHandle, fetchAllProducts, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
+import { fetchCollectionByHandle, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
 import techImage from "@assets/generated_images/premium_tech_gadgets_collection.png";
 
 export default function FutureTechStory() {
@@ -12,20 +12,10 @@ export default function FutureTechStory() {
       setIsLoading(true);
       try {
         const { products: collectionProducts } = await fetchCollectionByHandle(COLLECTION_HANDLES.TECH);
-        if (collectionProducts.length > 0) {
-          setProducts(collectionProducts);
-        } else {
-          const allProducts = await fetchAllProducts();
-          const techProducts = allProducts.filter(p => 
-            p.tags.some(t => t.toLowerCase().includes("tech") || t.toLowerCase().includes("gadget")) || 
-            p.productType.toLowerCase().includes("tech")
-          );
-          setProducts(techProducts.length > 0 ? techProducts : allProducts.slice(0, 8));
-        }
+        setProducts(collectionProducts);
       } catch (error) {
         console.error("Error loading tech collection:", error);
-        const allProducts = await fetchAllProducts();
-        setProducts(allProducts.slice(0, 8));
+        setProducts([]);
       }
       setIsLoading(false);
     };

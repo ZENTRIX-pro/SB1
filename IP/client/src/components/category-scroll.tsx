@@ -18,7 +18,7 @@ export function CategoryScroll() {
 
       <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-5 px-4 pb-6">
         {categories.map((category, idx) => (
-          <Link key={category.id} href={`/category/${category.slug}`}>
+          <Link key={category.id} href={`/collections/${category.slug}`}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -47,7 +47,7 @@ export function CategoryScroll() {
       <div className="hidden md:block overflow-x-auto scrollbar-hide">
         <div className="flex gap-4 px-4 md:px-6 pb-4 min-w-max max-w-[1200px] mx-auto">
           {categories.map((category, idx) => (
-            <Link key={category.id} href={`/category/${category.slug}`}>
+            <Link key={category.id} href={`/collections/${category.slug}`}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

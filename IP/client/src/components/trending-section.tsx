@@ -1,19 +1,31 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useShopify } from "@/lib/shopify-context";
+import { fetchCollectionByHandle, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
 import { ProductSkeleton } from "@/components/product-skeleton";
 
 export function TrendingSection() {
-  const { products, isLoading } = useShopify();
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      setIsLoading(true);
+      try {
+        const { products: trendingProducts } = await fetchCollectionByHandle(COLLECTION_HANDLES.TRENDING);
+        setProducts(trendingProducts);
+      } catch (error) {
+        console.error("Error loading trending products:", error);
+        setProducts([]);
+      }
+      setIsLoading(false);
+    };
+    loadProducts();
+  }, []);
   
-  const trendingFiltered = products.filter((p) =>
-    p.tags.some((t) => t.toLowerCase() === "trending" || t.toLowerCase() === "bestseller")
-  );
-  
-  const trendingProducts = trendingFiltered.length > 0 ? trendingFiltered : products.slice(0, 8);
+  const trendingProducts = products;
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {

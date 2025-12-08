@@ -1,16 +1,29 @@
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { useShopify } from "@/lib/shopify-context";
+import { fetchCollectionByHandle, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
 import { ProductSkeleton } from "@/components/product-skeleton";
 
 export function SignatureSeries() {
-  const { products, isLoading } = useShopify();
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      setIsLoading(true);
+      try {
+        const { products: signatureProducts } = await fetchCollectionByHandle(COLLECTION_HANDLES.SIGNATURE);
+        setProducts(signatureProducts);
+      } catch (error) {
+        console.error("Error loading signature products:", error);
+        setProducts([]);
+      }
+      setIsLoading(false);
+    };
+    loadProducts();
+  }, []);
   
-  const signatureFiltered = products.filter((p) =>
-    p.tags.some((t) => t.toLowerCase() === "signature")
-  );
-  
-  const signatureProducts = signatureFiltered.length > 0 ? signatureFiltered : products.slice(0, 4);
+  const signatureProducts = products;
 
   if (isLoading) {
     return (

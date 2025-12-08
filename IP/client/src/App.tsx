@@ -32,6 +32,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/category/:slug" component={Category} />
+      <Route path="/collections/:slug" component={Category} />
       <Route path="/product/:id" component={Product} />
       <Route path="/heritage" component={Heritage} />
       <Route path="/support" component={Support} />

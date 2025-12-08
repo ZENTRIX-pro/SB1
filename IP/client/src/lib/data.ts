@@ -100,33 +100,40 @@ export const categories: Category[] = [
   {
     id: "3",
     name: "Men's Footwear",
-    slug: "mens-footwear",
+    slug: "male-footwear",
     description: "Formal Shoes & Premium Sneakers",
     image: footwearCategoryImage
   },
   {
     id: "4",
     name: "Women's Footwear",
-    slug: "womens-footwear",
+    slug: "female-footwear",
     description: "Luxury Heels & Designer Boots",
     image: womensFootwearImage
   },
   {
     id: "5",
-    name: "Jewelry & Adornments",
+    name: "Jewelry",
     slug: "jewelry",
     description: "Premium Necklaces & Signature Rings",
     image: smartRingImage
   },
   {
     id: "6",
-    name: "Wallets & Carry",
-    slug: "leather",
-    description: "Men's Bags & Luxury Wallets",
-    image: walletImage
+    name: "Bags",
+    slug: "bags",
+    description: "Luxury Totes & Designer Bags",
+    image: leatherCategoryImage
   },
   {
     id: "7",
+    name: "Wallets",
+    slug: "wallets",
+    description: "Premium Wallets & Card Holders",
+    image: walletImage
+  },
+  {
+    id: "8",
     name: "Tech Lifestyle",
     slug: "tech",
     description: "Premium Gadgets & Smart Devices",

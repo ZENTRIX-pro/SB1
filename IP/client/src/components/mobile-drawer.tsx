@@ -9,11 +9,11 @@ interface MobileDrawerProps {
 
 const drawerLinks = [
   { name: "Home", href: "/", icon: Home },
-  { name: "Shop Men", href: "/category/men", icon: ShoppingBag },
-  { name: "Shop Women", href: "/category/women", icon: ShoppingBag },
-  { name: "Jewelry", href: "/category/jewelry", icon: Crown },
-  { name: "Bags", href: "/category/bags", icon: Briefcase },
-  { name: "Accessories", href: "/category/wallets", icon: Wallet },
+  { name: "Shop Men", href: "/collections/men", icon: ShoppingBag },
+  { name: "Shop Women", href: "/collections/women", icon: ShoppingBag },
+  { name: "Jewelry", href: "/collections/jewelry", icon: Crown },
+  { name: "Bags", href: "/collections/bags", icon: Briefcase },
+  { name: "Accessories", href: "/collections/wallets", icon: Wallet },
   { name: "Support", href: "/support", icon: HeadphonesIcon },
 ];
 

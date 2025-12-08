@@ -6,11 +6,11 @@ import { useCart } from "@/lib/cart-context";
 import { MobileDrawer } from "@/components/mobile-drawer";
 
 const navLinks = [
-  { name: "Men", href: "/category/men" },
-  { name: "Women", href: "/category/women" },
-  { name: "Jewelry", href: "/category/jewelry" },
-  { name: "Bags", href: "/category/bags" },
-  { name: "Accessories", href: "/category/wallets" },
+  { name: "Men", href: "/collections/men" },
+  { name: "Women", href: "/collections/women" },
+  { name: "Jewelry", href: "/collections/jewelry" },
+  { name: "Bags", href: "/collections/bags" },
+  { name: "Accessories", href: "/collections/wallets" },
 ];
 
 export function Navbar() {

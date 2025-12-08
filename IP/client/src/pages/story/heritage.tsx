@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { StoryLayout } from "@/components/story-layout";
-import { fetchCollectionByHandle, fetchAllProducts, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
+import { fetchCollectionByHandle, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
 import cinematicHeroImage from "@assets/generated_images/cinematic_luxury_fashion_hero.png";
 
 export default function HeritageStory() {
@@ -12,19 +12,10 @@ export default function HeritageStory() {
       setIsLoading(true);
       try {
         const { products: collectionProducts } = await fetchCollectionByHandle(COLLECTION_HANDLES.HERITAGE);
-        if (collectionProducts.length > 0) {
-          setProducts(collectionProducts);
-        } else {
-          const allProducts = await fetchAllProducts();
-          const heritageProducts = allProducts.filter(p => 
-            p.tags.some(t => t.toLowerCase().includes("heritage"))
-          );
-          setProducts(heritageProducts.length > 0 ? heritageProducts : allProducts.slice(0, 8));
-        }
+        setProducts(collectionProducts);
       } catch (error) {
         console.error("Error loading heritage collection:", error);
-        const allProducts = await fetchAllProducts();
-        setProducts(allProducts.slice(0, 8));
+        setProducts([]);
       }
       setIsLoading(false);
     };

@@ -1,43 +1,40 @@
 import { useParams } from "wouter";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronLeft } from "lucide-react";
-import { useShopify } from "@/lib/shopify-context";
+import { fetchCollectionByHandle, ShopifyProduct, ShopifyCollection } from "@/lib/shopify";
 import { categories } from "@/lib/data";
 import { Footer } from "@/components/footer";
 import { ProductSkeleton } from "@/components/product-skeleton";
 
 export default function Category() {
   const { slug } = useParams<{ slug: string }>();
-  const { products, isLoading } = useShopify();
+  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const [collection, setCollection] = useState<ShopifyCollection | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
   const category = categories.find((c) => c.slug === slug);
+
+  useEffect(() => {
+    const loadCollection = async () => {
+      if (!slug) return;
+      setIsLoading(true);
+      try {
+        const { collection: fetchedCollection, products: fetchedProducts } = await fetchCollectionByHandle(slug);
+        setCollection(fetchedCollection);
+        setProducts(fetchedProducts);
+      } catch (error) {
+        console.error(`Error loading collection ${slug}:`, error);
+        setProducts([]);
+        setCollection(null);
+      }
+      setIsLoading(false);
+    };
+    loadCollection();
+  }, [slug]);
   
-  const categoryProducts = slug === "all" 
-    ? products 
-    : products.filter((p) => {
-        const productType = p.productType?.toLowerCase() || "";
-        const tags = p.tags.map((t) => t.toLowerCase());
-        const title = p.title.toLowerCase();
-        
-        const categoryMappings: Record<string, string[]> = {
-          "men": ["men", "mens", "men's", "male", "man"],
-          "women": ["women", "womens", "women's", "female", "woman", "ladies"],
-          "mens-footwear": ["men", "mens", "footwear", "shoes", "sneakers", "boots"],
-          "womens-footwear": ["women", "womens", "footwear", "shoes", "heels", "boots"],
-          "jewelry": ["jewelry", "jewellery", "ring", "necklace", "bracelet", "earring"],
-          "leather": ["leather", "bag", "wallet", "tote", "backpack", "carry"],
-          "tech": ["tech", "technology", "gadget", "smart", "electronic"],
-        };
-        
-        const searchTerms = categoryMappings[slug || ""] || [slug || ""];
-        
-        return searchTerms.some((term) => 
-          productType.includes(term) || 
-          tags.some((tag) => tag.includes(term)) ||
-          title.includes(term)
-        );
-      });
+  const categoryProducts = products;
 
   if (isLoading) {
     return (
@@ -62,11 +59,11 @@ export default function Category() {
     );
   }
 
-  if (!category && slug !== "all") {
+  if (!collection && !category && slug !== "all" && products.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-white pt-14">
         <div className="text-center">
-          <h1 className="text-2xl font-medium text-black mb-4">Category not found</h1>
+          <h1 className="text-2xl font-medium text-black mb-4">Collection not found</h1>
           <Link href="/">
             <span className="text-blue-600 hover:underline cursor-pointer">Return home</span>
           </Link>
@@ -76,9 +73,9 @@ export default function Category() {
   }
 
   const displayProducts = categoryProducts;
-  const categoryTitle = category?.name || "All Products";
-  const categoryDescription = category?.description || "Browse our complete collection";
-  const categoryImage = category?.image || products[0]?.images[0]?.src;
+  const categoryTitle = collection?.title || category?.name || slug?.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()) || "All Products";
+  const categoryDescription = collection?.description || category?.description || "Browse our curated collection";
+  const categoryImage = collection?.image?.src || category?.image || products[0]?.images[0]?.src;
 
   return (
     <motion.main

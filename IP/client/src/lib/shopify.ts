@@ -174,8 +174,9 @@ export async function fetchCollections(): Promise<ShopifyCollection[]> {
 export const COLLECTION_HANDLES = {
   MEN: "men",
   WOMEN: "women",
+  MALE_FOOTWEAR: "male-footwear",
+  FEMALE_FOOTWEAR: "female-footwear",
   JEWELRY: "jewelry",
-  FOOTWEAR: "footwear",
   WALLETS: "wallets",
   BAGS: "bags",
   TECH: "tech",
