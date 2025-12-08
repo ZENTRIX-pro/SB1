@@ -30,13 +30,37 @@ Preferred communication style: Simple, everyday language.
 - Responsive breakpoints: mobile-first with md (768px) and lg (1024px) breakpoints
 
 **Key Frontend Features:**
-- Client-side data management via `client/src/lib/data.ts` for optimal performance
+- Shopify Storefront API integration for real-time product data
+- React Context (`shopify-context.tsx`) for centralized Shopify data management
 - React Context (`cart-context.tsx`) for shopping cart state management
+- Tag-based section control - manage featured sections directly from Shopify
 - Responsive hero carousel with separate mobile/desktop implementations
 - Horizontal scrolling category sections
 - Product detail pages with split-screen layout (sticky image gallery + scrollable details)
 - Checkout flow with mock payment integration (Razorpay and PayPal buttons)
 - Full mobile drawer navigation with smooth animations
+
+### Shopify Integration
+
+**Connection Details:**
+- Shopify Storefront API with GraphQL
+- Products and collections fetched in real-time from Shopify
+- All product data managed through Shopify admin
+
+**Tag-Based Section Control:**
+Control which products appear in featured sections by adding tags in Shopify:
+- **"New"** or **"New Arrival"** → Appears in New Arrivals section on homepage
+- **"Trending"** or **"Bestseller"** → Appears in Trending Now section
+- **"Signature"** → Appears in Signature Series section (gold badge)
+- **"Heritage"** → Appears on dedicated /heritage page
+
+**Key Files:**
+- `IP/client/src/lib/shopify.ts` - Shopify Storefront API client
+- `IP/client/src/lib/shopify-context.tsx` - React context with tag-based filtering helpers
+- `IP/client/src/components/new-arrivals.tsx` - New arrivals section
+- `IP/client/src/components/trending-section.tsx` - Trending products section
+- `IP/client/src/components/signature-series.tsx` - Signature collection section
+- `IP/client/src/pages/heritage.tsx` - Heritage collection page
 
 ### Backend Architecture
 
