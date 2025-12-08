@@ -54,13 +54,41 @@ Control which products appear in featured sections by adding tags in Shopify:
 - **"Signature"** → Appears in Signature Series section (gold badge)
 - **"Heritage"** → Appears on dedicated /heritage page
 
+**Collection Handle Mappings:**
+The frontend uses exact Shopify collection handles:
+- `signature-series` - Signature Series products
+- `trending-now` - Trending Now products
+- `new-arrivals` - New Arrivals products
+- `heritage` - Heritage collection
+- `male-apparel` - Men's clothing
+- `female-apparel` - Women's clothing
+- `male-footwear` - Men's footwear
+- `female-footwear` - Women's footwear
+- `jewelry-accessories` - Jewelry & Accessories
+- `wallets-cards` - Wallets & Cards
+- `tech-lifestyle` - Tech & Lifestyle products
+
 **Key Files:**
-- `IP/client/src/lib/shopify.ts` - Shopify Storefront API client
+- `IP/client/src/lib/shopify.ts` - Shopify Storefront API client with collection fetching
 - `IP/client/src/lib/shopify-context.tsx` - React context with tag-based filtering helpers
-- `IP/client/src/components/new-arrivals.tsx` - New arrivals section
+- `IP/client/src/components/new-arrivals.tsx` - New arrivals section (horizontal scroll)
 - `IP/client/src/components/trending-section.tsx` - Trending products section
 - `IP/client/src/components/signature-series.tsx` - Signature collection section
-- `IP/client/src/pages/heritage.tsx` - Heritage collection page
+- `IP/client/src/components/story-layout.tsx` - Reusable story landing page component
+
+**Story Landing Pages:**
+Story-driven commerce experience with dedicated landing pages:
+- `/story/heritage` - "The Royal Weave" - Heritage collection story
+- `/story/future-tech` - "Future Ready" - Tech & Lifestyle story
+- `/story/gentleman` - "Refined Men" - Men's apparel & footwear story
+- `/story/muse` - "Elegance Redefined" - Women's apparel & footwear story
+- `/story/signature` - "The Masterpiece" - Signature Series story
+
+Each story page features:
+- Full-screen hero with cinematic imagery
+- Compelling narrative description
+- Curated product grid from Shopify collection
+- Graceful fallback to all products if collection is empty
 
 ### Backend Architecture
 
