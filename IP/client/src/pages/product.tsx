@@ -180,9 +180,19 @@ export default function Product() {
   };
 
   const handleBuyNow = () => {
-    if (!selectedVariant) return;
+    if (!selectedVariant) {
+      console.error("No variant selected");
+      return;
+    }
     
-    const variantIdNumber = selectedVariant.split("/").pop();
+    const variantIdMatch = selectedVariant.match(/ProductVariant\/(\d+)/);
+    const variantIdNumber = variantIdMatch ? variantIdMatch[1] : selectedVariant.split("/").pop();
+    
+    if (!variantIdNumber) {
+      console.error("Could not extract variant ID");
+      return;
+    }
+    
     const checkoutUrl = `https://p52yuw-uq.myshopify.com/cart/${variantIdNumber}:${quantity}`;
     window.location.href = checkoutUrl;
   };
