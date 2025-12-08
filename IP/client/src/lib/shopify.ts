@@ -171,6 +171,65 @@ export async function fetchCollections(): Promise<ShopifyCollection[]> {
   }
 }
 
+export const COLLECTION_HANDLES = {
+  SIGNATURE_SERIES: "signature-series",
+  TRENDING_NOW: "trending-now",
+  NEW_ARRIVALS: "new-arrivals",
+  HERITAGE: "heritage",
+  MALE_APPAREL: "male-apparel",
+  FEMALE_APPAREL: "female-apparel",
+  MALE_FOOTWEAR: "male-footwear",
+  FEMALE_FOOTWEAR: "female-footwear",
+  JEWELRY: "jewelry-accessories",
+  WALLETS: "wallets-cards",
+  TECH: "tech-lifestyle",
+} as const;
+
+export async function fetchCollectionByHandle(handle: string): Promise<{
+  collection: ShopifyCollection | null;
+  products: ShopifyProduct[];
+}> {
+  try {
+    const collections = await client.collection.fetchAllWithProducts();
+    const collection = collections.find((c: any) => c.handle === handle);
+    
+    if (collection) {
+      return {
+        collection: transformCollection(collection),
+        products: collection.products.map(transformProduct),
+      };
+    }
+    return { collection: null, products: [] };
+  } catch (error) {
+    console.error(`Error fetching collection by handle (${handle}):`, error);
+    return { collection: null, products: [] };
+  }
+}
+
+export async function fetchMultipleCollections(handles: string[]): Promise<ShopifyProduct[]> {
+  try {
+    const results = await Promise.all(
+      handles.map((handle) => fetchCollectionByHandle(handle))
+    );
+    const allProducts: ShopifyProduct[] = [];
+    const seenIds = new Set<string>();
+    
+    results.forEach(({ products }) => {
+      products.forEach((product) => {
+        if (!seenIds.has(product.id)) {
+          seenIds.add(product.id);
+          allProducts.push(product);
+        }
+      });
+    });
+    
+    return allProducts;
+  } catch (error) {
+    console.error("Error fetching multiple collections:", error);
+    return [];
+  }
+}
+
 export async function fetchCollectionWithProducts(handle: string): Promise<{
   collection: ShopifyCollection | null;
   products: ShopifyProduct[];

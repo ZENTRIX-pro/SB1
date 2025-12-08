@@ -361,7 +361,7 @@ export default function Product() {
     ? formatPrice(selectedVariant.compareAtPrice.amount, selectedVariant.compareAtPrice.currencyCode)
     : null;
 
-  const canBuy = product && product.variants.length > 0;
+  const canBuy = product && product.variants.length > 0 ? true : false;
   const hasOptions = product?.options && product.options.length > 0 && 
     !(product.options.length === 1 && product.options[0].values.length === 1);
 
@@ -481,16 +481,11 @@ export default function Product() {
             <div className="pt-4 space-y-3">
               <motion.button
                 onClick={handleBuyNow}
-                disabled={!canBuy}
-                whileHover={canBuy ? { scale: 1.02 } : {}}
-                whileTap={canBuy ? { scale: 0.98 } : {}}
-                className={`w-full py-4 rounded-full text-base font-semibold transition-all ${
-                  canBuy
-                    ? "bg-black text-white hover:bg-neutral-800"
-                    : "bg-neutral-200 text-neutral-500 cursor-not-allowed"
-                }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full py-4 rounded-full text-base font-semibold transition-all bg-black text-white hover:bg-neutral-800"
               >
-                {canBuy ? `Buy Now - ${currentPrice}` : "Unavailable"}
+                Buy Now - {currentPrice}
               </motion.button>
             </div>
 

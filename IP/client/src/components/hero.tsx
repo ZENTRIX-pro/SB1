@@ -72,7 +72,7 @@ export function Hero() {
 
   return (
     <>
-      <section className="md:hidden h-[55vh] pt-14 bg-black overflow-hidden">
+      <section className="md:hidden h-[60vh] pt-14 bg-black overflow-hidden">
         <div className="h-full overflow-hidden" ref={mobileEmblaRef}>
           <div className="flex h-full">
             {heroSlides.map((slide) => (
@@ -83,8 +83,7 @@ export function Hero() {
                       <img
                         src={slide.image}
                         alt={slide.title}
-                        className="w-full h-full object-cover"
-                        style={{ aspectRatio: "4/5" }}
+                        className="w-full h-full object-cover object-center"
                       />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -133,28 +132,28 @@ export function Hero() {
         </div>
       </section>
 
-      <section className="hidden md:block pt-16 pb-12 bg-white overflow-hidden">
-        <div className="relative max-w-[1400px] mx-auto px-6">
+      <section className="hidden md:block h-[80vh] pt-16 bg-white overflow-hidden">
+        <div className="relative max-w-[1400px] mx-auto px-6 h-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-8 text-center"
+            className="mb-6 text-center"
           >
             <h1 className="font-heading text-4xl lg:text-5xl font-semibold text-black">
               Discover Luxury
             </h1>
           </motion.div>
 
-          <div className="relative">
-            <div className="overflow-hidden" ref={desktopEmblaRef}>
-              <div className="flex">
+          <div className="relative h-[calc(100%-120px)]">
+            <div className="overflow-hidden h-full" ref={desktopEmblaRef}>
+              <div className="flex h-full">
                 {heroSlides.map((slide, index) => {
                   const isActive = index === desktopIndex;
                   return (
                     <motion.div
                       key={slide.id}
-                      className="flex-none px-3"
+                      className="flex-none px-3 h-full"
                       style={{ width: "60%" }}
                       animate={{
                         scale: isActive ? 1 : 0.9,
@@ -163,11 +162,11 @@ export function Hero() {
                       transition={{ duration: 0.4 }}
                     >
                       <Link href={slide.link}>
-                        <div className="relative aspect-[4/5] rounded-3xl overflow-hidden group cursor-pointer shadow-2xl">
+                        <div className="relative h-full rounded-3xl overflow-hidden group cursor-pointer shadow-2xl">
                           <img
                             src={slide.image}
                             alt={slide.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                           <div className="absolute bottom-8 left-8 right-8">

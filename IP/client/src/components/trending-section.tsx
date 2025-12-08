@@ -1,16 +1,29 @@
+import { useRef } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useShopify } from "@/lib/shopify-context";
 import { ProductSkeleton } from "@/components/product-skeleton";
 
 export function TrendingSection() {
   const { products, isLoading } = useShopify();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   const trendingFiltered = products.filter((p) =>
     p.tags.some((t) => t.toLowerCase() === "trending" || t.toLowerCase() === "bestseller")
   );
   
-  const trendingProducts = trendingFiltered.length > 0 ? trendingFiltered : products.slice(0, 4);
+  const trendingProducts = trendingFiltered.length > 0 ? trendingFiltered : products.slice(0, 8);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 300;
+      scrollContainerRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -26,9 +39,11 @@ export function TrendingSection() {
               </h2>
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="flex gap-4 md:gap-6 overflow-hidden">
             {Array.from({ length: 4 }).map((_, idx) => (
-              <ProductSkeleton key={idx} />
+              <div key={idx} className="flex-none w-[calc(66.666%-8px)] md:w-[280px]">
+                <ProductSkeleton />
+              </div>
             ))}
           </div>
         </div>
@@ -57,23 +72,43 @@ export function TrendingSection() {
               Trending Now
             </h2>
           </div>
-          <Link href="/category/all">
-            <span className="text-sm text-black font-medium hover:text-neutral-600 transition-colors cursor-pointer">
-              View All →
-            </span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2">
+              <button
+                onClick={() => scroll("left")}
+                className="p-2 rounded-full bg-white hover:bg-neutral-100 transition-colors"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="p-2 rounded-full bg-white hover:bg-neutral-100 transition-colors"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+            <Link href="/category/all">
+              <span className="text-sm text-black font-medium hover:text-neutral-600 transition-colors cursor-pointer">
+                View All →
+              </span>
+            </Link>
+          </div>
         </motion.div>
 
-        <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 pb-4 -mx-4 px-4">
+        <div 
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 pb-4 -mx-4 px-4 md:mx-0 md:px-0"
+        >
           {trendingProducts.map((product, idx) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.4 }}
-              className="group flex-none snap-start"
-              style={{ width: 'calc(66.666% - 8px)' }}
+              transition={{ delay: idx * 0.05, duration: 0.4 }}
+              className="group flex-none snap-start w-[calc(66.666%-8px)] md:w-[280px]"
             >
               <Link href={`/product/${product.handle}`}>
                 <div className="cursor-pointer">
@@ -93,42 +128,6 @@ export function TrendingSection() {
                     {product.title}
                   </h3>
                   <p className="text-neutral-500 text-sm">
-                    ${parseFloat(product.variants[0]?.price.amount || "0").toLocaleString()}
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="hidden md:grid md:grid-cols-4 gap-6">
-          {trendingProducts.map((product, idx) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.4 }}
-              className="group"
-            >
-              <Link href={`/product/${product.handle}`}>
-                <div className="cursor-pointer">
-                  <div className="relative aspect-[4/5] overflow-hidden bg-white rounded-2xl mb-4">
-                    <img
-                      src={product.images[0]?.src || "https://placehold.co/400x500?text=No+Image"}
-                      alt={product.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-black text-white text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-full font-medium">
-                        #{idx + 1} Trending
-                      </span>
-                    </div>
-                  </div>
-                  <h3 className="font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors line-clamp-1">
-                    {product.title}
-                  </h3>
-                  <p className="text-neutral-500">
                     ${parseFloat(product.variants[0]?.price.amount || "0").toLocaleString()}
                   </p>
                 </div>

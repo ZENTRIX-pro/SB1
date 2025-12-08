@@ -50,7 +50,7 @@ export function HeroSlider() {
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black" data-testid="hero-section">
+    <section className="relative h-[60vh] md:h-[80vh] w-full overflow-hidden bg-black" data-testid="hero-section">
       {/* Background Image */}
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
@@ -67,7 +67,7 @@ export function HeroSlider() {
           <img
             src={slide.image}
             alt={slide.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
         </motion.div>
       </AnimatePresence>

@@ -36,43 +36,43 @@ const SMART_RING_SHOPIFY_URL = "https://p52yuw-uq.myshopify.com/products/health-
 export const heroSlides = [
   {
     id: 1,
-    image: heroMenImage,
-    title: "Define Your Future",
-    subtitle: "The New Collection",
-    cta: "Shop Men",
-    link: "/category/men"
+    image: cinematicHeroImage,
+    title: "The Royal Weave",
+    subtitle: "Heritage Collection",
+    cta: "Explore Story",
+    link: "/story/heritage"
   },
   {
     id: 2,
-    image: heroWomenImage,
-    title: "Elegance Redefined",
-    subtitle: "Evening Wear 2024",
-    cta: "Shop Women",
-    link: "/category/women"
+    image: lifestyleCategoryImage,
+    title: "Future Ready",
+    subtitle: "Tech & Lifestyle",
+    cta: "Discover",
+    link: "/story/future-tech"
   },
   {
     id: 3,
-    image: heroSneakerImage,
-    title: "Step Into Tomorrow",
-    subtitle: "Z-Footwear Collection",
-    cta: "Shop Footwear",
-    link: "/category/mens-footwear"
+    image: heroMenImage,
+    title: "Refined Men",
+    subtitle: "The Modern Gentleman",
+    cta: "Shop Collection",
+    link: "/story/gentleman"
   },
   {
     id: 4,
-    image: cinematicHeroImage,
-    title: "Heritage Edition",
-    subtitle: "Timeless Artisan Craft",
-    cta: "Explore Jewelry",
-    link: "/category/jewelry"
+    image: heroWomenImage,
+    title: "Elegance Redefined",
+    subtitle: "The Modern Muse",
+    cta: "Explore",
+    link: "/story/muse"
   },
   {
     id: 5,
-    image: lifestyleCategoryImage,
-    title: "Live Luxuriously",
-    subtitle: "Premium Tech",
-    cta: "Shop Tech",
-    link: "/category/tech"
+    image: heroSneakerImage,
+    title: "The Masterpiece",
+    subtitle: "Signature Series",
+    cta: "View Collection",
+    link: "/story/signature"
   }
 ];
 
