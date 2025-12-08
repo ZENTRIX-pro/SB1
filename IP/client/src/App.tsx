@@ -12,6 +12,7 @@ import { CartDrawer } from "@/components/cart-drawer";
 import Home from "@/pages/home";
 import Category from "@/pages/category";
 import Product from "@/pages/product";
+import Heritage from "@/pages/heritage";
 import Support from "@/pages/support";
 import Contact from "@/pages/contact";
 import About from "@/pages/about";
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/category/:slug" component={Category} />
       <Route path="/product/:id" component={Product} />
+      <Route path="/heritage" component={Heritage} />
       <Route path="/support" component={Support} />
       <Route path="/contact" component={Contact} />
       <Route path="/about" component={About} />

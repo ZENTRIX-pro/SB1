@@ -9,8 +9,11 @@ interface ShopifyContextType {
   refetch: () => Promise<void>;
   getProductByHandle: (handle: string) => ShopifyProduct | undefined;
   getProductsByTag: (tag: string) => ShopifyProduct[];
+  getProductsByType: (type: string) => ShopifyProduct[];
   getNewArrivals: () => ShopifyProduct[];
   getTrending: () => ShopifyProduct[];
+  getSignature: () => ShopifyProduct[];
+  getHeritage: () => ShopifyProduct[];
 }
 
 const ShopifyContext = createContext<ShopifyContextType | null>(null);
@@ -65,6 +68,26 @@ export function ShopifyProvider({ children }: { children: ReactNode }) {
     return trending.length > 0 ? trending : products.slice(0, 4);
   };
 
+  const getSignature = () => {
+    const signature = products.filter((p) =>
+      p.tags.some((t) => t.toLowerCase() === "signature")
+    );
+    return signature.length > 0 ? signature : products.slice(0, 4);
+  };
+
+  const getHeritage = () => {
+    const heritage = products.filter((p) =>
+      p.tags.some((t) => t.toLowerCase() === "heritage")
+    );
+    return heritage;
+  };
+
+  const getProductsByType = (type: string) => {
+    return products.filter((p) => 
+      p.productType.toLowerCase() === type.toLowerCase()
+    );
+  };
+
   return (
     <ShopifyContext.Provider
       value={{
@@ -75,8 +98,11 @@ export function ShopifyProvider({ children }: { children: ReactNode }) {
         refetch: fetchData,
         getProductByHandle,
         getProductsByTag,
+        getProductsByType,
         getNewArrivals,
         getTrending,
+        getSignature,
+        getHeritage,
       }}
     >
       {children}

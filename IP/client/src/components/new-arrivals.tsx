@@ -6,7 +6,11 @@ import { ProductSkeleton } from "@/components/product-skeleton";
 export function NewArrivals() {
   const { products, isLoading } = useShopify();
   
-  const newArrivals = products.slice(0, 8);
+  const newArrivals = products.filter((p) => 
+    p.tags.some((t) => t.toLowerCase() === "new" || t.toLowerCase() === "new arrival")
+  );
+  
+  const displayProducts = newArrivals.length > 0 ? newArrivals : products.slice(0, 8);
 
   if (isLoading) {
     return (
@@ -32,7 +36,7 @@ export function NewArrivals() {
     );
   }
 
-  if (newArrivals.length === 0) {
+  if (displayProducts.length === 0) {
     return null;
   }
 
@@ -61,7 +65,7 @@ export function NewArrivals() {
         </motion.div>
 
         <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 pb-4 -mx-4 px-4">
-          {newArrivals.map((product, idx) => (
+          {displayProducts.map((product, idx) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
@@ -98,7 +102,7 @@ export function NewArrivals() {
         </div>
 
         <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {newArrivals.map((product, idx) => (
+          {displayProducts.map((product, idx) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}

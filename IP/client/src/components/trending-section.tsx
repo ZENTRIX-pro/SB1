@@ -6,7 +6,11 @@ import { ProductSkeleton } from "@/components/product-skeleton";
 export function TrendingSection() {
   const { products, isLoading } = useShopify();
   
-  const trendingProducts = products.slice(0, 4);
+  const trendingFiltered = products.filter((p) =>
+    p.tags.some((t) => t.toLowerCase() === "trending" || t.toLowerCase() === "bestseller")
+  );
+  
+  const trendingProducts = trendingFiltered.length > 0 ? trendingFiltered : products.slice(0, 4);
 
   if (isLoading) {
     return (

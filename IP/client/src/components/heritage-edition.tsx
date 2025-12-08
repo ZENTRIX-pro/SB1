@@ -44,12 +44,12 @@ export function HeritageEdition() {
               the artistry of master weavers and goldsmiths, reimagined for the contemporary connoisseur.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link href="/category/jewelry">
+              <Link href="/heritage">
                 <button className="px-8 py-3.5 bg-amber-400 text-neutral-900 font-medium rounded-full hover:bg-amber-300 transition-colors">
                   Explore Heritage
                 </button>
               </Link>
-              <Link href="/category/women">
+              <Link href="/category/all">
                 <button className="px-8 py-3.5 border border-amber-400/40 text-amber-400 font-medium rounded-full hover:bg-amber-400/10 transition-colors">
                   View Lookbook
                 </button>
