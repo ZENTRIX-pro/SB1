@@ -6,32 +6,52 @@ const client = Client.buildClient({
   apiVersion: "2024-01",
 });
 
+export interface SelectedOption {
+  name: string;
+  value: string;
+}
+
+export interface ShopifyVariant {
+  id: string;
+  title: string;
+  price: {
+    amount: string;
+    currencyCode: string;
+  };
+  compareAtPrice: {
+    amount: string;
+    currencyCode: string;
+  } | null;
+  available: boolean;
+  sku: string;
+  selectedOptions: SelectedOption[];
+}
+
+export interface ShopifyImage {
+  id: string;
+  src: string;
+  altText: string | null;
+}
+
+export interface ShopifyOption {
+  id: string;
+  name: string;
+  values: string[];
+}
+
 export interface ShopifyProduct {
   id: string;
   title: string;
   description: string;
+  descriptionHtml: string;
   handle: string;
-  images: Array<{
-    id: string;
-    src: string;
-    altText: string | null;
-  }>;
-  variants: Array<{
-    id: string;
-    title: string;
-    price: {
-      amount: string;
-      currencyCode: string;
-    };
-    available: boolean;
-  }>;
+  vendor: string;
   productType: string;
   tags: string[];
-  options: Array<{
-    id: string;
-    name: string;
-    values: string[];
-  }>;
+  images: ShopifyImage[];
+  variants: ShopifyVariant[];
+  options: ShopifyOption[];
+  availableForSale: boolean;
 }
 
 export interface ShopifyCollection {
@@ -50,27 +70,39 @@ function transformProduct(product: any): ShopifyProduct {
     id: product.id,
     title: product.title,
     description: product.description || "",
+    descriptionHtml: product.descriptionHtml || product.description || "",
     handle: product.handle,
-    images: product.images.map((img: any) => ({
-      id: img.id,
-      src: img.src,
-      altText: img.altText,
-    })),
-    variants: product.variants.map((variant: any) => ({
-      id: variant.id,
-      title: variant.title,
-      price: {
-        amount: variant.price?.amount || variant.priceV2?.amount || "0",
-        currencyCode: variant.price?.currencyCode || variant.priceV2?.currencyCode || "USD",
-      },
-      available: variant.available,
-    })),
+    vendor: product.vendor || "",
     productType: product.productType || "",
     tags: product.tags || [],
+    availableForSale: product.availableForSale ?? true,
+    images: product.images?.map((img: any) => ({
+      id: img.id || String(Math.random()),
+      src: img.src,
+      altText: img.altText || null,
+    })) || [],
+    variants: product.variants?.map((variant: any) => ({
+      id: variant.id,
+      title: variant.title || "Default",
+      price: {
+        amount: variant.price?.amount || variant.priceV2?.amount || variant.price || "0",
+        currencyCode: variant.price?.currencyCode || variant.priceV2?.currencyCode || "USD",
+      },
+      compareAtPrice: variant.compareAtPrice || variant.compareAtPriceV2 ? {
+        amount: variant.compareAtPrice?.amount || variant.compareAtPriceV2?.amount || "0",
+        currencyCode: variant.compareAtPrice?.currencyCode || variant.compareAtPriceV2?.currencyCode || "USD",
+      } : null,
+      available: variant.available ?? variant.availableForSale ?? true,
+      sku: variant.sku || "",
+      selectedOptions: variant.selectedOptions?.map((opt: any) => ({
+        name: opt.name,
+        value: opt.value,
+      })) || [],
+    })) || [],
     options: product.options?.map((opt: any) => ({
-      id: opt.id,
+      id: opt.id || String(Math.random()),
       name: opt.name,
-      values: opt.values.map((v: any) => v.value || v),
+      values: opt.values?.map((v: any) => typeof v === "string" ? v : v.value) || [],
     })) || [],
   };
 }
@@ -149,16 +181,41 @@ export async function fetchCollectionWithProducts(handle: string): Promise<{
   }
 }
 
-export async function createCheckout(variantId: string, quantity: number = 1): Promise<string | null> {
-  try {
-    const checkout = await client.checkout.create();
-    const lineItemsToAdd = [{ variantId, quantity }];
-    const updatedCheckout = await client.checkout.addLineItems(checkout.id, lineItemsToAdd);
-    return updatedCheckout.webUrl;
-  } catch (error) {
-    console.error("Error creating checkout:", error);
-    return null;
-  }
+export function findVariantByOptions(
+  variants: ShopifyVariant[],
+  selectedOptions: Record<string, string>
+): ShopifyVariant | null {
+  if (!variants || variants.length === 0) return null;
+  
+  const optionKeys = Object.keys(selectedOptions);
+  if (optionKeys.length === 0) return variants[0];
+  
+  return variants.find((variant) => {
+    return optionKeys.every((key) => {
+      const variantOption = variant.selectedOptions.find(
+        (opt) => opt.name.toLowerCase() === key.toLowerCase()
+      );
+      return variantOption && variantOption.value === selectedOptions[key];
+    });
+  }) || null;
+}
+
+export function extractNumericVariantId(variantId: string): string {
+  const match = variantId.match(/ProductVariant\/(\d+)/);
+  return match ? match[1] : variantId.split("/").pop() || variantId;
+}
+
+export function buildCheckoutUrl(variantId: string, quantity: number): string {
+  const numericId = extractNumericVariantId(variantId);
+  return `https://p52yuw-uq.myshopify.com/cart/${numericId}:${quantity}`;
+}
+
+export function formatPrice(amount: string, currencyCode: string = "USD"): string {
+  const num = parseFloat(amount);
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currencyCode,
+  }).format(num);
 }
 
 export { client };

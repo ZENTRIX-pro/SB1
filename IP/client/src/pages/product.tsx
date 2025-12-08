@@ -1,16 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minus, Plus, Check, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
+import { Minus, Plus, Check, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
 import { useShopify } from "@/lib/shopify-context";
-import { fetchProductByHandle, ShopifyProduct } from "@/lib/shopify";
-import { useCart } from "@/lib/cart-context";
+import { 
+  fetchProductByHandle, 
+  ShopifyProduct, 
+  ShopifyVariant,
+  findVariantByOptions,
+  buildCheckoutUrl,
+  formatPrice 
+} from "@/lib/shopify";
 import { Footer } from "@/components/footer";
 import { CustomerReviews } from "@/components/customer-reviews";
 import { LoadingScreen } from "@/components/product-skeleton";
 
 function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images"]; productTitle: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [images]);
 
   if (!images || images.length === 0) {
     return (
@@ -53,12 +63,14 @@ function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images
             <button
               onClick={prevImage}
               className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-black hover:bg-white transition-colors shadow-lg"
+              aria-label="Previous image"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextImage}
               className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-black hover:bg-white transition-colors shadow-lg"
+              aria-label="Next image"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -70,6 +82,7 @@ function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images
                   className={`w-2 h-2 rounded-full transition-all ${
                     idx === currentIndex ? "bg-black w-6" : "bg-black/30"
                   }`}
+                  aria-label={`Go to image ${idx + 1}`}
                 />
               ))}
             </div>
@@ -84,7 +97,7 @@ function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={`flex-none w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
-                idx === currentIndex ? "border-amber-500" : "border-transparent"
+                idx === currentIndex ? "border-amber-500 ring-2 ring-amber-500/30" : "border-transparent hover:border-neutral-300"
               }`}
             >
               <img
@@ -100,313 +113,396 @@ function ImageGallery({ images, productTitle }: { images: ShopifyProduct["images
   );
 }
 
+interface OptionSelectorProps {
+  option: { name: string; values: string[] };
+  selectedValue: string;
+  onSelect: (value: string) => void;
+  variants: ShopifyVariant[];
+  currentOptions: Record<string, string>;
+}
+
+function OptionSelector({ option, selectedValue, onSelect, variants, currentOptions }: OptionSelectorProps) {
+  const isColorOption = option.name.toLowerCase() === "color" || option.name.toLowerCase() === "colour";
+  
+  const getValueAvailability = (value: string): boolean => {
+    const testOptions = { ...currentOptions, [option.name]: value };
+    const variant = findVariantByOptions(variants, testOptions);
+    return variant?.available ?? false;
+  };
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <label className="text-sm font-medium text-black">
+          {option.name}: <span className="font-normal text-neutral-600">{selectedValue || "Select"}</span>
+        </label>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {option.values.map((value) => {
+          const isSelected = selectedValue === value;
+          const isAvailable = getValueAvailability(value);
+          
+          if (isColorOption) {
+            return (
+              <button
+                key={value}
+                onClick={() => onSelect(value)}
+                disabled={!isAvailable}
+                className={`relative w-10 h-10 rounded-full border-2 transition-all ${
+                  isSelected 
+                    ? "border-amber-500 ring-2 ring-amber-500/30" 
+                    : isAvailable 
+                      ? "border-neutral-300 hover:border-neutral-400" 
+                      : "border-neutral-200 opacity-40 cursor-not-allowed"
+                }`}
+                style={{ backgroundColor: value.toLowerCase() }}
+                title={value}
+              >
+                {isSelected && (
+                  <Check className={`absolute inset-0 m-auto w-5 h-5 ${
+                    ["white", "cream", "beige", "ivory", "yellow"].includes(value.toLowerCase()) 
+                      ? "text-black" 
+                      : "text-white"
+                  }`} />
+                )}
+                {!isAvailable && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-full h-0.5 bg-neutral-400 rotate-45 absolute" />
+                  </div>
+                )}
+              </button>
+            );
+          }
+
+          return (
+            <button
+              key={value}
+              onClick={() => onSelect(value)}
+              disabled={!isAvailable}
+              className={`min-w-[3rem] px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                isSelected
+                  ? "bg-black text-white"
+                  : isAvailable
+                    ? "bg-neutral-100 text-black hover:bg-neutral-200"
+                    : "bg-neutral-50 text-neutral-300 cursor-not-allowed line-through"
+              }`}
+            >
+              {value}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+interface QuantitySelectorProps {
+  quantity: number;
+  onQuantityChange: (qty: number) => void;
+  maxQuantity?: number;
+}
+
+function QuantitySelector({ quantity, onQuantityChange, maxQuantity = 10 }: QuantitySelectorProps) {
+  const decrease = () => {
+    if (quantity > 1) onQuantityChange(quantity - 1);
+  };
+
+  const increase = () => {
+    if (quantity < maxQuantity) onQuantityChange(quantity + 1);
+  };
+
+  return (
+    <div className="space-y-3">
+      <label className="text-sm font-medium text-black">Quantity</label>
+      <div className="inline-flex items-center border-2 border-amber-500 rounded-xl overflow-hidden">
+        <button
+          onClick={decrease}
+          disabled={quantity <= 1}
+          className="w-12 h-12 flex items-center justify-center text-black hover:bg-amber-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          aria-label="Decrease quantity"
+        >
+          <Minus className="w-4 h-4" />
+        </button>
+        <div className="w-14 h-12 flex items-center justify-center font-semibold text-lg text-black border-x-2 border-amber-500 bg-white">
+          {quantity}
+        </div>
+        <button
+          onClick={increase}
+          disabled={quantity >= maxQuantity}
+          className="w-12 h-12 flex items-center justify-center text-black hover:bg-amber-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          aria-label="Increase quantity"
+        >
+          <Plus className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function Product() {
   const { id } = useParams<{ id: string }>();
   const { products, isLoading: contextLoading } = useShopify();
-  const { addItem } = useCart();
   
   const [product, setProduct] = useState<ShopifyProduct | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [quantity, setQuantity] = useState(1);
-  const [added, setAdded] = useState(false);
 
   useEffect(() => {
     const loadProduct = async () => {
+      if (!id) {
+        setError("Product not found");
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(true);
+      setError(null);
       
       let foundProduct = products.find((p) => p.handle === id);
       
       if (!foundProduct && !contextLoading) {
-        foundProduct = await fetchProductByHandle(id || "") || undefined;
+        foundProduct = await fetchProductByHandle(id) || undefined;
       }
       
       if (foundProduct) {
         setProduct(foundProduct);
-        if (foundProduct.variants.length > 0) {
-          setSelectedVariant(foundProduct.variants[0].id);
-        }
+        
+        const initialOptions: Record<string, string> = {};
+        foundProduct.options.forEach((opt) => {
+          if (opt.values.length > 0) {
+            const firstAvailableVariant = foundProduct!.variants.find((v) => v.available);
+            const matchingOption = firstAvailableVariant?.selectedOptions.find(
+              (so) => so.name === opt.name
+            );
+            initialOptions[opt.name] = matchingOption?.value || opt.values[0];
+          }
+        });
+        setSelectedOptions(initialOptions);
+        setQuantity(1);
+        setError(null);
+      } else if (!contextLoading) {
+        setError("Product not found");
       }
       
       setIsLoading(false);
     };
-    
-    if (id) {
-      loadProduct();
-    }
+
+    loadProduct();
   }, [id, products, contextLoading]);
 
+  const selectedVariant = useMemo((): ShopifyVariant | null => {
+    if (!product) return null;
+    return findVariantByOptions(product.variants, selectedOptions);
+  }, [product, selectedOptions]);
+
+  const handleOptionChange = (optionName: string, value: string) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [optionName]: value,
+    }));
+  };
+
+  const handleBuyNow = () => {
+    if (!selectedVariant || !selectedVariant.available) {
+      return;
+    }
+    
+    const checkoutUrl = buildCheckoutUrl(selectedVariant.id, quantity);
+    window.location.href = checkoutUrl;
+  };
+
+  const currentPrice = selectedVariant 
+    ? formatPrice(selectedVariant.price.amount, selectedVariant.price.currencyCode)
+    : product?.variants[0] 
+      ? formatPrice(product.variants[0].price.amount, product.variants[0].price.currencyCode)
+      : "$0.00";
+
+  const compareAtPrice = selectedVariant?.compareAtPrice 
+    ? formatPrice(selectedVariant.compareAtPrice.amount, selectedVariant.compareAtPrice.currencyCode)
+    : null;
+
+  const isAvailable = selectedVariant?.available ?? false;
+  const hasOptions = product?.options && product.options.length > 0 && 
+    !(product.options.length === 1 && product.options[0].values.length === 1);
+  const needsOptionSelection = hasOptions && Object.keys(selectedOptions).length === 0;
+
   if (isLoading || contextLoading) {
-    return (
-      <motion.main
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="pt-14 bg-white min-h-screen"
-      >
-        <LoadingScreen />
-      </motion.main>
-    );
+    return <LoadingScreen />;
   }
 
-  if (!product) {
+  if (error || !product) {
     return (
-      <div className="min-h-screen flex items-center justify-center pt-16 bg-white">
-        <div className="text-center">
-          <h1 className="text-2xl font-medium text-black mb-4">Product not found</h1>
-          <Link href="/">
-            <span className="text-blue-600 hover:underline cursor-pointer">Return home</span>
-          </Link>
+      <div className="min-h-screen flex flex-col">
+        <div className="flex-1 flex items-center justify-center px-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center max-w-md"
+          >
+            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-red-50 flex items-center justify-center">
+              <AlertCircle className="w-8 h-8 text-red-500" />
+            </div>
+            <h1 className="text-2xl font-semibold text-black mb-3">Product Not Found</h1>
+            <p className="text-neutral-600 mb-8">
+              Sorry, we couldn't find the product you're looking for. It may have been removed or the link is incorrect.
+            </p>
+            <Link href="/">
+              <span className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-medium hover:bg-neutral-800 transition-colors cursor-pointer">
+                <ChevronLeft className="w-4 h-4" />
+                Back to Home
+              </span>
+            </Link>
+          </motion.div>
         </div>
+        <Footer />
       </div>
     );
   }
 
-  const price = parseFloat(product.variants[0]?.price.amount || "0");
-  const selectedVariantData = product.variants.find((v) => v.id === selectedVariant);
-
-  const handleAddToBag = () => {
-    const cartProduct = {
-      id: product.handle,
-      name: product.title,
-      description: product.description,
-      price: price,
-      category: product.productType,
-      image: product.images[0]?.src || "",
-      isNew: true,
-    };
-    addItem(cartProduct, quantity);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-  };
-
-  const handleBuyNow = () => {
-    if (!selectedVariant) {
-      console.error("No variant selected");
-      return;
-    }
-    
-    const variantIdMatch = selectedVariant.match(/ProductVariant\/(\d+)/);
-    const variantIdNumber = variantIdMatch ? variantIdMatch[1] : selectedVariant.split("/").pop();
-    
-    if (!variantIdNumber) {
-      console.error("Could not extract variant ID");
-      return;
-    }
-    
-    const checkoutUrl = `https://p52yuw-uq.myshopify.com/cart/${variantIdNumber}:${quantity}`;
-    window.location.href = checkoutUrl;
-  };
-
-  const sizeOption = product.options.find((opt) => opt.name.toLowerCase() === "size");
-  const colorOption = product.options.find((opt) => opt.name.toLowerCase() === "color");
-
   return (
-    <>
-      <motion.main
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        className="pt-14 bg-white"
-        data-testid={`page-product-${id}`}
-      >
-        <div className="max-w-[1200px] mx-auto px-4 md:px-6 py-6">
-          <div className="flex items-center gap-2 text-sm">
-            <Link href="/">
-              <span className="text-neutral-500 hover:text-black cursor-pointer transition-colors">
-                Home
-              </span>
-            </Link>
-            <span className="text-neutral-300">/</span>
-            {product.productType && (
-              <>
-                <Link href={`/category/${product.productType.toLowerCase()}`}>
-                  <span className="text-neutral-500 hover:text-black cursor-pointer transition-colors">
-                    {product.productType}
-                  </span>
-                </Link>
-                <span className="text-neutral-300">/</span>
-              </>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-12">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6"
+        >
+          <Link href="/">
+            <span className="inline-flex items-center gap-2 text-neutral-600 hover:text-black transition-colors cursor-pointer text-sm">
+              <ChevronLeft className="w-4 h-4" />
+              Back to Shop
+            </span>
+          </Link>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="lg:sticky lg:top-24 lg:self-start"
+          >
+            <ImageGallery images={product.images} productTitle={product.title} />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="space-y-6"
+          >
+            {product.vendor && (
+              <p className="text-xs uppercase tracking-widest text-amber-600 font-medium">
+                {product.vendor}
+              </p>
             )}
-            <span className="text-black">{product.title}</span>
-          </div>
-        </div>
 
-        <section className="max-w-[1200px] mx-auto px-4 md:px-6 pb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            <div className="lg:sticky lg:top-20 lg:self-start lg:h-fit">
-              <ImageGallery images={product.images} productTitle={product.title} />
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.4 }}
-              className="py-2"
-            >
-              {product.productType && (
-                <Link href={`/category/${product.productType.toLowerCase()}`}>
-                  <span className="text-sm text-blue-600 hover:underline cursor-pointer">
-                    {product.productType}
-                  </span>
-                </Link>
-              )}
-
-              <h1 className="text-2xl md:text-3xl font-semibold text-black mt-2 mb-2">
+            <div>
+              <h1 className="font-heading text-3xl md:text-4xl font-semibold text-black mb-3">
                 {product.title}
               </h1>
+              <div className="flex items-baseline gap-3">
+                <span className="text-2xl font-semibold text-black">{currentPrice}</span>
+                {compareAtPrice && (
+                  <span className="text-lg text-neutral-400 line-through">{compareAtPrice}</span>
+                )}
+              </div>
+            </div>
 
-              <p className="text-xl text-black mb-6">
-                ${price.toLocaleString()}
-              </p>
-
-              <p className="text-neutral-600 leading-relaxed mb-8">
+            {product.description && (
+              <p className="text-neutral-600 leading-relaxed">
                 {product.description}
               </p>
+            )}
 
-              {sizeOption && sizeOption.values.length > 0 && (
-                <div className="mb-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-medium text-black">Size</h3>
-                    <button className="text-sm text-blue-600 hover:underline">
-                      Size Guide
-                    </button>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {sizeOption.values.map((size, idx) => {
-                      const variant = product.variants.find((v) => 
-                        v.title.includes(size) || (product.variants.length === sizeOption.values.length && idx === product.variants.indexOf(v))
-                      );
-                      return (
-                        <button
-                          key={size}
-                          onClick={() => variant && setSelectedVariant(variant.id)}
-                          className={`min-w-[48px] px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                            selectedVariantData?.title.includes(size)
-                              ? "bg-black text-white"
-                              : "bg-neutral-100 text-black hover:bg-neutral-200"
-                          }`}
-                        >
-                          {size}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+            <div className="border-t border-neutral-100 pt-6 space-y-6">
+              {hasOptions && product.options.map((option) => (
+                <OptionSelector
+                  key={option.id}
+                  option={option}
+                  selectedValue={selectedOptions[option.name] || ""}
+                  onSelect={(value) => handleOptionChange(option.name, value)}
+                  variants={product.variants}
+                  currentOptions={selectedOptions}
+                />
+              ))}
+
+              <QuantitySelector
+                quantity={quantity}
+                onQuantityChange={setQuantity}
+                maxQuantity={10}
+              />
+            </div>
+
+            <div className="pt-4 space-y-3">
+              <motion.button
+                onClick={handleBuyNow}
+                disabled={!isAvailable || needsOptionSelection}
+                whileHover={isAvailable && !needsOptionSelection ? { scale: 1.02 } : {}}
+                whileTap={isAvailable && !needsOptionSelection ? { scale: 0.98 } : {}}
+                className={`w-full py-4 rounded-full text-base font-semibold transition-all ${
+                  isAvailable && !needsOptionSelection
+                    ? "bg-black text-white hover:bg-neutral-800"
+                    : "bg-neutral-200 text-neutral-500 cursor-not-allowed"
+                }`}
+              >
+                {needsOptionSelection 
+                  ? "Select Options" 
+                  : isAvailable 
+                    ? `Buy Now - ${currentPrice}` 
+                    : "Out of Stock"}
+              </motion.button>
+
+              {!isAvailable && selectedVariant && (
+                <p className="text-center text-sm text-red-500">
+                  This variant is currently unavailable.
+                </p>
               )}
+            </div>
 
-              {colorOption && colorOption.values.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-sm font-medium text-black mb-3">
-                    Color
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {colorOption.values.map((color) => (
-                      <button
-                        key={color}
-                        className="px-4 py-2.5 rounded-xl text-sm font-medium transition-all bg-neutral-100 text-black hover:bg-neutral-200"
-                      >
-                        {color}
-                      </button>
-                    ))}
-                  </div>
+            <div className="border-t border-neutral-100 pt-6">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="flex items-center gap-2 text-neutral-600">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span>Free Shipping</span>
                 </div>
-              )}
-
-              <div className="mb-8">
-                <h3 className="text-sm font-medium text-black mb-3">Quantity</h3>
-                <div className="inline-flex items-center border-2 border-amber-500 rounded-full p-1">
-                  <button
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-black hover:bg-neutral-200 transition-colors"
-                    data-testid="button-decrease-quantity"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="text-lg font-medium text-black w-12 text-center">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity((q) => q + 1)}
-                    className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center text-black hover:bg-neutral-200 transition-colors"
-                    data-testid="button-increase-quantity"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
+                <div className="flex items-center gap-2 text-neutral-600">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span>Secure Checkout</span>
+                </div>
+                <div className="flex items-center gap-2 text-neutral-600">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span>Easy Returns</span>
+                </div>
+                <div className="flex items-center gap-2 text-neutral-600">
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span>Premium Quality</span>
                 </div>
               </div>
+            </div>
 
-              <div className="flex gap-3">
-                <button
-                  onClick={handleAddToBag}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 border border-neutral-300 hover:border-neutral-400 rounded-full text-sm font-medium text-black transition-colors"
-                  data-testid="button-add-to-bag"
-                >
-                  <AnimatePresence mode="wait">
-                    {added ? (
-                      <motion.span
-                        key="added"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="flex items-center gap-2"
-                      >
-                        <Check className="w-4 h-4" />
-                        Added
-                      </motion.span>
-                    ) : (
-                      <motion.span
-                        key="add"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="flex items-center gap-2"
-                      >
-                        <ShoppingBag className="w-4 h-4" />
-                        Add to Bag
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </button>
-                <button
-                  onClick={handleBuyNow}
-                  className="flex-1 px-6 py-3.5 bg-black hover:bg-neutral-800 rounded-full text-sm font-medium text-white transition-colors"
-                  data-testid="button-buy-now"
-                >
-                  Buy Now — ${(price * quantity).toLocaleString()}
-                </button>
-              </div>
-
-              <div className="mt-10 pt-8 border-t border-neutral-200 space-y-6">
-                <div>
-                  <h4 className="text-sm font-medium text-black mb-2">Details</h4>
-                  <ul className="text-sm text-neutral-600 space-y-1.5">
-                    <li>Premium quality materials</li>
-                    <li>Handcrafted with precision</li>
-                    <li>Designed for timeless elegance</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-black mb-2">Shipping</h4>
-                  <p className="text-sm text-neutral-600">
-                    Complimentary shipping on all orders over $500. 
-                    Standard delivery within 3-5 business days.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-black mb-2">Returns</h4>
-                  <p className="text-sm text-neutral-600">
-                    30-day return policy on all unworn items with original tags attached.
-                  </p>
+            {product.tags.length > 0 && (
+              <div className="pt-4">
+                <div className="flex flex-wrap gap-2">
+                  {product.tags.slice(0, 5).map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 bg-neutral-100 text-neutral-600 text-xs rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
+            )}
 
-              <CustomerReviews productId={id || ""} />
-            </motion.div>
-          </div>
-        </section>
-
-        <Footer />
-      </motion.main>
-    </>
+            <CustomerReviews productId={product.id} />
+          </motion.div>
+        </div>
+      </div>
+      <Footer />
+    </div>
   );
 }
