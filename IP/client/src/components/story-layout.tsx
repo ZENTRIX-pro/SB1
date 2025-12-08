@@ -34,7 +34,7 @@ export function StoryLayout({
 
   return (
     <div className="min-h-screen bg-white">
-      <section className="relative h-[60vh] md:h-[80vh] w-full overflow-hidden">
+      <section className="relative h-screen w-full overflow-hidden">
         <div className="absolute inset-0">
           <img
             src={heroImage}

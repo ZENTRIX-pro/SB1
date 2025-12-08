@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { StoryLayout } from "@/components/story-layout";
-import { fetchMultipleCollections, fetchAllProducts, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
+import { fetchCollectionByHandle, fetchAllProducts, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
 import womenImage from "@assets/generated_images/luxury_womenswear_hero_image.png";
 
 export default function MuseStory() {
@@ -11,10 +11,7 @@ export default function MuseStory() {
     const loadProducts = async () => {
       setIsLoading(true);
       try {
-        const collectionProducts = await fetchMultipleCollections([
-          COLLECTION_HANDLES.FEMALE_APPAREL,
-          COLLECTION_HANDLES.FEMALE_FOOTWEAR,
-        ]);
+        const { products: collectionProducts } = await fetchCollectionByHandle(COLLECTION_HANDLES.WOMEN);
         if (collectionProducts.length > 0) {
           setProducts(collectionProducts);
         } else {
@@ -26,7 +23,7 @@ export default function MuseStory() {
           setProducts(womenProducts.length > 0 ? womenProducts : allProducts.slice(0, 8));
         }
       } catch (error) {
-        console.error("Error loading women's collections:", error);
+        console.error("Error loading women's collection:", error);
         const allProducts = await fetchAllProducts();
         setProducts(allProducts.slice(0, 8));
       }

@@ -11,7 +11,7 @@ export default function SignatureStory() {
     const loadProducts = async () => {
       setIsLoading(true);
       try {
-        const { products: collectionProducts } = await fetchCollectionByHandle(COLLECTION_HANDLES.SIGNATURE_SERIES);
+        const { products: collectionProducts } = await fetchCollectionByHandle(COLLECTION_HANDLES.SIGNATURE);
         if (collectionProducts.length > 0) {
           setProducts(collectionProducts);
         } else {

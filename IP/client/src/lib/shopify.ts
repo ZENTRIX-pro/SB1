@@ -172,18 +172,54 @@ export async function fetchCollections(): Promise<ShopifyCollection[]> {
 }
 
 export const COLLECTION_HANDLES = {
-  SIGNATURE_SERIES: "signature-series",
-  TRENDING_NOW: "trending-now",
-  NEW_ARRIVALS: "new-arrivals",
+  MEN: "men",
+  WOMEN: "women",
+  JEWELRY: "jewelry",
+  FOOTWEAR: "footwear",
+  WALLETS: "wallets",
+  BAGS: "bags",
+  TECH: "tech",
+  SIGNATURE: "signature",
   HERITAGE: "heritage",
-  MALE_APPAREL: "male-apparel",
-  FEMALE_APPAREL: "female-apparel",
-  MALE_FOOTWEAR: "male-footwear",
-  FEMALE_FOOTWEAR: "female-footwear",
-  JEWELRY: "jewelry-accessories",
-  WALLETS: "wallets-cards",
-  TECH: "tech-lifestyle",
+  TRENDING: "trending",
+  NEW: "new",
+  HERO_SLIDER: "hero-slider",
 } as const;
+
+export interface HeroSlide {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  link: string;
+  subtitle: string;
+}
+
+export async function fetchHeroSlides(): Promise<HeroSlide[]> {
+  try {
+    const { products } = await fetchCollectionByHandle(COLLECTION_HANDLES.HERO_SLIDER);
+    
+    return products.map((product) => {
+      const linkTag = product.tags.find((tag) => tag.startsWith("link:"));
+      const link = linkTag ? linkTag.replace("link:", "") : "/";
+      
+      const subtitleTag = product.tags.find((tag) => tag.startsWith("subtitle:"));
+      const subtitle = subtitleTag ? subtitleTag.replace("subtitle:", "") : "Featured Collection";
+      
+      return {
+        id: product.id,
+        title: product.title,
+        description: product.description || "",
+        image: product.images[0]?.src || "",
+        link,
+        subtitle,
+      };
+    });
+  } catch (error) {
+    console.error("Error fetching hero slides:", error);
+    return [];
+  }
+}
 
 export async function fetchCollectionByHandle(handle: string): Promise<{
   collection: ShopifyCollection | null;

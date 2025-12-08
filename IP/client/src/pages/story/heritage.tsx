@@ -16,7 +16,10 @@ export default function HeritageStory() {
           setProducts(collectionProducts);
         } else {
           const allProducts = await fetchAllProducts();
-          setProducts(allProducts.slice(0, 8));
+          const heritageProducts = allProducts.filter(p => 
+            p.tags.some(t => t.toLowerCase().includes("heritage"))
+          );
+          setProducts(heritageProducts.length > 0 ? heritageProducts : allProducts.slice(0, 8));
         }
       } catch (error) {
         console.error("Error loading heritage collection:", error);

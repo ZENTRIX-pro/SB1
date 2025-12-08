@@ -3,9 +3,12 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
-import { heroSlides } from "@/lib/data";
+import { fetchHeroSlides, HeroSlide } from "@/lib/shopify";
+import { heroSlides as fallbackSlides } from "@/lib/data";
 
 export function Hero() {
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [mobileIndex, setMobileIndex] = useState(0);
   const [desktopIndex, setDesktopIndex] = useState(0);
   
@@ -21,6 +24,39 @@ export function Hero() {
     skipSnaps: false,
     containScroll: false,
   });
+
+  useEffect(() => {
+    const loadHeroSlides = async () => {
+      setIsLoading(true);
+      try {
+        const slides = await fetchHeroSlides();
+        if (slides.length > 0) {
+          setHeroSlides(slides);
+        } else {
+          setHeroSlides(fallbackSlides.map((s) => ({
+            id: String(s.id),
+            title: s.title,
+            description: "",
+            image: s.image,
+            link: s.link,
+            subtitle: s.subtitle,
+          })));
+        }
+      } catch (error) {
+        console.error("Error loading hero slides:", error);
+        setHeroSlides(fallbackSlides.map((s) => ({
+          id: String(s.id),
+          title: s.title,
+          description: "",
+          image: s.image,
+          link: s.link,
+          subtitle: s.subtitle,
+        })));
+      }
+      setIsLoading(false);
+    };
+    loadHeroSlides();
+  }, []);
 
   const scrollPrev = useCallback(() => {
     if (desktopEmblaApi) desktopEmblaApi.scrollPrev();
@@ -70,6 +106,12 @@ export function Hero() {
     };
   }, [desktopEmblaApi]);
 
+  if (isLoading || heroSlides.length === 0) {
+    return (
+      <section className="h-[60vh] md:h-[80vh] bg-neutral-100 animate-pulse" />
+    );
+  }
+
   return (
     <>
       <section className="md:hidden h-[60vh] pt-14 bg-black overflow-hidden">
@@ -95,7 +137,7 @@ export function Hero() {
                         {slide.title}
                       </h2>
                       <span className="inline-flex items-center gap-2 text-sm text-white/90 font-medium">
-                        {slide.cta}
+                        Explore Story
                         <svg
                           className="w-4 h-4"
                           fill="none"
@@ -177,7 +219,7 @@ export function Hero() {
                               {slide.title}
                             </h2>
                             <span className="inline-flex items-center gap-2 text-base text-white/90 group-hover:text-white transition-colors font-medium">
-                              {slide.cta}
+                              Explore Story
                               <svg
                                 className="w-5 h-5 group-hover:translate-x-1 transition-transform"
                                 fill="none"

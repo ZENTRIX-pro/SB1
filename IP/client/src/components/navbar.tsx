@@ -9,7 +9,8 @@ const navLinks = [
   { name: "Men", href: "/category/men" },
   { name: "Women", href: "/category/women" },
   { name: "Jewelry", href: "/category/jewelry" },
-  { name: "Accessories", href: "/category/leather" },
+  { name: "Bags", href: "/category/bags" },
+  { name: "Accessories", href: "/category/wallets" },
 ];
 
 export function Navbar() {

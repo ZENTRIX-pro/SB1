@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Home, ShoppingBag, Crown, HeadphonesIcon } from "lucide-react";
+import { X, Home, ShoppingBag, Crown, Briefcase, Wallet, HeadphonesIcon } from "lucide-react";
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -12,6 +12,8 @@ const drawerLinks = [
   { name: "Shop Men", href: "/category/men", icon: ShoppingBag },
   { name: "Shop Women", href: "/category/women", icon: ShoppingBag },
   { name: "Jewelry", href: "/category/jewelry", icon: Crown },
+  { name: "Bags", href: "/category/bags", icon: Briefcase },
+  { name: "Accessories", href: "/category/wallets", icon: Wallet },
   { name: "Support", href: "/support", icon: HeadphonesIcon },
 ];
 

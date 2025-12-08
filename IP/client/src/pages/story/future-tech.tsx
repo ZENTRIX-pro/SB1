@@ -17,7 +17,7 @@ export default function FutureTechStory() {
         } else {
           const allProducts = await fetchAllProducts();
           const techProducts = allProducts.filter(p => 
-            p.tags.some(t => t.toLowerCase().includes("tech")) || 
+            p.tags.some(t => t.toLowerCase().includes("tech") || t.toLowerCase().includes("gadget")) || 
             p.productType.toLowerCase().includes("tech")
           );
           setProducts(techProducts.length > 0 ? techProducts : allProducts.slice(0, 8));

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { StoryLayout } from "@/components/story-layout";
-import { fetchMultipleCollections, fetchAllProducts, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
+import { fetchCollectionByHandle, fetchAllProducts, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
 import menImage from "@assets/generated_images/luxury_menswear_hero_image.png";
 
 export default function GentlemanStory() {
@@ -11,10 +11,7 @@ export default function GentlemanStory() {
     const loadProducts = async () => {
       setIsLoading(true);
       try {
-        const collectionProducts = await fetchMultipleCollections([
-          COLLECTION_HANDLES.MALE_APPAREL,
-          COLLECTION_HANDLES.MALE_FOOTWEAR,
-        ]);
+        const { products: collectionProducts } = await fetchCollectionByHandle(COLLECTION_HANDLES.MEN);
         if (collectionProducts.length > 0) {
           setProducts(collectionProducts);
         } else {
@@ -26,7 +23,7 @@ export default function GentlemanStory() {
           setProducts(menProducts.length > 0 ? menProducts : allProducts.slice(0, 8));
         }
       } catch (error) {
-        console.error("Error loading men's collections:", error);
+        console.error("Error loading men's collection:", error);
         const allProducts = await fetchAllProducts();
         setProducts(allProducts.slice(0, 8));
       }
