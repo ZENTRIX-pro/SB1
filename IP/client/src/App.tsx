@@ -21,6 +21,7 @@ import Careers from "@/pages/careers";
 import Stores from "@/pages/stores";
 import Press from "@/pages/press";
 import NotFound from "@/pages/not-found";
+import Account from "@/pages/account";
 import HeritageStory from "@/pages/story/heritage";
 import FutureTechStory from "@/pages/story/future-tech";
 import GentlemanStory from "@/pages/story/gentleman";
@@ -47,6 +48,8 @@ function Router() {
       <Route path="/story/gentleman" component={GentlemanStory} />
       <Route path="/story/muse" component={MuseStory} />
       <Route path="/story/signature" component={SignatureStory} />
+      <Route path="/account" component={Account} />
+      <Route path="/login" component={Account} />
       <Route component={NotFound} />
     </Switch>
   );

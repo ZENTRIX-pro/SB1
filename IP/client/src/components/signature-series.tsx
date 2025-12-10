@@ -70,7 +70,7 @@ export function SignatureSeries() {
               The Signature Series
             </h2>
           </div>
-          <Link href="/category/all">
+          <Link href="/collections/signature">
             <span className="text-sm text-black font-medium hover:text-neutral-600 transition-colors cursor-pointer">
               View All →
             </span>

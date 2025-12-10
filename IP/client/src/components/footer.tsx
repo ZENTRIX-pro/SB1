@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { SiInstagram, SiFacebook, SiPinterest } from "react-icons/si";
+import { useToast } from "@/hooks/use-toast";
 
 const footerLinks = {
   shop: [
@@ -30,6 +32,20 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const [email, setEmail] = useState("");
+  const { toast } = useToast();
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      toast({
+        title: "Welcome to the Inner Circle",
+        description: "You'll receive 10% off your first order!",
+      });
+      setEmail("");
+    }
+  };
+
   return (
     <footer className="bg-[#F5F5F7] py-12 md:py-16" data-testid="footer">
       <div className="max-w-[1200px] mx-auto px-4 md:px-6">
@@ -48,10 +64,12 @@ export function Footer() {
             <div className="mt-6 bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-2xl p-5">
               <p className="text-amber-400 font-semibold text-sm mb-1">Join the Inner Circle</p>
               <p className="text-neutral-300 text-xs mb-4">Get 10% off your first handcrafted order.</p>
-              <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+              <form className="flex gap-2" onSubmit={handleSubscribe}>
                 <input
                   type="email"
                   placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="flex-1 bg-white/10 border border-white/20 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
                   data-testid="input-newsletter-email"
                 />
@@ -101,11 +119,17 @@ export function Footer() {
             <ul className="space-y-2.5">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href}>
-                    <span className="text-sm text-neutral-600 hover:text-black cursor-pointer transition-colors">
+                  {link.href.startsWith("mailto:") ? (
+                    <a href={link.href} className="text-sm text-neutral-600 hover:text-black cursor-pointer transition-colors">
                       {link.name}
-                    </span>
-                  </Link>
+                    </a>
+                  ) : (
+                    <Link href={link.href}>
+                      <span className="text-sm text-neutral-600 hover:text-black cursor-pointer transition-colors">
+                        {link.name}
+                      </span>
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

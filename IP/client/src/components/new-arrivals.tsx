@@ -101,7 +101,7 @@ export function NewArrivals() {
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
-            <Link href="/category/all">
+            <Link href="/collections/new">
               <span className="text-sm text-black font-medium hover:text-neutral-600 transition-colors cursor-pointer">
                 View All →
               </span>

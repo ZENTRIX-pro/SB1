@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ShoppingBag, Menu, X } from "lucide-react";
+import { Search, ShoppingBag, Menu, X, User } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { MobileDrawer } from "@/components/mobile-drawer";
 
@@ -82,6 +82,15 @@ export function Navbar() {
               >
                 <Search className="w-5 h-5" strokeWidth={1.5} />
               </button>
+
+              <Link href="/account">
+                <span
+                  className="p-2.5 text-neutral-600 hover:text-black transition-colors cursor-pointer inline-block"
+                  data-testid="button-account"
+                >
+                  <User className="w-5 h-5" strokeWidth={1.5} />
+                </span>
+              </Link>
 
               <button
                 onClick={openCart}
