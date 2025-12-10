@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 export function CinematicHero() {
   return (
     <section 
-      className="relative h-screen w-full overflow-hidden bg-black" 
+      className="relative h-[55vh] md:h-[75vh] md:max-h-[700px] w-full overflow-hidden bg-black" 
       data-testid="cinematic-hero-section"
     >
       <motion.div
