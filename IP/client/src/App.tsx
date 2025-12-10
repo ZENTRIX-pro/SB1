@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { CartProvider } from "@/lib/cart-context";
 import { ShopifyProvider } from "@/lib/shopify-context";
+import { AuthProvider } from "@/lib/auth-context";
 import { products } from "@/lib/data";
 import { Navbar } from "@/components/navbar";
 import { CartDrawer } from "@/components/cart-drawer";
@@ -61,14 +62,16 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <ShopifyProvider>
-            <CartProvider products={products}>
-              <div className="min-h-screen bg-background">
-                <Navbar />
-                <CartDrawer />
-                <Router />
-              </div>
-              <Toaster />
-            </CartProvider>
+            <AuthProvider>
+              <CartProvider products={products}>
+                <div className="min-h-screen bg-background">
+                  <Navbar />
+                  <CartDrawer />
+                  <Router />
+                </div>
+                <Toaster />
+              </CartProvider>
+            </AuthProvider>
           </ShopifyProvider>
         </TooltipProvider>
       </ThemeProvider>

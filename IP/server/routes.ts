@@ -3,11 +3,133 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertCartItemSchema } from "@shared/schema";
 import { z } from "zod";
+import {
+  customerLogin,
+  customerRegister,
+  getCustomerByToken,
+  deleteAccessToken,
+  recoverCustomerPassword,
+} from "./shopify-auth";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  app.post("/api/auth/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
+      }
+
+      const result = await customerLogin(email, password);
+
+      if (!result.success) {
+        const errorMessage = result.errors?.[0]?.message || "Invalid email or password";
+        return res.status(401).json({ error: errorMessage });
+      }
+
+      const customerResult = await getCustomerByToken(result.accessToken!.accessToken);
+
+      res.json({
+        accessToken: result.accessToken!.accessToken,
+        expiresAt: result.accessToken!.expiresAt,
+        customer: customerResult.success ? customerResult.customer : null,
+      });
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/auth/register", async (req, res) => {
+    try {
+      const { email, password, firstName, lastName } = req.body;
+
+      if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
+      }
+
+      if (password.length < 5) {
+        return res.status(400).json({ error: "Password must be at least 5 characters" });
+      }
+
+      const result = await customerRegister(email, password, firstName, lastName);
+
+      if (!result.success) {
+        const errorMessage = result.errors?.[0]?.message || "Failed to create account";
+        return res.status(400).json({ error: errorMessage });
+      }
+
+      res.status(201).json({
+        message: "Account created successfully",
+        customer: result.customer,
+      });
+    } catch (error) {
+      console.error("Registration error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/auth/me", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ error: "No token provided" });
+      }
+
+      const token = authHeader.split(" ")[1];
+      const result = await getCustomerByToken(token);
+
+      if (!result.success) {
+        return res.status(401).json({ error: result.error || "Invalid token" });
+      }
+
+      res.json({ customer: result.customer });
+    } catch (error) {
+      console.error("Auth check error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/auth/logout", async (req, res) => {
+    try {
+      const authHeader = req.headers.authorization;
+
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.split(" ")[1];
+        await deleteAccessToken(token);
+      }
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Logout error:", error);
+      res.json({ success: true });
+    }
+  });
+
+  app.post("/api/auth/recover", async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      if (!email) {
+        return res.status(400).json({ error: "Email is required" });
+      }
+
+      const result = await recoverCustomerPassword(email);
+
+      if (!result.success) {
+        return res.status(400).json({ error: result.error || "Password recovery failed" });
+      }
+
+      res.json({ message: "Password recovery email sent" });
+    } catch (error) {
+      console.error("Password recovery error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
   // Products
   app.get("/api/products", async (_req, res) => {
     try {
