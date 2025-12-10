@@ -134,7 +134,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-neutral-200 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-neutral-500">
-            &copy; {new Date().getFullYear()} ZENTRIX. All rights reserved.
+            &copy; 2026 ZENTRIX. All rights reserved.
           </p>
 
           <div className="flex items-center gap-4">

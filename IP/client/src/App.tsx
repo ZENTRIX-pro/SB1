@@ -23,6 +23,8 @@ import Stores from "@/pages/stores";
 import Press from "@/pages/press";
 import NotFound from "@/pages/not-found";
 import Account from "@/pages/account";
+import Privacy from "@/pages/privacy";
+import Terms from "@/pages/terms";
 import HeritageStory from "@/pages/story/heritage";
 import FutureTechStory from "@/pages/story/future-tech";
 import GentlemanStory from "@/pages/story/gentleman";
@@ -53,6 +55,8 @@ function Router() {
       <Route path="/login" component={Account} />
       <Route path="/signup" component={Account} />
       <Route path="/register" component={Account} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
       <Route component={NotFound} />
     </Switch>
   );
