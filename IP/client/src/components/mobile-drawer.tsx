@@ -71,7 +71,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
 
             <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-neutral-100">
               <p className="text-xs text-neutral-500 text-center">
-                Premium Luxury Since 2024
+                Premium Luxury Since 2026
               </p>
             </div>
           </motion.div>
