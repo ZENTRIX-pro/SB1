@@ -51,6 +51,8 @@ function Router() {
       <Route path="/story/signature" component={SignatureStory} />
       <Route path="/account" component={Account} />
       <Route path="/login" component={Account} />
+      <Route path="/signup" component={Account} />
+      <Route path="/register" component={Account} />
       <Route component={NotFound} />
     </Switch>
   );

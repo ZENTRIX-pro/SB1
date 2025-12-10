@@ -145,62 +145,29 @@ export default function Category() {
             </div>
           )}
 
-          <div className="md:hidden">
-            <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide scroll-smooth snap-x">
-              {displayProducts.map((product, idx) => (
-                <motion.div 
-                  key={product.id} 
-                  className="flex-shrink-0 w-[200px] snap-start group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.05, duration: 0.3 }}
-                >
-                  <Link href={`/product/${product.handle}`}>
-                    <div className="cursor-pointer">
-                      <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100 rounded-xl mb-3">
-                        <img
-                          src={product.images[0]?.src || "https://placehold.co/400x500?text=No+Image"}
-                          alt={product.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-                      <h3 className="text-sm font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors line-clamp-1">
-                        {product.title}
-                      </h3>
-                      <p className="text-sm text-neutral-500">
-                        ${parseFloat(product.variants[0]?.price.amount || "0").toLocaleString()}
-                      </p>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {displayProducts.map((product, idx) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.05, duration: 0.3 }}
+                transition={{ delay: Math.min(idx * 0.05, 0.3), duration: 0.3 }}
                 className="group"
               >
                 <Link href={`/product/${product.handle}`}>
                   <div className="cursor-pointer">
-                    <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100 rounded-xl mb-3">
+                    <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100 rounded-xl mb-2 md:mb-3">
                       <img
                         src={product.images[0]?.src || "https://placehold.co/400x500?text=No+Image"}
                         alt={product.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <h3 className="text-sm font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors line-clamp-1">
+                    <h3 className="text-xs md:text-sm font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors line-clamp-2">
                       {product.title}
                     </h3>
-                    <p className="text-sm text-neutral-500">
+                    <p className="text-xs md:text-sm text-neutral-500">
                       ${parseFloat(product.variants[0]?.price.amount || "0").toLocaleString()}
                     </p>
                   </div>

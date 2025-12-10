@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { SiInstagram, SiFacebook, SiPinterest } from "react-icons/si";
-import { useToast } from "@/hooks/use-toast";
 
 const footerLinks = {
   shop: [
@@ -33,16 +32,13 @@ const socialLinks = [
 
 export function Footer() {
   const [email, setEmail] = useState("");
-  const { toast } = useToast();
+  const [, setLocation] = useLocation();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (email.trim()) {
-      toast({
-        title: "Welcome to the Inner Circle",
-        description: "You'll receive 10% off your first order!",
-      });
-      setEmail("");
+      const encodedEmail = encodeURIComponent(email.trim());
+      setLocation(`/account?email=${encodedEmail}&signup=true`);
     }
   };
 
