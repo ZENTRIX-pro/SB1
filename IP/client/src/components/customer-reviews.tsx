@@ -1,6 +1,6 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, X } from "lucide-react";
+import { Star, X, Camera, Image as ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Review {
@@ -10,6 +10,7 @@ interface Review {
   title: string;
   comment: string;
   date: string;
+  photo?: string;
 }
 
 interface CustomerReviewsProps {
@@ -126,19 +127,50 @@ function ReviewFormModal({
   const [rating, setRating] = useState(0);
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
+  const [photo, setPhoto] = useState<string | undefined>(undefined);
+  const [photoName, setPhotoName] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPhotoName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhoto(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removePhoto = () => {
+    setPhoto(undefined);
+    setPhotoName("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!name || !rating || !title || !comment) return;
+    if (!name || !rating) return;
 
-    onSubmit({ name, rating, title, comment });
+    onSubmit({ 
+      name, 
+      rating, 
+      title: title || "Great Product", 
+      comment: comment || "I love this product!", 
+      photo 
+    });
     setName("");
     setRating(0);
     setTitle("");
     setComment("");
+    setPhoto(undefined);
+    setPhotoName("");
   };
 
-  const isValid = name && rating > 0 && title && comment;
+  const isValid = name.trim() !== "" && rating > 0;
 
   return (
     <AnimatePresence>
@@ -171,7 +203,7 @@ function ReviewFormModal({
               <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4 md:space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">
-                    Your Name
+                    Your Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -179,19 +211,23 @@ function ReviewFormModal({
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your name"
                     className="w-full px-4 py-3.5 rounded-xl border border-neutral-200 focus:border-black focus:outline-none transition-colors text-base"
+                    required
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">
-                    Rating
+                    Rating <span className="text-red-500">*</span>
                   </label>
                   <InteractiveStarRating rating={rating} onRatingChange={setRating} />
+                  {rating === 0 && (
+                    <p className="text-xs text-neutral-500 mt-1">Tap a star to rate</p>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">
-                    Review Title
+                    Review Title <span className="text-neutral-400 text-xs font-normal">(optional)</span>
                   </label>
                   <input
                     type="text"
@@ -204,15 +240,60 @@ function ReviewFormModal({
 
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">
-                    Your Review
+                    Your Review <span className="text-neutral-400 text-xs font-normal">(optional)</span>
                   </label>
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder="Share your experience with this product"
-                    rows={4}
+                    rows={3}
                     className="w-full px-4 py-3.5 rounded-xl border border-neutral-200 focus:border-black focus:outline-none transition-colors text-base resize-none"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-black mb-2">
+                    Add Photos <span className="text-neutral-400 text-xs font-normal">(optional)</span>
+                  </label>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoChange}
+                    className="hidden"
+                    id="review-photo-upload"
+                  />
+                  {!photo ? (
+                    <label
+                      htmlFor="review-photo-upload"
+                      className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border-2 border-dashed border-neutral-200 hover:border-neutral-400 cursor-pointer transition-colors bg-neutral-50"
+                    >
+                      <Camera className="w-5 h-5 text-neutral-400" />
+                      <span className="text-sm text-neutral-500">Click to upload a photo</span>
+                    </label>
+                  ) : (
+                    <div className="relative">
+                      <div className="flex items-center gap-3 p-3 rounded-xl border border-neutral-200 bg-neutral-50">
+                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                          <img src={photo} alt="Review photo" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <ImageIcon className="w-4 h-4 text-green-500" />
+                            <span className="text-sm text-black font-medium truncate">{photoName}</span>
+                          </div>
+                          <p className="text-xs text-neutral-500 mt-0.5">Photo uploaded successfully</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={removePhoto}
+                          className="p-1.5 text-neutral-400 hover:text-red-500 transition-colors"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <button
@@ -226,6 +307,10 @@ function ReviewFormModal({
                 >
                   Submit Review
                 </button>
+
+                <p className="text-xs text-center text-neutral-400">
+                  <span className="text-red-500">*</span> Required fields
+                </p>
               </form>
             </div>
           </motion.div>
@@ -310,6 +395,15 @@ export function CustomerReviews({ productId }: CustomerReviewsProps) {
                 <span className="text-xs text-neutral-500">{review.date}</span>
               </div>
               <p className="text-neutral-600 text-sm leading-relaxed">{review.comment}</p>
+              {review.photo && (
+                <div className="mt-3">
+                  <img 
+                    src={review.photo} 
+                    alt="Customer review photo" 
+                    className="w-24 h-24 rounded-lg object-cover border border-neutral-200"
+                  />
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
