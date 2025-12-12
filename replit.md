@@ -22,12 +22,28 @@ Preferred communication style: Simple, everyday language.
 - **Carousel:** Embla Carousel for hero sliders and product showcases
 - **State Management:** React Context API for cart functionality
 
-**Design System:**
+**Design System (v2.0 - "Apple x Rolex" Hybrid):**
+- Dark luxury theme with bg-neutral-950 backgrounds and gold (#D4AF37) accents
 - Custom typography using Inter, Playfair Display, and Cinzel fonts
 - Glassmorphism effects with backdrop-blur for navigation
 - Generous spacing system (py-20, py-32, gap-8, gap-12)
-- Apple-inspired color scheme with neutral tones and high contrast
 - Responsive breakpoints: mobile-first with md (768px) and lg (1024px) breakpoints
+
+**Currency System:**
+- Automatic INR to USD conversion for prices > 500 (divide by 84)
+- PriceDisplay component (`client/src/components/price-display.tsx`) for consistent formatting
+- formatPrice utility in shopify.ts with built-in conversion logic
+
+**Preloader Animation:**
+- ZDrawingLoader component with 1.5s SVG stroke animation
+- Gold gradient Z logo on black background
+- "DEFINE YOUR FUTURE" tagline with fade-in effect
+- Uses onAnimationComplete callback for precise timing
+
+**Hybrid Navigation:**
+- ZentrixNavbar: Glass effect navbar with logo, search, and cart
+- RibbonBar: Sticky category bar below navbar for quick access
+- Mobile drawer navigation with smooth animations
 
 **Key Frontend Features:**
 - Shopify Storefront API integration for real-time product data
