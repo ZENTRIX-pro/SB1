@@ -15,22 +15,70 @@ interface SubCategory {
 }
 
 const subCategoryMap: Record<string, SubCategory[]> = {
+  // Main Men's category
   men: [
     { icon: "👕", label: "Clothing", href: "/collections/mens-clothing" },
-    { icon: "👟", label: "Footwear", href: "/collections/man-footwear" },
+    { icon: "👟", label: "Footwear", href: "/collections/male-footwear" },
     { icon: "⌚", label: "Accessories", href: "/collections/mens-accessories" },
   ],
+  // Main Women's category - includes Beauty access
   women: [
     { icon: "👗", label: "Clothing", href: "/collections/womens-clothing" },
     { icon: "👜", label: "Bags", href: "/collections/bags" },
     { icon: "💍", label: "Jewelry", href: "/collections/jewelry" },
     { icon: "👠", label: "Footwear", href: "/collections/women-footwear" },
+    { icon: "💄", label: "Beauty", href: "/collections/beauty" },
   ],
+  // Beauty sub-architecture (Level 2 under Women)
+  beauty: [
+    { icon: "✨", label: "Face Tools", href: "/collections/face-tools" },
+    { icon: "💇‍♀️", label: "Hair Tools", href: "/collections/hair-tools" },
+    { icon: "🧴", label: "Skincare", href: "/collections/skincare-devices" },
+  ],
+  "beauty-tools": [
+    { icon: "✨", label: "Face Tools", href: "/collections/face-tools" },
+    { icon: "💇‍♀️", label: "Hair Tools", href: "/collections/hair-tools" },
+    { icon: "🧴", label: "Skincare", href: "/collections/skincare-devices" },
+  ],
+  // Active sub-architecture
+  active: [
+    { icon: "🏃‍♂️", label: "Men's Active", href: "/collections/mens-activewear" },
+    { icon: "🏃‍♀️", label: "Women's Active", href: "/collections/womens-activewear" },
+    { icon: "🎒", label: "Gear", href: "/collections/workout-gear" },
+    { icon: "💆", label: "Recovery", href: "/collections/recovery" },
+  ],
+  // Level-3: Men's Clothing deep links
+  "mens-clothing": [
+    { icon: "👔", label: "Shirts", href: "/collections/mens-shirts" },
+    { icon: "👕", label: "T-Shirts", href: "/collections/mens-tshirts" },
+    { icon: "👖", label: "Trousers", href: "/collections/mens-trousers" },
+  ],
+  // Level-3: Male Footwear deep links
+  "male-footwear": [
+    { icon: "👟", label: "Sneakers", href: "/collections/mens-sneakers" },
+    { icon: "👞", label: "Formal", href: "/collections/mens-formal-shoes" },
+    { icon: "🥾", label: "Boots", href: "/collections/mens-boots" },
+    { icon: "🩴", label: "Slides", href: "/collections/mens-slides" },
+  ],
+  // Level-3: Women's Clothing deep links
+  "womens-clothing": [
+    { icon: "👗", label: "Dresses", href: "/collections/womens-dresses" },
+    { icon: "👚", label: "Tops", href: "/collections/womens-tops" },
+    { icon: "👖", label: "Bottoms", href: "/collections/womens-bottoms" },
+  ],
+  // Level-3: Women's Footwear deep links
+  "women-footwear": [
+    { icon: "👠", label: "Heels", href: "/collections/womens-heels" },
+    { icon: "👟", label: "Sneakers", href: "/collections/womens-sneakers" },
+    { icon: "🥿", label: "Flats", href: "/collections/womens-flats" },
+  ],
+  // Tech categories
   tech: [
-    { icon: "🎧", label: "Audio", href: "/collections/tech" },
-    { icon: "📱", label: "Mobile", href: "/collections/tech" },
-    { icon: "🏠", label: "Home", href: "/collections/tech" }
+    { icon: "🎧", label: "Audio", href: "/collections/audio" },
+    { icon: "📱", label: "Mobile", href: "/collections/mobile-tech" },
+    { icon: "🏠", label: "Smart Home", href: "/collections/smart-home" },
   ],
+  // Signature/Heritage
   signature: [
     { icon: "✨", label: "Heritage", href: "/collections/heritage" },
     { icon: "🎁", label: "Gifts for Her", href: "/collections/gifts-for-her" },
@@ -41,9 +89,23 @@ const subCategoryMap: Record<string, SubCategory[]> = {
     { icon: "🇮🇹", label: "Italian Classico", href: "/collections/italian-classico" },
     { icon: "🎎", label: "Eastern Soul", href: "/collections/eastern-soul" },
   ],
+  // Fragrances/Scents
   fragrances: [
-    { icon: "🌸", label: "For Her", href: "/collections/gifts-for-her" },
-    { icon: "🌲", label: "For Him", href: "/collections/gifts-for-him" },
+    { icon: "🌸", label: "For Her", href: "/collections/womens-fragrances" },
+    { icon: "🌲", label: "For Him", href: "/collections/mens-fragrances" },
+    { icon: "🏠", label: "Home Scents", href: "/collections/home-fragrances" },
+  ],
+  // Gifts
+  gifts: [
+    { icon: "🎁", label: "For Her", href: "/collections/gifts-for-her" },
+    { icon: "🎩", label: "For Him", href: "/collections/gifts-for-him" },
+    { icon: "💝", label: "Sets", href: "/collections/gift-sets" },
+  ],
+  // Home collection
+  home: [
+    { icon: "🛋️", label: "Decor", href: "/collections/home-decor" },
+    { icon: "🕯️", label: "Candles", href: "/collections/candles" },
+    { icon: "🛏️", label: "Bedding", href: "/collections/bedding" },
   ],
 };
 
