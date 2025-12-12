@@ -2,7 +2,33 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { heroSlides } from "@/lib/data";
+
+const slides = [
+  {
+    id: 1,
+    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop",
+    title: "Define Your Legacy",
+    subtitle: "The pinnacle of modern luxury.",
+    link: "/collections/signature",
+    buttonText: "Explore Signature"
+  },
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=2001&auto=format&fit=crop",
+    title: "Smart Living",
+    subtitle: "Technology meets elegance.",
+    link: "/collections/tech",
+    buttonText: "Shop Innovation"
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=2076&auto=format&fit=crop",
+    title: "Curated from the World",
+    subtitle: "Global artisanship rooted in tradition.",
+    link: "/collections/heritage",
+    buttonText: "Discover Heritage"
+  }
+];
 
 export function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -10,12 +36,12 @@ export function HeroSlider() {
 
   const nextSlide = useCallback(() => {
     setDirection(1);
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
   }, []);
 
   const prevSlide = useCallback(() => {
     setDirection(-1);
-    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   }, []);
 
   useEffect(() => {
@@ -23,7 +49,7 @@ export function HeroSlider() {
     return () => clearInterval(timer);
   }, [nextSlide]);
 
-  const slide = heroSlides[currentSlide];
+  const slide = slides[currentSlide];
 
   const slideVariants = {
     enter: (direction: number) => ({
@@ -51,7 +77,6 @@ export function HeroSlider() {
 
   return (
     <section className="relative h-[55vh] md:h-[75vh] md:max-h-[700px] w-full overflow-hidden bg-black" data-testid="hero-section">
-      {/* Background Image */}
       <AnimatePresence mode="wait" custom={direction}>
         <motion.div
           key={currentSlide}
@@ -72,7 +97,6 @@ export function HeroSlider() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Content */}
       <div className="absolute inset-0 z-20 flex items-center justify-center">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <AnimatePresence mode="wait">
@@ -103,7 +127,7 @@ export function HeroSlider() {
                   className="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm tracking-widest uppercase rounded-full transition-all hover:bg-white/20"
                   data-testid="button-hero-cta"
                 >
-                  {slide.cta}
+                  {slide.buttonText}
                 </motion.button>
               </Link>
             </motion.div>
@@ -111,7 +135,6 @@ export function HeroSlider() {
         </div>
       </div>
 
-      {/* Navigation Arrows */}
       <div className="absolute inset-y-0 left-4 md:left-8 z-30 flex items-center">
         <motion.button
           whileHover={{ scale: 1.1, x: -4 }}
@@ -135,9 +158,8 @@ export function HeroSlider() {
         </motion.button>
       </div>
 
-      {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
-        {heroSlides.map((_, index) => (
+        {slides.map((_, index) => (
           <motion.button
             key={index}
             onClick={() => {
@@ -159,7 +181,6 @@ export function HeroSlider() {
         ))}
       </div>
 
-      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
