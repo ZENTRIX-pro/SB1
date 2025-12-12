@@ -17,38 +17,34 @@ interface SubCategory {
 const subCategoryMap: Record<string, SubCategory[]> = {
   men: [
     { icon: "👕", label: "Clothing", href: "/collections/mens-clothing" },
-    { icon: "👟", label: "Footwear", href: "/collections/male-footwear" },
+    { icon: "👟", label: "Footwear", href: "/collections/man-footwear" },
     { icon: "⌚", label: "Accessories", href: "/collections/mens-accessories" },
-    { icon: "🏃", label: "Active", href: "/collections/mens-activewear" }
   ],
   women: [
     { icon: "👗", label: "Clothing", href: "/collections/womens-clothing" },
     { icon: "👜", label: "Bags", href: "/collections/bags" },
     { icon: "💍", label: "Jewelry", href: "/collections/jewelry" },
-    { icon: "👠", label: "Footwear", href: "/collections/womens-footwear" },
-    { icon: "💄", label: "Beauty", href: "/collections/beauty-tools" }
-  ],
-  active: [
-    { icon: "🏃‍♂️", label: "Men's Active", href: "/collections/mens-activewear" },
-    { icon: "🧘‍♀️", label: "Women's Active", href: "/collections/womens-activewear" },
-    { icon: "🏋️", label: "Gear", href: "/collections/workout-gear" },
-    { icon: "🔋", label: "Recovery", href: "/collections/recovery" }
-  ],
-  "beauty-tools": [
-    { icon: "✨", label: "Face Tools", href: "/collections/face-tools" },
-    { icon: "💇‍♀️", label: "Hair Tools", href: "/collections/hair-tools" },
-    { icon: "🧴", label: "Skincare Tech", href: "/collections/skincare-devices" }
-  ],
-  beauty: [
-    { icon: "✨", label: "Face Tools", href: "/collections/face-tools" },
-    { icon: "💇‍♀️", label: "Hair Tools", href: "/collections/hair-tools" },
-    { icon: "🧴", label: "Skincare Tech", href: "/collections/skincare-devices" }
+    { icon: "👠", label: "Footwear", href: "/collections/women-footwear" },
   ],
   tech: [
-    { icon: "🎧", label: "Audio", href: "/collections/audio-headphones" },
-    { icon: "📱", label: "Mobile Acc.", href: "/collections/mobile-accessories" },
-    { icon: "🏠", label: "Home", href: "/collections/smart-home" }
-  ]
+    { icon: "🎧", label: "Audio", href: "/collections/tech" },
+    { icon: "📱", label: "Mobile", href: "/collections/tech" },
+    { icon: "🏠", label: "Home", href: "/collections/tech" }
+  ],
+  signature: [
+    { icon: "✨", label: "Heritage", href: "/collections/heritage" },
+    { icon: "🎁", label: "Gifts for Her", href: "/collections/gifts-for-her" },
+    { icon: "🎩", label: "Gifts for Him", href: "/collections/gifts-for-him" },
+  ],
+  heritage: [
+    { icon: "🌏", label: "Nordic Zen", href: "/collections/nordic-zen" },
+    { icon: "🇮🇹", label: "Italian Classico", href: "/collections/italian-classico" },
+    { icon: "🎎", label: "Eastern Soul", href: "/collections/eastern-soul" },
+  ],
+  fragrances: [
+    { icon: "🌸", label: "For Her", href: "/collections/gifts-for-her" },
+    { icon: "🌲", label: "For Him", href: "/collections/gifts-for-him" },
+  ],
 };
 
 function IconSubNav({ slug }: { slug: string }) {

@@ -176,6 +176,7 @@ export const COLLECTION_HANDLES = {
   WOMEN: "women",
   MALE_FOOTWEAR: "male-footwear",
   FEMALE_FOOTWEAR: "female-footwear",
+  WOMENS_FOOTWEAR: "womens-footwear",
   JEWELRY: "jewelry",
   WALLETS: "wallets",
   BAGS: "bags",
@@ -185,6 +186,24 @@ export const COLLECTION_HANDLES = {
   TRENDING: "trending",
   NEW: "new",
   HERO_SLIDER: "hero-slider",
+  ACTIVE: "active",
+  MENS_ACTIVEWEAR: "mens-activewear",
+  WOMENS_ACTIVEWEAR: "womens-activewear",
+  WORKOUT_GEAR: "workout-gear",
+  RECOVERY: "recovery",
+  BEAUTY_TOOLS: "beauty-tools",
+  FACE_TOOLS: "face-tools",
+  HAIR_TOOLS: "hair-tools",
+  SKINCARE_DEVICES: "skincare-devices",
+  MENS_CLOTHING: "mens-clothing",
+  WOMENS_CLOTHING: "womens-clothing",
+  MENS_ACCESSORIES: "mens-accessories",
+  AUDIO_HEADPHONES: "audio-headphones",
+  MOBILE_ACCESSORIES: "mobile-accessories",
+  SMART_HOME: "smart-home",
+  HOME: "home",
+  SCENTS: "scents",
+  GIFTS: "gifts",
 } as const;
 
 export interface HeroSlide {
@@ -227,15 +246,19 @@ export async function fetchCollectionByHandle(handle: string): Promise<{
   products: ShopifyProduct[];
 }> {
   try {
+    console.log(`[Shopify] Fetching collection: ${handle}`);
     const collections = await client.collection.fetchAllWithProducts();
+    console.log(`[Shopify] Available collections:`, collections.map((c: any) => c.handle));
     const collection = collections.find((c: any) => c.handle === handle);
     
     if (collection) {
+      console.log(`[Shopify] Found collection "${handle}" with ${collection.products.length} products`);
       return {
         collection: transformCollection(collection),
         products: collection.products.map(transformProduct),
       };
     }
+    console.log(`[Shopify] Collection "${handle}" not found`);
     return { collection: null, products: [] };
   } catch (error) {
     console.error(`Error fetching collection by handle (${handle}):`, error);
