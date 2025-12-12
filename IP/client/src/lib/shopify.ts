@@ -352,7 +352,10 @@ export function buildCheckoutUrl(variantId: string, quantity: number): string {
 }
 
 export function formatPrice(amount: string, currencyCode: string = "USD"): string {
-  const num = parseFloat(amount);
+  let num = parseFloat(amount);
+  if (num > 500) {
+    num = num / 84;
+  }
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
