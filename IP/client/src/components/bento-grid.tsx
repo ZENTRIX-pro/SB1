@@ -29,10 +29,22 @@ const essentialCards: EssentialCard[] = [
     href: "/collections/women"
   },
   {
+    title: "Active",
+    subtitle: "Performance Luxury",
+    image: techImage,
+    href: "/collections/active"
+  },
+  {
     title: "Tech",
     subtitle: "Innovation",
     image: techImage,
     href: "/collections/tech"
+  },
+  {
+    title: "Home",
+    subtitle: "Living Luxe",
+    image: bagImage,
+    href: "/collections/home"
   },
   {
     title: "Scents",
@@ -41,16 +53,10 @@ const essentialCards: EssentialCard[] = [
     href: "/collections/scents"
   },
   {
-    title: "Home",
-    subtitle: "Living Luxe",
-    image: bagImage,
-    href: "/collections/bags"
-  },
-  {
-    title: "Accessories",
-    subtitle: "Details Matter",
+    title: "Gifts",
+    subtitle: "Curated Gifting",
     image: walletImage,
-    href: "/collections/jewelry"
+    href: "/collections/gifts"
   }
 ];
 

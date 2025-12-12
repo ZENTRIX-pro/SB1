@@ -1,12 +1,110 @@
 import { useParams } from "wouter";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { fetchCollectionByHandle, ShopifyProduct, ShopifyCollection, formatPrice } from "@/lib/shopify";
 import { categories } from "@/lib/data";
 import { Footer } from "@/components/footer";
 import { ProductSkeleton } from "@/components/product-skeleton";
+
+interface SubCategory {
+  icon: string;
+  label: string;
+  href: string;
+}
+
+const subCategoryMap: Record<string, SubCategory[]> = {
+  men: [
+    { icon: "👕", label: "Clothing", href: "/collections/mens-clothing" },
+    { icon: "👟", label: "Footwear", href: "/collections/male-footwear" },
+    { icon: "⌚", label: "Accessories", href: "/collections/mens-accessories" },
+    { icon: "🏃", label: "Active", href: "/collections/mens-activewear" }
+  ],
+  women: [
+    { icon: "👗", label: "Clothing", href: "/collections/womens-clothing" },
+    { icon: "👜", label: "Bags", href: "/collections/bags" },
+    { icon: "💍", label: "Jewelry", href: "/collections/jewelry" },
+    { icon: "👠", label: "Footwear", href: "/collections/womens-footwear" },
+    { icon: "💄", label: "Beauty", href: "/collections/beauty-tools" }
+  ],
+  active: [
+    { icon: "🏃‍♂️", label: "Men's Active", href: "/collections/mens-activewear" },
+    { icon: "🧘‍♀️", label: "Women's Active", href: "/collections/womens-activewear" },
+    { icon: "🏋️", label: "Gear", href: "/collections/workout-gear" },
+    { icon: "🔋", label: "Recovery", href: "/collections/recovery" }
+  ],
+  "beauty-tools": [
+    { icon: "✨", label: "Face Tools", href: "/collections/face-tools" },
+    { icon: "💇‍♀️", label: "Hair Tools", href: "/collections/hair-tools" },
+    { icon: "🧴", label: "Skincare Tech", href: "/collections/skincare-devices" }
+  ],
+  beauty: [
+    { icon: "✨", label: "Face Tools", href: "/collections/face-tools" },
+    { icon: "💇‍♀️", label: "Hair Tools", href: "/collections/hair-tools" },
+    { icon: "🧴", label: "Skincare Tech", href: "/collections/skincare-devices" }
+  ],
+  tech: [
+    { icon: "🎧", label: "Audio", href: "/collections/audio-headphones" },
+    { icon: "📱", label: "Mobile Acc.", href: "/collections/mobile-accessories" },
+    { icon: "🏠", label: "Home", href: "/collections/smart-home" }
+  ]
+};
+
+function IconSubNav({ slug }: { slug: string }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const subCategories = subCategoryMap[slug];
+  
+  if (!subCategories) return null;
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -200 : 200,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  return (
+    <div className="relative mb-8">
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => scroll("left")}
+          className="hidden md:flex w-8 h-8 rounded-full bg-white shadow-md items-center justify-center text-[#1D1D1F]/60 hover:bg-gray-100 transition-all flex-shrink-0"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+        <div
+          ref={scrollRef}
+          className="flex flex-row flex-nowrap gap-3 overflow-x-auto py-2 scrollbar-hide"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {subCategories.map((cat) => (
+            <Link key={cat.href} href={cat.href}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex flex-col items-center gap-2 px-4 py-3 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer min-w-[80px]"
+              >
+                <span className="text-2xl">{cat.icon}</span>
+                <span className="text-xs font-medium text-[#1D1D1F] whitespace-nowrap">{cat.label}</span>
+              </motion.div>
+            </Link>
+          ))}
+        </div>
+        <button
+          onClick={() => scroll("right")}
+          className="hidden md:flex w-8 h-8 rounded-full bg-white shadow-md items-center justify-center text-[#1D1D1F]/60 hover:bg-gray-100 transition-all flex-shrink-0"
+          aria-label="Scroll right"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function Category() {
   const { slug } = useParams<{ slug: string }>();
@@ -42,10 +140,10 @@ export default function Category() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
-        className="pt-14 bg-neutral-950 min-h-screen"
+        className="pt-14 bg-[#F5F5F7] min-h-screen"
       >
-        <section className="relative h-[40vh] min-h-[280px] overflow-hidden bg-neutral-900 animate-pulse">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/20 z-10" />
+        <section className="relative h-[30vh] min-h-[200px] overflow-hidden bg-[#E5E5E7] animate-pulse">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F5F5F7]/60 via-transparent to-transparent z-10" />
         </section>
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -61,11 +159,11 @@ export default function Category() {
 
   if (!collection && !category && slug !== "all" && products.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-950 pt-14">
+      <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7] pt-14">
         <div className="text-center">
-          <h1 className="text-2xl font-light text-white mb-4">Collection not found</h1>
+          <h1 className="text-2xl font-light text-[#1D1D1F] mb-4">Collection not found</h1>
           <Link href="/">
-            <span className="text-[#D4AF37] hover:underline cursor-pointer">Return home</span>
+            <span className="text-[#0066CC] hover:underline cursor-pointer">Return home</span>
           </Link>
         </div>
       </div>
@@ -82,16 +180,16 @@ export default function Category() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="pt-14 bg-neutral-950"
+      className="pt-14 bg-[#F5F5F7]"
       data-testid={`page-category-${slug}`}
     >
-      <section className="relative h-[40vh] min-h-[280px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/30 z-10" />
+      <section className="relative h-[30vh] min-h-[200px] overflow-hidden bg-[#E8E8EA]">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#F5F5F7] via-transparent to-transparent z-10" />
         {categoryImage && (
           <motion.img
             src={categoryImage}
             alt={categoryTitle}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-80"
             initial={{ scale: 1.05 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.8 }}
@@ -103,7 +201,7 @@ export default function Category() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.4 }}
-              className="text-[#D4AF37] text-xs tracking-[0.3em] uppercase mb-3"
+              className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3"
             >
               Collection
             </motion.p>
@@ -111,7 +209,7 @@ export default function Category() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.4 }}
-              className="text-3xl md:text-5xl font-light text-white tracking-wide mb-2"
+              className="text-3xl md:text-5xl font-semibold text-[#1D1D1F] tracking-tight mb-2"
             >
               {categoryTitle.replace("ZENTRIX ", "").replace("Z-", "")}
             </motion.h1>
@@ -119,7 +217,7 @@ export default function Category() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.4 }}
-              className="text-white/60 text-sm md:text-base"
+              className="text-[#1D1D1F]/60 text-sm md:text-base"
             >
               {categoryDescription}
             </motion.p>
@@ -129,7 +227,7 @@ export default function Category() {
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
         <Link href="/">
-          <span className="inline-flex items-center gap-1.5 text-[#D4AF37] text-sm hover:underline cursor-pointer" data-testid="link-back-home">
+          <span className="inline-flex items-center gap-1.5 text-[#0066CC] text-sm hover:underline cursor-pointer" data-testid="link-back-home">
             <ChevronLeft className="w-4 h-4" />
             Back to Home
           </span>
@@ -138,67 +236,19 @@ export default function Category() {
 
       <section className="pb-16" data-testid="products-grid-section">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          {slug === "men" && (
-            <div className="flex flex-wrap gap-2 mb-6">
-              <Link href="/collections/men">
-                <span className={`px-4 py-2 rounded-full text-sm cursor-pointer transition-colors ${slug === "men" ? "bg-black text-white" : "bg-gray-100 text-gray-800 hover:bg-gray-200"}`}>
-                  All
-                </span>
-              </Link>
-              <Link href="/collections/mens-clothing">
-                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
-                  Clothing
-                </span>
-              </Link>
-              <Link href="/collections/mens-accessories">
-                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
-                  Accessories
-                </span>
-              </Link>
-              <Link href="/collections/male-footwear">
-                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
-                  Footwear
-                </span>
-              </Link>
-            </div>
-          )}
-
-          {slug === "women" && (
-            <div className="flex flex-wrap gap-2 mb-6">
-              <Link href="/collections/women">
-                <span className={`px-4 py-2 rounded-full text-sm cursor-pointer transition-colors ${slug === "women" ? "bg-black text-white" : "bg-gray-100 text-gray-800 hover:bg-gray-200"}`}>
-                  All
-                </span>
-              </Link>
-              <Link href="/collections/womens-clothing">
-                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
-                  Clothing
-                </span>
-              </Link>
-              <Link href="/collections/bags">
-                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
-                  Bags & Jewelry
-                </span>
-              </Link>
-              <Link href="/collections/female-footwear">
-                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
-                  Footwear
-                </span>
-              </Link>
-            </div>
-          )}
+          <IconSubNav slug={slug || ""} />
 
           <div className="flex items-center justify-between mb-6">
-            <p className="text-white/50 text-sm">
+            <p className="text-[#1D1D1F]/50 text-sm">
               {displayProducts.length} {displayProducts.length === 1 ? "product" : "products"}
             </p>
           </div>
 
           {displayProducts.length === 0 && (
             <div className="text-center py-16">
-              <p className="text-white/50 text-lg mb-4">No products found in this collection</p>
+              <p className="text-[#1D1D1F]/50 text-lg mb-4">No products found in this collection</p>
               <Link href="/collections/men">
-                <span className="text-[#D4AF37] hover:underline cursor-pointer">Browse Men's Collection</span>
+                <span className="text-[#0066CC] hover:underline cursor-pointer">Browse Men's Collection</span>
               </Link>
             </div>
           )}
@@ -215,17 +265,17 @@ export default function Category() {
               >
                 <Link href={`/product/${product.handle}`}>
                   <div className="cursor-pointer">
-                    <div className="relative aspect-[3/4] overflow-hidden bg-neutral-800 rounded-xl mb-2 md:mb-3">
+                    <div className="relative aspect-[3/4] overflow-hidden bg-white rounded-3xl mb-2 md:mb-3 shadow-sm">
                       <img
                         src={product.images[0]?.src || "https://placehold.co/400x500?text=No+Image"}
                         alt={product.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <h3 className="text-xs md:text-sm font-medium text-white mb-1 group-hover:text-[#D4AF37] transition-colors line-clamp-2">
+                    <h3 className="text-xs md:text-sm font-medium text-[#1D1D1F] mb-1 group-hover:text-[#0066CC] transition-colors line-clamp-2">
                       {product.title}
                     </h3>
-                    <p className="text-xs md:text-sm text-white/60">
+                    <p className="text-xs md:text-sm text-[#1D1D1F]/60">
                       {formatPrice(product.variants[0]?.price.amount || "0")}
                     </p>
                   </div>
