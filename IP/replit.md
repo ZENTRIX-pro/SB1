@@ -18,6 +18,18 @@ The MVP is complete with full frontend functionality:
 - Contact, About, Shipping, and Support pages
 
 ## Recent Changes (December 2024)
+
+### V12 Navigation Architecture (Latest)
+- **Main Ribbon Bar:** Men, Women, Active, Tech, Home, Scents, Gifts with correct icons and links
+- **Beauty Sub-Architecture:** Women -> Beauty -> Face Tools, Hair Tools, Skincare
+- **Active Sub-Architecture:** Active -> Men's Active, Women's Active, Gear, Recovery
+- **Level-3 Deep Links:**
+  - mens-clothing: Shirts, T-Shirts, Trousers
+  - male-footwear: Sneakers, Formal, Boots, Slides
+  - womens-clothing: Dresses, Tops, Bottoms
+  - women-footwear: Heels, Sneakers, Flats
+
+### Previous Updates
 - **Shopify Storefront API Integration** - Products now sync automatically from Shopify
 - **Direct-to-Checkout Flow** - Buy Now button redirects directly to Shopify checkout with quantity
 - **Image Gallery** - Product pages show all images from Shopify with navigation
