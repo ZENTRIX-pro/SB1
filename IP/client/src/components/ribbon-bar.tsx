@@ -1,45 +1,90 @@
 import { Link, useLocation } from "wouter";
-import { User, UserCircle, Smartphone, Home, Sparkles, Gift, Dumbbell } from "lucide-react";
 
-interface RibbonItem {
-  icon: React.ReactNode;
-  label: string;
-  href: string;
+interface RibbonCategory {
+  name: string;
+  link: string;
+  image: string;
 }
 
-const ribbonItems: RibbonItem[] = [
-  { icon: <User className="w-4 h-4" />, label: "Men", href: "/collections/men" },
-  { icon: <UserCircle className="w-4 h-4" />, label: "Women", href: "/collections/women" },
-  { icon: <Dumbbell className="w-4 h-4" />, label: "Active", href: "/collections/active" },
-  { icon: <Smartphone className="w-4 h-4" />, label: "Tech", href: "/collections/tech" },
-  { icon: <Home className="w-4 h-4" />, label: "Home", href: "/collections/home" },
-  { icon: <Sparkles className="w-4 h-4" />, label: "Scents", href: "/collections/fragrances" },
-  { icon: <Gift className="w-4 h-4" />, label: "Gifts", href: "/collections/gifts" },
+const categories: RibbonCategory[] = [
+  { 
+    name: "Men", 
+    link: "/collections/men", 
+    image: "https://images.unsplash.com/photo-1593030761757-71bd90dbe3e4?auto=format&fit=crop&w=150&q=80"
+  },
+  { 
+    name: "Women", 
+    link: "/collections/women", 
+    image: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=150&q=80"
+  },
+  { 
+    name: "Active", 
+    link: "/collections/active", 
+    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=150&q=80"
+  },
+  { 
+    name: "Beauty", 
+    link: "/collections/beauty", 
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=150&q=80"
+  },
+  { 
+    name: "Tech", 
+    link: "/collections/tech", 
+    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=150&q=80"
+  },
+  { 
+    name: "Home", 
+    link: "/collections/home", 
+    image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=150&q=80"
+  },
+  { 
+    name: "Scents", 
+    link: "/collections/fragrances", 
+    image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=150&q=80"
+  },
+  { 
+    name: "Gifts", 
+    link: "/collections/gifts", 
+    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=150&q=80"
+  }
 ];
 
 export function RibbonBar() {
   const [location] = useLocation();
 
   return (
-    <div id="category-ribbon" className="sticky top-14 z-40 bg-transparent">
+    <div id="category-ribbon" className="sticky top-14 z-40 bg-white/80 backdrop-blur-md">
       <div className="overflow-x-auto scrollbar-hide">
-        <div className="flex items-center justify-start md:justify-center gap-1 md:gap-2 px-4 py-3 min-w-max max-w-7xl mx-auto">
-          {ribbonItems.map((item) => {
-            const isActive = location === item.href || location.startsWith(item.href + "/");
+        <div className="flex items-center justify-start md:justify-center gap-6 md:gap-8 px-4 py-4 min-w-max max-w-7xl mx-auto">
+          {categories.map((category) => {
+            const isActive = location === category.link || location.startsWith(category.link + "/");
             
             return (
               <Link
-                key={item.label}
-                href={item.href}
+                key={category.name}
+                href={category.link}
               >
-                <span className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all cursor-pointer ${
-                  isActive
-                    ? "text-[#1D1D1F]"
-                    : "text-[#1D1D1F]/60 hover:text-[#1D1D1F]"
-                }`}>
-                  {item.icon}
-                  <span className="whitespace-nowrap">{item.label}</span>
-                </span>
+                <div className="flex flex-col items-center gap-2 cursor-pointer group">
+                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden transition-all duration-300 ${
+                    isActive 
+                      ? "ring-2 ring-[#1D1D1F] ring-offset-2" 
+                      : "group-hover:scale-105"
+                  }`}>
+                    <img 
+                      src={category.image} 
+                      alt={category.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <span className={`text-xs font-medium transition-colors whitespace-nowrap ${
+                    isActive
+                      ? "text-[#1D1D1F]"
+                      : "text-[#1D1D1F]/60 group-hover:text-[#1D1D1F]"
+                  }`}>
+                    {category.name}
+                  </span>
+                </div>
               </Link>
             );
           })}
