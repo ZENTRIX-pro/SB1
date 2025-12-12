@@ -9,7 +9,10 @@ interface GridCard {
   subtitle: string;
   image: string;
   href: string;
-  span: string;
+  mobileSpan: string;
+  desktopSpan: string;
+  mobileAspect: string;
+  desktopHeight: string;
 }
 
 const gridCards: GridCard[] = [
@@ -18,21 +21,30 @@ const gridCards: GridCard[] = [
     subtitle: "Refined Elegance",
     image: menImage,
     href: "/collections/men",
-    span: "md:col-span-2 md:row-span-2"
+    mobileSpan: "col-span-1",
+    desktopSpan: "md:col-span-2 md:row-span-2",
+    mobileAspect: "aspect-[3/4]",
+    desktopHeight: "md:aspect-auto md:h-full md:min-h-[400px]"
   },
   {
     title: "Women's Collection",
     subtitle: "Timeless Beauty",
     image: womenImage,
     href: "/collections/women",
-    span: "md:col-span-2 md:row-span-2"
+    mobileSpan: "col-span-1",
+    desktopSpan: "md:col-span-2 md:row-span-2",
+    mobileAspect: "aspect-[3/4]",
+    desktopHeight: "md:aspect-auto md:h-full md:min-h-[400px]"
   },
   {
     title: "Tech Lifestyle",
     subtitle: "Innovation Meets Luxury",
     image: techImage,
     href: "/collections/tech",
-    span: "md:col-span-4"
+    mobileSpan: "col-span-2",
+    desktopSpan: "md:col-span-4",
+    mobileAspect: "aspect-[2/1]",
+    desktopHeight: "md:aspect-auto md:h-48"
   }
 ];
 
@@ -52,7 +64,7 @@ export function EssentialsGrid() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {gridCards.map((card, index) => (
             <motion.div
               key={card.title}
@@ -60,21 +72,21 @@ export function EssentialsGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={card.span}
+              className={`${card.mobileSpan} ${card.desktopSpan}`}
             >
               <Link href={card.href}>
-                <div className="group relative h-64 md:h-full min-h-[280px] overflow-hidden rounded-xl cursor-pointer">
+                <div className={`group relative ${card.mobileAspect} ${card.desktopHeight} overflow-hidden rounded-xl cursor-pointer`}>
                   <img
                     src={card.image}
                     alt={card.title}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-2">
+                  <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6">
+                    <p className="text-white/60 text-[10px] md:text-xs tracking-[0.2em] uppercase mb-1 md:mb-2">
                       {card.subtitle}
                     </p>
-                    <h3 className="text-white text-xl md:text-2xl font-light tracking-wide">
+                    <h3 className="text-white text-sm md:text-2xl font-light tracking-wide">
                       {card.title}
                     </h3>
                   </div>

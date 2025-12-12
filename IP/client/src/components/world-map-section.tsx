@@ -60,30 +60,22 @@ export function WorldMapSection() {
 
   return (
     <section id="world-map-section" className="relative py-24 md:py-32 bg-neutral-950 overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <svg
-          viewBox="0 0 1000 500"
-          className="w-full h-full"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <defs>
-            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#D4AF37" strokeWidth="0.3" opacity="0.3" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-          <path
-            d="M100,200 Q150,180 200,190 T300,185 T400,200 T500,195 T600,210 T700,200 T800,210 T900,200"
-            fill="none"
-            stroke="#D4AF37"
-            strokeWidth="0.5"
-            opacity="0.4"
-          />
-          <ellipse cx="200" cy="250" rx="80" ry="60" fill="none" stroke="#D4AF37" strokeWidth="0.3" opacity="0.3" />
-          <ellipse cx="500" cy="230" rx="120" ry="80" fill="none" stroke="#D4AF37" strokeWidth="0.3" opacity="0.3" />
-          <ellipse cx="750" cy="260" rx="100" ry="70" fill="none" stroke="#D4AF37" strokeWidth="0.3" opacity="0.3" />
-        </svg>
-      </div>
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 1px, transparent 1px),
+            radial-gradient(circle at center, rgba(212, 175, 55, 0.08) 1px, transparent 1px),
+            radial-gradient(circle at 50% 50%, transparent 0%, transparent 20%, rgba(212, 175, 55, 0.03) 20%, rgba(212, 175, 55, 0.03) 21%, transparent 21%),
+            radial-gradient(circle at 50% 50%, transparent 0%, transparent 35%, rgba(212, 175, 55, 0.03) 35%, rgba(212, 175, 55, 0.03) 36%, transparent 36%),
+            radial-gradient(circle at 50% 50%, transparent 0%, transparent 50%, rgba(212, 175, 55, 0.03) 50%, rgba(212, 175, 55, 0.03) 51%, transparent 51%),
+            radial-gradient(circle at 50% 50%, transparent 0%, transparent 65%, rgba(212, 175, 55, 0.03) 65%, rgba(212, 175, 55, 0.03) 66%, transparent 66%),
+            radial-gradient(circle at 50% 50%, transparent 0%, transparent 80%, rgba(212, 175, 55, 0.02) 80%, rgba(212, 175, 55, 0.02) 81%, transparent 81%)
+          `,
+          backgroundSize: '40px 40px, 20px 20px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%',
+          backgroundPosition: 'center'
+        }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-4">
         <motion.div

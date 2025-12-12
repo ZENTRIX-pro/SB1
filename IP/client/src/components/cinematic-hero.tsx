@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Link } from "wouter";
 import { ChevronDown } from "lucide-react";
 
 interface CinematicHeroProps {
@@ -15,14 +14,19 @@ export function CinematicHero({
 }: CinematicHeroProps) {
   
   const scrollToContent = () => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: "smooth"
-    });
+    const categoryRibbon = document.getElementById('category-ribbon');
+    if (categoryRibbon) {
+      categoryRibbon.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({
+        top: window.innerHeight,
+        behavior: "smooth"
+      });
+    }
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black">
+    <section className="relative h-[60vh] md:h-[90vh] w-full overflow-hidden bg-black">
       <video
         autoPlay
         loop
@@ -60,12 +64,12 @@ export function CinematicHero({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.8 }}
         >
-          <Link
-            href="/collections/tech"
+          <button
+            onClick={scrollToContent}
             className="inline-block px-8 py-3 border border-white/30 text-white text-sm tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all duration-300"
           >
             Explore
-          </Link>
+          </button>
         </motion.div>
       </div>
 

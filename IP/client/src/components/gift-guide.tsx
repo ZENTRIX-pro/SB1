@@ -33,7 +33,7 @@ export function GiftGuide() {
                   alt="Gifts for Him"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-2">
                     Curated Selection
@@ -63,7 +63,7 @@ export function GiftGuide() {
                   alt="Gifts for Her"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8">
                   <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-2">
                     Curated Selection
