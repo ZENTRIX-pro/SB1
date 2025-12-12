@@ -1,119 +1,147 @@
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import menImage from "@assets/generated_images/men_category_jacket_image.png";
 import womenImage from "@assets/generated_images/women_category_dress_image.png";
 import techImage from "@assets/generated_images/premium_tech_gadgets_collection.png";
 import bagImage from "@assets/generated_images/luxury_leather_bag_product.png";
 import walletImage from "@assets/generated_images/luxury_wallet_product_shot.png";
 
-interface BentoCard {
+interface EssentialCard {
   title: string;
   subtitle: string;
   image: string;
   href: string;
-  gridClass: string;
-  mobileGridClass: string;
 }
 
-const bentoCards: BentoCard[] = [
+const essentialCards: EssentialCard[] = [
   {
     title: "Men",
     subtitle: "Refined Elegance",
     image: menImage,
-    href: "/collections/men",
-    gridClass: "md:col-span-2 md:row-span-2",
-    mobileGridClass: "col-span-1"
+    href: "/collections/men"
   },
   {
     title: "Women",
     subtitle: "Timeless Beauty",
     image: womenImage,
-    href: "/collections/women",
-    gridClass: "md:col-span-2 md:row-span-2",
-    mobileGridClass: "col-span-1"
+    href: "/collections/women"
   },
   {
     title: "Tech",
     subtitle: "Innovation",
     image: techImage,
-    href: "/collections/tech",
-    gridClass: "md:col-span-2",
-    mobileGridClass: "col-span-1"
+    href: "/collections/tech"
   },
   {
     title: "Scents",
     subtitle: "Signature Fragrances",
     image: walletImage,
-    href: "/collections/scents",
-    gridClass: "md:col-span-1",
-    mobileGridClass: "col-span-1"
+    href: "/collections/scents"
   },
   {
     title: "Home",
     subtitle: "Living Luxe",
     image: bagImage,
-    href: "/collections/bags",
-    gridClass: "md:col-span-1",
-    mobileGridClass: "col-span-1"
+    href: "/collections/bags"
   },
   {
     title: "Accessories",
     subtitle: "Details Matter",
     image: walletImage,
-    href: "/collections/jewelry",
-    gridClass: "md:col-span-2",
-    mobileGridClass: "col-span-1"
+    href: "/collections/jewelry"
   }
 ];
 
 export function BentoGrid() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 350;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
+
   return (
-    <section className="py-16 md:py-24 px-4 bg-[#F5F5F7]">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 md:py-24 bg-[#F5F5F7]">
+      <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="flex items-end justify-between mb-12"
         >
-          <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">Curated For You</p>
-          <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-tight">
-            The Essentials
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-3 md:gap-4">
-          {bentoCards.map((card, index) => (
-            <motion.div
-              key={card.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
-              className={`${card.mobileGridClass} ${card.gridClass}`}
+          <div className="text-center md:text-left flex-1">
+            <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">Curated For You</p>
+            <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-tight">
+              The Essentials
+            </h2>
+          </div>
+          <div className="hidden md:flex gap-2">
+            <button
+              onClick={() => scroll("left")}
+              className="w-10 h-10 rounded-full border border-[#1D1D1F]/10 flex items-center justify-center text-[#1D1D1F]/60 hover:bg-[#1D1D1F] hover:text-white transition-all"
+              aria-label="Scroll left"
             >
-              <Link href={card.href}>
-                <div className="group relative aspect-[3/4] md:aspect-auto md:h-full md:min-h-[200px] overflow-hidden rounded-2xl cursor-pointer bg-white shadow-sm">
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
-                    <p className="text-white/70 text-[10px] md:text-xs tracking-[0.15em] uppercase mb-1">
-                      {card.subtitle}
-                    </p>
-                    <h3 className="text-white text-lg md:text-xl font-semibold tracking-tight">
-                      {card.title}
-                    </h3>
-                  </div>
-                  <div className="absolute inset-0 border border-white/0 group-hover:border-white/20 rounded-2xl transition-colors duration-300" />
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="w-10 h-10 rounded-full border border-[#1D1D1F]/10 flex items-center justify-center text-[#1D1D1F]/60 hover:bg-[#1D1D1F] hover:text-white transition-all"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </motion.div>
+      </div>
+
+      <div
+        ref={scrollRef}
+        className="flex flex-row flex-nowrap gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory px-4 pb-4"
+        style={{ 
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          WebkitOverflowScrolling: 'touch'
+        }}
+      >
+        <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
+        {essentialCards.map((card, index) => (
+          <motion.div
+            key={card.title}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            className="flex-none min-w-[85vw] md:min-w-[350px] snap-center"
+          >
+            <Link href={card.href}>
+              <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer bg-white shadow-sm">
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+                  <p className="text-white/70 text-xs tracking-[0.15em] uppercase mb-2">
+                    {card.subtitle}
+                  </p>
+                  <h3 className="text-white text-xl md:text-2xl font-semibold tracking-tight">
+                    {card.title}
+                  </h3>
                 </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+                <div className="absolute inset-0 border border-white/0 group-hover:border-white/20 rounded-2xl transition-colors duration-300" />
+              </div>
+            </Link>
+          </motion.div>
+        ))}
+        <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
       </div>
     </section>
   );
