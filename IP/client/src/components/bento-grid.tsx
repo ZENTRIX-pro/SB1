@@ -2,11 +2,6 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import menImage from "@assets/generated_images/men_category_jacket_image.png";
-import womenImage from "@assets/generated_images/women_category_dress_image.png";
-import techImage from "@assets/generated_images/premium_tech_gadgets_collection.png";
-import bagImage from "@assets/generated_images/luxury_leather_bag_product.png";
-import walletImage from "@assets/generated_images/luxury_wallet_product_shot.png";
 
 interface EssentialCard {
   title: string;
@@ -19,43 +14,49 @@ const essentialCards: EssentialCard[] = [
   {
     title: "Men",
     subtitle: "Refined Elegance",
-    image: menImage,
+    image: "https://images.unsplash.com/photo-1593030761757-71bd90dbe3e4?auto=format&fit=crop&w=600&q=80",
     href: "/collections/men"
   },
   {
     title: "Women",
     subtitle: "Timeless Beauty",
-    image: womenImage,
+    image: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=600&q=80",
     href: "/collections/women"
   },
   {
     title: "Active",
     subtitle: "Performance Luxury",
-    image: techImage,
+    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80",
     href: "/collections/active"
+  },
+  {
+    title: "Beauty & Care",
+    subtitle: "Radiant Glow",
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=600&q=80",
+    href: "/collections/beauty"
   },
   {
     title: "Tech",
     subtitle: "Innovation",
-    image: techImage,
+    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=600&q=80",
     href: "/collections/tech"
   },
   {
     title: "Home",
     subtitle: "Living Luxe",
-    image: bagImage,
+    image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=600&q=80",
     href: "/collections/home"
   },
   {
     title: "Scents",
     subtitle: "Signature Fragrances",
-    image: walletImage,
-    href: "/collections/scents"
+    image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=600&q=80",
+    href: "/collections/fragrances"
   },
   {
     title: "Gifts",
     subtitle: "Curated Gifting",
-    image: walletImage,
+    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
     href: "/collections/gifts"
   }
 ];
@@ -132,6 +133,7 @@ export function BentoGrid() {
                   src={card.image}
                   alt={card.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">

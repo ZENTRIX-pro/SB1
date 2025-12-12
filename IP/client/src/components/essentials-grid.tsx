@@ -2,9 +2,6 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import menImage from "@assets/generated_images/men_category_jacket_image.png";
-import womenImage from "@assets/generated_images/women_category_dress_image.png";
-import techImage from "@assets/generated_images/premium_tech_gadgets_collection.png";
 
 interface GridCard {
   title: string;
@@ -17,19 +14,25 @@ const gridCards: GridCard[] = [
   {
     title: "Men's Collection",
     subtitle: "Refined Elegance",
-    image: menImage,
+    image: "https://images.unsplash.com/photo-1593030761757-71bd90dbe3e4?auto=format&fit=crop&w=600&q=80",
     href: "/collections/men"
   },
   {
     title: "Women's Collection",
     subtitle: "Timeless Beauty",
-    image: womenImage,
+    image: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=600&q=80",
     href: "/collections/women"
+  },
+  {
+    title: "Beauty & Care",
+    subtitle: "Radiant Glow",
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=600&q=80",
+    href: "/collections/beauty"
   },
   {
     title: "Tech Lifestyle",
     subtitle: "Innovation Meets Luxury",
-    image: techImage,
+    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=600&q=80",
     href: "/collections/tech"
   }
 ];
@@ -101,6 +104,7 @@ export function EssentialsGrid() {
                   src={card.image}
                   alt={card.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
