@@ -3,13 +3,18 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import nordicImage from "@assets/generated_images/nordic_minimalist_interior_design.png";
+import italianImage from "@assets/generated_images/italian_leather_texture_close-up.png";
+import japaneseImage from "@assets/generated_images/japanese_zen_garden_ceramics.png";
+import indianImage from "@assets/generated_images/indian_silk_ornate_pattern.png";
+
 interface AtelierLocation {
   id: string;
   name: string;
   country: string;
   description: string;
   href: string;
-  gradient: string;
+  image: string;
 }
 
 const locations: AtelierLocation[] = [
@@ -18,32 +23,32 @@ const locations: AtelierLocation[] = [
     name: "Nordic Zen",
     country: "Sweden",
     description: "Minimalist design philosophy meets premium craftsmanship",
-    href: "/collections/men",
-    gradient: "from-blue-900 via-blue-800 to-slate-900"
+    href: "/collections/nordic-zen",
+    image: nordicImage
   },
   {
     id: "italy",
     name: "Italian Classico",
     country: "Italy",
     description: "Heritage luxury with timeless Mediterranean elegance",
-    href: "/collections/women",
-    gradient: "from-amber-900 via-orange-800 to-red-900"
+    href: "/collections/italian-classico",
+    image: italianImage
   },
   {
     id: "japan",
     name: "Eastern Soul",
     country: "Japan",
     description: "Where ancient tradition meets cutting-edge innovation",
-    href: "/collections/tech",
-    gradient: "from-rose-900 via-pink-800 to-purple-900"
+    href: "/collections/eastern-soul",
+    image: japaneseImage
   },
   {
     id: "india",
     name: "Royal Heritage",
     country: "India",
     description: "Opulent craftsmanship inspired by centuries of artistry",
-    href: "/heritage",
-    gradient: "from-emerald-900 via-teal-800 to-cyan-900"
+    href: "/collections/heritage",
+    image: indianImage
   }
 ];
 
@@ -109,8 +114,13 @@ export function GlobalAtelier() {
             className="flex-none w-[300px] md:w-[380px] snap-start"
           >
             <Link href={location.href}>
-              <div className={`group relative h-[400px] md:h-[480px] rounded-2xl overflow-hidden cursor-pointer bg-gradient-to-br ${location.gradient}`}>
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500" />
+              <div className="group relative h-[400px] md:h-[480px] rounded-2xl overflow-hidden cursor-pointer">
+                <img
+                  src={location.image}
+                  alt={location.name}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                 <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
                   <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-2">
                     {location.country}

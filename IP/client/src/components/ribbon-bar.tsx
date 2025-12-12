@@ -20,7 +20,7 @@ export function RibbonBar() {
   const [location] = useLocation();
 
   return (
-    <div id="category-ribbon" className="sticky top-14 z-40 bg-white/80 backdrop-blur-lg border-b border-black/5">
+    <div id="category-ribbon" className="sticky top-14 z-40 bg-transparent">
       <div className="overflow-x-auto scrollbar-hide">
         <div className="flex items-center justify-start md:justify-center gap-1 md:gap-2 px-4 py-3 min-w-max max-w-7xl mx-auto">
           {ribbonItems.map((item) => {
@@ -30,10 +30,10 @@ export function RibbonBar() {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all ${
                   isActive
-                    ? "bg-[#1D1D1F] text-white"
-                    : "text-[#1D1D1F]/60 hover:text-[#1D1D1F] hover:bg-black/5"
+                    ? "text-[#1D1D1F]"
+                    : "text-[#1D1D1F]/60 hover:text-[#1D1D1F]"
                 }`}
               >
                 {item.icon}

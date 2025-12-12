@@ -37,42 +37,26 @@ export const heroSlides = [
   {
     id: 1,
     image: cinematicHeroImage,
-    title: "The Royal Weave",
-    subtitle: "Heritage Collection",
-    cta: "Explore Story",
-    link: "/story/heritage"
+    title: "Define Your Legacy",
+    subtitle: "Signature Collection",
+    cta: "Explore Collection",
+    link: "/collections/signature"
   },
   {
     id: 2,
-    image: lifestyleCategoryImage,
-    title: "Future Ready",
-    subtitle: "Tech & Lifestyle",
+    image: techCategoryImage,
+    title: "Smart Living",
+    subtitle: "Tech Innovation",
     cta: "Discover",
-    link: "/story/future-tech"
+    link: "/collections/tech"
   },
   {
     id: 3,
-    image: heroMenImage,
-    title: "Refined Men",
-    subtitle: "The Modern Gentleman",
-    cta: "Shop Collection",
-    link: "/story/gentleman"
-  },
-  {
-    id: 4,
-    image: heroWomenImage,
-    title: "Elegance Redefined",
-    subtitle: "The Modern Muse",
+    image: lifestyleCategoryImage,
+    title: "Curated from the World",
+    subtitle: "Heritage Collection",
     cta: "Explore",
-    link: "/story/muse"
-  },
-  {
-    id: 5,
-    image: heroSneakerImage,
-    title: "The Masterpiece",
-    subtitle: "Signature Series",
-    cta: "View Collection",
-    link: "/story/signature"
+    link: "/collections/heritage"
   }
 ];
 
