@@ -38,7 +38,7 @@ export const heroSlides = [
     id: 1,
     image: cinematicHeroImage,
     title: "Define Your Legacy",
-    subtitle: "Signature Collection",
+    subtitle: "The pinnacle of luxury.",
     cta: "Explore Collection",
     link: "/collections/signature"
   },
@@ -46,7 +46,7 @@ export const heroSlides = [
     id: 2,
     image: techCategoryImage,
     title: "Smart Living",
-    subtitle: "Tech Innovation",
+    subtitle: "Technology meets elegance.",
     cta: "Discover",
     link: "/collections/tech"
   },
@@ -54,7 +54,7 @@ export const heroSlides = [
     id: 3,
     image: lifestyleCategoryImage,
     title: "Curated from the World",
-    subtitle: "Heritage Collection",
+    subtitle: "Global artisanship rooted in tradition.",
     cta: "Explore",
     link: "/collections/heritage"
   }
