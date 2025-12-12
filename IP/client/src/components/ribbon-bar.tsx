@@ -53,8 +53,8 @@ export function RibbonBar() {
   const [location] = useLocation();
 
   return (
-    <div id="category-ribbon" className="sticky top-14 z-40 bg-white/80 backdrop-blur-md">
-      <div className="overflow-x-auto scrollbar-hide">
+    <div id="category-ribbon" className="sticky top-14 z-40 bg-transparent">
+      <div className="overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         <div className="flex items-center justify-start md:justify-center gap-6 md:gap-8 px-4 py-4 min-w-max max-w-7xl mx-auto">
           {categories.map((category) => {
             const isActive = location === category.link || location.startsWith(category.link + "/");
@@ -65,10 +65,10 @@ export function RibbonBar() {
                 href={category.link}
               >
                 <div className="flex flex-col items-center gap-2 cursor-pointer group">
-                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden transition-all duration-300 ${
+                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden transition-transform duration-300 ${
                     isActive 
                       ? "ring-2 ring-[#1D1D1F] ring-offset-2" 
-                      : "group-hover:scale-105"
+                      : "group-hover:scale-110"
                   }`}>
                     <img 
                       src={category.image} 
@@ -80,7 +80,7 @@ export function RibbonBar() {
                   <span className={`text-xs font-medium transition-colors whitespace-nowrap ${
                     isActive
                       ? "text-[#1D1D1F]"
-                      : "text-[#1D1D1F]/60 group-hover:text-[#1D1D1F]"
+                      : "text-[#1D1D1F]/70 group-hover:text-[#1D1D1F]"
                   }`}>
                     {category.name}
                   </span>

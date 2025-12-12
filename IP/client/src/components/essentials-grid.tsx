@@ -86,7 +86,8 @@ export function EssentialsGrid() {
 
       <div
         ref={scrollRef}
-        className="flex flex-row gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory px-4 pb-4 [&::-webkit-scrollbar]:hidden scrollbar-hide"
+        className="flex flex-row gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory px-4 pb-4"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
         {gridCards.map((card, index) => (
@@ -96,10 +97,10 @@ export function EssentialsGrid() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="flex-none min-w-[85vw] md:min-w-[400px] snap-center"
+            className="flex-none w-[85vw] md:w-[400px] snap-center"
           >
             <Link href={card.href}>
-              <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer bg-white shadow-sm">
+              <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer">
                 <img
                   src={card.image}
                   alt={card.title}
@@ -115,7 +116,6 @@ export function EssentialsGrid() {
                     {card.title}
                   </h3>
                 </div>
-                <div className="absolute inset-0 border border-white/0 group-hover:border-white/20 rounded-2xl transition-colors duration-300" />
               </div>
             </Link>
           </motion.div>
