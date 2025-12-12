@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
-import { CinematicHero } from "@/components/cinematic-hero";
+import { HeroAutoSlider } from "@/components/hero-auto-slider";
 import { RibbonBar } from "@/components/ribbon-bar";
-import { EssentialsGrid } from "@/components/essentials-grid";
-import { WorldMapSection } from "@/components/world-map-section";
+import { BentoGrid } from "@/components/bento-grid";
+import { GlobalAtelier } from "@/components/global-atelier";
 import { SignatureParallax } from "@/components/signature-parallax";
-import { GiftGuide } from "@/components/gift-guide";
+import { TrendingSection } from "@/components/trending-section";
 import { TrustBadges } from "@/components/trust-badges";
-import { ClienteleStories } from "@/components/clientele-stories";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -15,17 +14,16 @@ export default function Home() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="bg-neutral-950"
+      className="bg-[#F5F5F7]"
       data-testid="page-home"
     >
-      <CinematicHero />
+      <HeroAutoSlider />
       <RibbonBar />
-      <EssentialsGrid />
-      <WorldMapSection />
+      <BentoGrid />
+      <GlobalAtelier />
       <SignatureParallax />
-      <GiftGuide />
+      <TrendingSection />
       <TrustBadges />
-      <ClienteleStories />
       <Footer />
     </motion.main>
   );

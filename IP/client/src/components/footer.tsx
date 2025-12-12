@@ -7,8 +7,8 @@ const footerLinks = {
     { name: "Men's Collection", href: "/collections/men" },
     { name: "Women's Collection", href: "/collections/women" },
     { name: "Tech Lifestyle", href: "/collections/tech" },
-    { name: "Bags & Leather", href: "/collections/bags" },
-    { name: "Jewelry", href: "/collections/jewelry" },
+    { name: "Home & Living", href: "/collections/bags" },
+    { name: "Accessories", href: "/collections/jewelry" },
   ],
   company: [
     { name: "About Us", href: "/about" },
@@ -43,12 +43,12 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-black py-12 md:py-16 border-t border-white/5" data-testid="footer">
+    <footer className="bg-[#1D1D1F] py-12 md:py-16" data-testid="footer">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
           <div className="col-span-2 lg:col-span-2">
             <Link href="/">
-              <span className="text-xl font-light tracking-[0.2em] bg-gradient-to-r from-[#D4AF37] via-[#F5E6A3] to-[#C5A028] bg-clip-text text-transparent cursor-pointer" data-testid="link-footer-logo">
+              <span className="text-xl font-semibold tracking-[0.15em] text-white cursor-pointer" data-testid="link-footer-logo">
                 ZENTRIX
               </span>
             </Link>
@@ -57,8 +57,8 @@ export function Footer() {
               Crafted for those who seek excellence in every detail.
             </p>
 
-            <div className="mt-6 bg-neutral-900 border border-white/5 rounded-2xl p-5">
-              <p className="text-[#D4AF37] font-medium text-sm mb-1">Join the Inner Circle</p>
+            <div className="mt-6 bg-white/5 rounded-2xl p-5">
+              <p className="text-white font-medium text-sm mb-1">Join the Inner Circle</p>
               <p className="text-white/40 text-xs mb-4">Get 10% off your first order.</p>
               <form className="flex gap-2" onSubmit={handleSubscribe}>
                 <input
@@ -66,12 +66,12 @@ export function Footer() {
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-white/5 border border-white/10 px-4 py-2.5 rounded-xl text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#D4AF37]/50"
+                  className="flex-1 bg-white/10 border border-white/10 px-4 py-2.5 rounded-full text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30"
                   data-testid="input-newsletter-email"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 bg-[#D4AF37] text-black text-sm font-medium rounded-xl hover:bg-[#C5A028] transition-colors"
+                  className="px-5 py-2.5 bg-white text-[#1D1D1F] text-sm font-semibold rounded-full hover:bg-white/90 transition-colors"
                   data-testid="button-newsletter-submit"
                 >
                   Join
@@ -81,8 +81,8 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4">Shop</h4>
-            <ul className="space-y-2">
+            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4 font-medium">Shop</h4>
+            <ul className="space-y-2.5">
               {footerLinks.shop.map((link) => (
                 <li key={link.name}>
                   <Link href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">
@@ -94,8 +94,8 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4">Company</h4>
-            <ul className="space-y-2">
+            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4 font-medium">Company</h4>
+            <ul className="space-y-2.5">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">
@@ -107,8 +107,8 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4">Support</h4>
-            <ul className="space-y-2">
+            <h4 className="text-xs uppercase tracking-[0.2em] text-white/40 mb-4 font-medium">Support</h4>
+            <ul className="space-y-2.5">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
                   {link.href.startsWith("mailto:") ? (
@@ -126,7 +126,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-8 border-t border-white/5">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-8 border-t border-white/10">
           <div className="flex items-center gap-4">
             {socialLinks.map((social) => (
               <a
@@ -134,7 +134,7 @@ export function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-white/60 hover:bg-[#D4AF37]/10 hover:text-[#D4AF37] transition-colors"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-white/60 hover:bg-white/10 hover:text-white transition-colors"
                 aria-label={social.label}
               >
                 <social.icon className="w-4 h-4" />

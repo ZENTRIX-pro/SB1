@@ -1,166 +1,120 @@
-import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { categories } from "@/lib/data";
+import { Link } from "wouter";
+import menImage from "@assets/generated_images/men_category_jacket_image.png";
+import womenImage from "@assets/generated_images/women_category_dress_image.png";
+import techImage from "@assets/generated_images/premium_tech_gadgets_collection.png";
+import bagImage from "@assets/generated_images/luxury_leather_bag_product.png";
+import walletImage from "@assets/generated_images/luxury_wallet_product_shot.png";
+
+interface BentoCard {
+  title: string;
+  subtitle: string;
+  image: string;
+  href: string;
+  gridClass: string;
+  mobileGridClass: string;
+}
+
+const bentoCards: BentoCard[] = [
+  {
+    title: "Men",
+    subtitle: "Refined Elegance",
+    image: menImage,
+    href: "/collections/men",
+    gridClass: "md:col-span-2 md:row-span-2",
+    mobileGridClass: "col-span-1"
+  },
+  {
+    title: "Women",
+    subtitle: "Timeless Beauty",
+    image: womenImage,
+    href: "/collections/women",
+    gridClass: "md:col-span-2 md:row-span-2",
+    mobileGridClass: "col-span-1"
+  },
+  {
+    title: "Tech",
+    subtitle: "Innovation",
+    image: techImage,
+    href: "/collections/tech",
+    gridClass: "md:col-span-2",
+    mobileGridClass: "col-span-1"
+  },
+  {
+    title: "Scents",
+    subtitle: "Signature Fragrances",
+    image: walletImage,
+    href: "/collections/scents",
+    gridClass: "md:col-span-1",
+    mobileGridClass: "col-span-1"
+  },
+  {
+    title: "Home",
+    subtitle: "Living Luxe",
+    image: bagImage,
+    href: "/collections/bags",
+    gridClass: "md:col-span-1",
+    mobileGridClass: "col-span-1"
+  },
+  {
+    title: "Accessories",
+    subtitle: "Details Matter",
+    image: walletImage,
+    href: "/collections/jewelry",
+    gridClass: "md:col-span-2",
+    mobileGridClass: "col-span-1"
+  }
+];
 
 export function BentoGrid() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const gridLayout = [
-    { category: categories[0], size: "large", gridClass: "md:col-span-2 md:row-span-2" },
-    { category: categories[1], size: "medium", gridClass: "" },
-    { category: categories[4], size: "medium", gridClass: "" },
-    { category: categories[2], size: "wide", gridClass: "md:col-span-2" },
-    { category: categories[6], size: "medium", gridClass: "" },
-    { category: categories[3], size: "medium", gridClass: "" },
-    { category: categories[5], size: "medium", gridClass: "" },
-    { category: categories[7], size: "wide", gridClass: "md:col-span-2" },
-  ];
-
   return (
-    <section className="py-20 md:py-32 px-6 lg:px-8 bg-background" data-testid="bento-grid-section">
+    <section className="py-16 md:py-24 px-4 bg-[#F5F5F7]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <p className="text-sm tracking-[0.3em] text-muted-foreground uppercase mb-4">
-            Curated Collections
-          </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extralight text-foreground tracking-tight mb-4">
-            The ZENTRIX Ecosystem
+          <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">Curated For You</p>
+          <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-tight">
+            The Essentials
           </h2>
-          <p className="text-muted-foreground font-light max-w-2xl mx-auto text-lg">
-            Discover our world of premium fashion, beauty, technology, and lifestyle pieces
-          </p>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5"
-        >
-          {gridLayout.map((item, index) => (
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3 md:gap-4">
+          {bentoCards.map((card, index) => (
             <motion.div
-              key={item.category.id}
-              variants={itemVariants}
-              className={item.gridClass}
+              key={card.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              className={`${card.mobileGridClass} ${card.gridClass}`}
             >
-              <CategoryCard 
-                category={item.category} 
-                size={item.size as "small" | "medium" | "large" | "wide"} 
-              />
+              <Link href={card.href}>
+                <div className="group relative aspect-[3/4] md:aspect-auto md:h-full md:min-h-[200px] overflow-hidden rounded-2xl cursor-pointer bg-white shadow-sm">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                    <p className="text-white/70 text-[10px] md:text-xs tracking-[0.15em] uppercase mb-1">
+                      {card.subtitle}
+                    </p>
+                    <h3 className="text-white text-lg md:text-xl font-semibold tracking-tight">
+                      {card.title}
+                    </h3>
+                  </div>
+                  <div className="absolute inset-0 border border-white/0 group-hover:border-white/20 rounded-2xl transition-colors duration-300" />
+                </div>
+              </Link>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
-  );
-}
-
-interface CategoryCardProps {
-  category: typeof categories[0];
-  size: "small" | "medium" | "large" | "wide";
-}
-
-function CategoryCard({ category, size }: CategoryCardProps) {
-  const heightClass = {
-    small: "h-64",
-    medium: "h-72 md:h-80",
-    large: "h-72 md:h-[36rem]",
-    wide: "h-64 md:h-72",
-  }[size];
-
-  return (
-    <Link href={`/category/${category.slug}`}>
-      <motion.div
-        whileHover="hover"
-        className={`relative ${heightClass} rounded-xl overflow-hidden cursor-pointer group`}
-        data-testid={`card-category-${category.slug}`}
-      >
-        <motion.div
-          className="absolute inset-0"
-          variants={{
-            hover: { scale: 1.08 },
-          }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 z-10 transition-all duration-500 group-hover:from-black/90 group-hover:via-black/40" />
-          <img
-            src={category.image}
-            alt={category.name}
-            className="w-full h-full object-cover transition-all duration-700"
-          />
-        </motion.div>
-
-        <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-8">
-          <motion.div
-            variants={{
-              hover: { y: -10 },
-            }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-white/5 backdrop-blur-lg rounded-xl -m-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative p-3 -m-3">
-                <motion.h3 
-                  className="text-xl md:text-2xl lg:text-3xl font-light text-white tracking-tight mb-2 transition-all duration-300 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
-                  variants={{
-                    hover: { textShadow: "0 0 20px rgba(255,255,255,0.4)" }
-                  }}
-                >
-                  {category.name}
-                </motion.h3>
-                <p className="text-white/60 text-sm font-light mb-4 max-w-xs group-hover:text-white/80 transition-colors duration-300">
-                  {category.description}
-                </p>
-                <motion.div
-                  className="flex items-center gap-2 text-white/70 text-sm tracking-wide group-hover:text-white transition-colors duration-300"
-                  variants={{
-                    hover: { x: 8 },
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <span className="font-light">Explore Collection</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={1.5} />
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        <motion.div
-          className="absolute inset-0 z-5 border-2 border-white/0 rounded-xl transition-all duration-500 group-hover:border-white/10"
-          variants={{
-            hover: { opacity: 1 }
-          }}
-        />
-      </motion.div>
-    </Link>
   );
 }

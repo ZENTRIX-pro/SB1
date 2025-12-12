@@ -11,8 +11,6 @@ interface GridCard {
   href: string;
   mobileSpan: string;
   desktopSpan: string;
-  mobileAspect: string;
-  desktopHeight: string;
 }
 
 const gridCards: GridCard[] = [
@@ -22,9 +20,7 @@ const gridCards: GridCard[] = [
     image: menImage,
     href: "/collections/men",
     mobileSpan: "col-span-1",
-    desktopSpan: "md:col-span-2 md:row-span-2",
-    mobileAspect: "aspect-[3/4]",
-    desktopHeight: "md:aspect-auto md:h-full md:min-h-[400px]"
+    desktopSpan: "md:col-span-2 md:row-span-2"
   },
   {
     title: "Women's Collection",
@@ -32,9 +28,7 @@ const gridCards: GridCard[] = [
     image: womenImage,
     href: "/collections/women",
     mobileSpan: "col-span-1",
-    desktopSpan: "md:col-span-2 md:row-span-2",
-    mobileAspect: "aspect-[3/4]",
-    desktopHeight: "md:aspect-auto md:h-full md:min-h-[400px]"
+    desktopSpan: "md:col-span-2 md:row-span-2"
   },
   {
     title: "Tech Lifestyle",
@@ -42,15 +36,13 @@ const gridCards: GridCard[] = [
     image: techImage,
     href: "/collections/tech",
     mobileSpan: "col-span-2",
-    desktopSpan: "md:col-span-4",
-    mobileAspect: "aspect-[2/1]",
-    desktopHeight: "md:aspect-auto md:h-48"
+    desktopSpan: "md:col-span-4"
   }
 ];
 
 export function EssentialsGrid() {
   return (
-    <section className="py-16 md:py-24 px-4 bg-neutral-950">
+    <section className="py-16 md:py-24 px-4 bg-[#F5F5F7]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -58,8 +50,8 @@ export function EssentialsGrid() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <p className="text-[#D4AF37] text-xs tracking-[0.3em] uppercase mb-3">Curated For You</p>
-          <h2 className="text-3xl md:text-4xl font-light text-white tracking-wide">
+          <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">Curated For You</p>
+          <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-tight">
             The Essentials
           </h2>
         </motion.div>
@@ -75,22 +67,22 @@ export function EssentialsGrid() {
               className={`${card.mobileSpan} ${card.desktopSpan}`}
             >
               <Link href={card.href}>
-                <div className={`group relative ${card.mobileAspect} ${card.desktopHeight} overflow-hidden rounded-xl cursor-pointer`}>
+                <div className="group relative aspect-[3/4] md:aspect-auto md:h-full md:min-h-[280px] overflow-hidden rounded-2xl cursor-pointer bg-white shadow-sm">
                   <img
                     src={card.image}
                     alt={card.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6">
-                    <p className="text-white/60 text-[10px] md:text-xs tracking-[0.2em] uppercase mb-1 md:mb-2">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                    <p className="text-white/70 text-[10px] md:text-xs tracking-[0.15em] uppercase mb-1 md:mb-2">
                       {card.subtitle}
                     </p>
-                    <h3 className="text-white text-sm md:text-2xl font-light tracking-wide">
+                    <h3 className="text-white text-base md:text-2xl font-semibold tracking-tight">
                       {card.title}
                     </h3>
                   </div>
-                  <div className="absolute inset-0 border border-white/0 group-hover:border-[#D4AF37]/30 rounded-xl transition-colors duration-300" />
+                  <div className="absolute inset-0 border border-white/0 group-hover:border-white/20 rounded-2xl transition-colors duration-300" />
                 </div>
               </Link>
             </motion.div>

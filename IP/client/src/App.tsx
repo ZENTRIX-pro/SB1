@@ -69,13 +69,13 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="dark">
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <ShopifyProvider>
             <AuthProvider>
               <CartProvider products={products}>
                 {isLoading && <ZDrawingLoader onComplete={() => setIsLoading(false)} />}
-                <div className="min-h-screen bg-neutral-950">
+                <div className="min-h-screen bg-[#F5F5F7]">
                   <ZentrixNavbar />
                   <CartDrawer />
                   <Router />

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minus, Plus, Check, ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
+import { Minus, Plus, Check, ChevronLeft, ChevronRight, AlertCircle, Truck, Shield, RotateCcw, Star } from "lucide-react";
 import { useShopify } from "@/lib/shopify-context";
 import { 
   fetchProductByHandle, 
@@ -12,33 +12,36 @@ import {
   getVariantImageForOption,
   getUniqueOptionValues,
   isVariantAvailable,
-  buildCheckoutUrl,
-  formatPrice 
+  buildCheckoutUrl
 } from "@/lib/shopify";
 import { Footer } from "@/components/footer";
-import { CustomerReviews } from "@/components/customer-reviews";
 import { LoadingScreen } from "@/components/product-skeleton";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-interface ImageGalleryProps {
-  images: ShopifyImage[];
-  productTitle: string;
-  selectedImageIndex?: number;
-  onImageChange?: (index: number) => void;
+function formatDisplayPrice(amount: string): string {
+  const price = parseFloat(amount);
+  if (price > 500) {
+    return `$${(price / 84).toFixed(2)}`;
+  }
+  return `$${price.toFixed(2)}`;
 }
 
-function ImageGallery({ images, productTitle, selectedImageIndex, onImageChange }: ImageGalleryProps) {
-  const [internalIndex, setInternalIndex] = useState(0);
-  const currentIndex = selectedImageIndex !== undefined ? selectedImageIndex : internalIndex;
+interface SplitImageGalleryProps {
+  images: ShopifyImage[];
+  productTitle: string;
+  selectedImageIndex: number;
+  onImageChange: (index: number) => void;
+}
 
-  useEffect(() => {
-    if (selectedImageIndex === undefined) {
-      setInternalIndex(0);
-    }
-  }, [images, selectedImageIndex]);
-
+function SplitImageGallery({ images, productTitle, selectedImageIndex, onImageChange }: SplitImageGalleryProps) {
   if (!images || images.length === 0) {
     return (
-      <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#F5F5F7]">
+      <div className="relative aspect-square rounded-2xl overflow-hidden bg-white">
         <img
           src="https://placehold.co/600x600?text=No+Image"
           alt={productTitle}
@@ -48,30 +51,22 @@ function ImageGallery({ images, productTitle, selectedImageIndex, onImageChange 
     );
   }
 
-  const handleIndexChange = (newIndex: number) => {
-    if (onImageChange) {
-      onImageChange(newIndex);
-    } else {
-      setInternalIndex(newIndex);
-    }
-  };
-
   const nextImage = () => {
-    handleIndexChange((currentIndex + 1) % images.length);
+    onImageChange((selectedImageIndex + 1) % images.length);
   };
 
   const prevImage = () => {
-    handleIndexChange((currentIndex - 1 + images.length) % images.length);
+    onImageChange((selectedImageIndex - 1 + images.length) % images.length);
   };
 
   return (
     <div className="space-y-4">
-      <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#F5F5F7]">
+      <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-sm">
         <AnimatePresence mode="wait">
           <motion.img
-            key={currentIndex}
-            src={images[currentIndex]?.src}
-            alt={images[currentIndex]?.altText || productTitle}
+            key={selectedImageIndex}
+            src={images[selectedImageIndex]?.src}
+            alt={images[selectedImageIndex]?.altText || productTitle}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -84,30 +79,18 @@ function ImageGallery({ images, productTitle, selectedImageIndex, onImageChange 
           <>
             <button
               onClick={prevImage}
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-black hover:bg-white transition-colors shadow-lg"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-[#1D1D1F] hover:bg-white transition-colors shadow-lg"
               aria-label="Previous image"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextImage}
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-black hover:bg-white transition-colors shadow-lg"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-[#1D1D1F] hover:bg-white transition-colors shadow-lg"
               aria-label="Next image"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-              {images.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleIndexChange(idx)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    idx === currentIndex ? "bg-black w-6" : "bg-black/30"
-                  }`}
-                  aria-label={`Go to image ${idx + 1}`}
-                />
-              ))}
-            </div>
           </>
         )}
       </div>
@@ -117,9 +100,11 @@ function ImageGallery({ images, productTitle, selectedImageIndex, onImageChange 
           {images.map((img, idx) => (
             <button
               key={idx}
-              onClick={() => handleIndexChange(idx)}
+              onClick={() => onImageChange(idx)}
               className={`flex-none w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
-                idx === currentIndex ? "border-amber-500 ring-2 ring-amber-500/30" : "border-transparent hover:border-neutral-300"
+                idx === selectedImageIndex 
+                  ? "border-[#1D1D1F] ring-2 ring-[#1D1D1F]/20" 
+                  : "border-transparent hover:border-[#1D1D1F]/30"
               }`}
             >
               <img
@@ -157,8 +142,8 @@ function OptionSelector({ option, selectedValue, onSelect, variants, currentOpti
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-black">
-          {option.name}: <span className="font-normal text-neutral-600">{selectedValue || "Select"}</span>
+        <label className="text-sm font-medium text-[#1D1D1F]">
+          {option.name}: <span className="font-normal text-[#1D1D1F]/60">{selectedValue || "Select"}</span>
         </label>
       </div>
       <div className="flex flex-wrap gap-2">
@@ -173,8 +158,8 @@ function OptionSelector({ option, selectedValue, onSelect, variants, currentOpti
                 onClick={() => onSelect(value)}
                 className={`relative w-10 h-10 rounded-full border-2 transition-all ${
                   isSelected 
-                    ? "border-amber-500 ring-2 ring-amber-500/30" 
-                    : "border-neutral-300 hover:border-neutral-400"
+                    ? "border-[#1D1D1F] ring-2 ring-[#1D1D1F]/20" 
+                    : "border-[#1D1D1F]/20 hover:border-[#1D1D1F]/40"
                 }`}
                 style={{ backgroundColor: value.toLowerCase() }}
                 title={value}
@@ -182,7 +167,7 @@ function OptionSelector({ option, selectedValue, onSelect, variants, currentOpti
                 {isSelected && (
                   <Check className={`absolute inset-0 m-auto w-5 h-5 ${
                     ["white", "cream", "beige", "ivory", "yellow"].includes(value.toLowerCase()) 
-                      ? "text-black" 
+                      ? "text-[#1D1D1F]" 
                       : "text-white"
                   }`} />
                 )}
@@ -194,12 +179,12 @@ function OptionSelector({ option, selectedValue, onSelect, variants, currentOpti
             <button
               key={value}
               onClick={() => onSelect(value)}
-              className={`min-w-[3rem] px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              className={`min-w-[3rem] px-4 py-2.5 rounded-full text-sm font-medium transition-all ${
                 isSelected
-                  ? "bg-black text-white"
+                  ? "bg-[#1D1D1F] text-white"
                   : isAvailable
-                    ? "bg-neutral-100 text-black hover:bg-neutral-200"
-                    : "bg-neutral-50 text-neutral-400 hover:bg-neutral-100"
+                    ? "bg-white border border-[#1D1D1F]/20 text-[#1D1D1F] hover:border-[#1D1D1F]/40"
+                    : "bg-white/50 border border-[#1D1D1F]/10 text-[#1D1D1F]/40"
               }`}
             >
               {value}
@@ -228,27 +213,68 @@ function QuantitySelector({ quantity, onQuantityChange, maxQuantity = 10 }: Quan
 
   return (
     <div className="space-y-3">
-      <label className="text-sm font-medium text-black">Quantity</label>
-      <div className="inline-flex items-center border-2 border-amber-500 rounded-xl overflow-hidden">
+      <label className="text-sm font-medium text-[#1D1D1F]">Quantity</label>
+      <div className="inline-flex items-center border border-[#1D1D1F]/20 rounded-full overflow-hidden bg-white">
         <button
           onClick={decrease}
           disabled={quantity <= 1}
-          className="w-12 h-12 flex items-center justify-center text-black hover:bg-amber-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-12 h-12 flex items-center justify-center text-[#1D1D1F] hover:bg-[#F5F5F7] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           aria-label="Decrease quantity"
         >
           <Minus className="w-4 h-4" />
         </button>
-        <div className="w-14 h-12 flex items-center justify-center font-semibold text-lg text-black border-x-2 border-amber-500 bg-white">
+        <div className="w-12 h-12 flex items-center justify-center font-semibold text-lg text-[#1D1D1F]">
           {quantity}
         </div>
         <button
           onClick={increase}
           disabled={quantity >= maxQuantity}
-          className="w-12 h-12 flex items-center justify-center text-black hover:bg-amber-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-12 h-12 flex items-center justify-center text-[#1D1D1F] hover:bg-[#F5F5F7] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           aria-label="Increase quantity"
         >
           <Plus className="w-4 h-4" />
         </button>
+      </div>
+    </div>
+  );
+}
+
+function ProductReviews() {
+  const reviews = [
+    { rating: 5, author: "Sarah M.", text: "Exceptional quality and craftsmanship. Worth every penny." },
+    { rating: 5, author: "James K.", text: "The attention to detail is remarkable. Highly recommend." },
+    { rating: 4, author: "Emily R.", text: "Beautiful product, fast shipping. Very satisfied." },
+  ];
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <div className="flex">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <Star key={star} className="w-4 h-4 fill-[#1D1D1F] text-[#1D1D1F]" />
+          ))}
+        </div>
+        <span className="text-sm text-[#1D1D1F]/60">(127 reviews)</span>
+      </div>
+      <div className="space-y-4">
+        {reviews.map((review, idx) => (
+          <div key={idx} className="border-b border-[#1D1D1F]/10 pb-4 last:border-0">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star
+                    key={star}
+                    className={`w-3 h-3 ${
+                      star <= review.rating ? "fill-[#1D1D1F] text-[#1D1D1F]" : "fill-transparent text-[#1D1D1F]/30"
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className="text-sm font-medium text-[#1D1D1F]">{review.author}</span>
+            </div>
+            <p className="text-sm text-[#1D1D1F]/70">{review.text}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -352,16 +378,15 @@ export default function Product() {
   };
 
   const currentPrice = selectedVariant 
-    ? formatPrice(selectedVariant.price.amount, selectedVariant.price.currencyCode)
+    ? formatDisplayPrice(selectedVariant.price.amount)
     : product?.variants[0] 
-      ? formatPrice(product.variants[0].price.amount, product.variants[0].price.currencyCode)
+      ? formatDisplayPrice(product.variants[0].price.amount)
       : "$0.00";
 
   const compareAtPrice = selectedVariant?.compareAtPrice 
-    ? formatPrice(selectedVariant.compareAtPrice.amount, selectedVariant.compareAtPrice.currencyCode)
+    ? formatDisplayPrice(selectedVariant.compareAtPrice.amount)
     : null;
 
-  const canBuy = product && product.variants.length > 0 ? true : false;
   const hasOptions = product?.options && product.options.length > 0 && 
     !(product.options.length === 1 && product.options[0].values.length === 1);
 
@@ -371,8 +396,8 @@ export default function Product() {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <div className="flex-1 flex items-center justify-center px-4">
+      <div className="min-h-screen flex flex-col bg-[#F5F5F7]">
+        <div className="flex-1 flex items-center justify-center px-4 pt-20">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -381,12 +406,12 @@ export default function Product() {
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-red-50 flex items-center justify-center">
               <AlertCircle className="w-8 h-8 text-red-500" />
             </div>
-            <h1 className="text-2xl font-semibold text-black mb-3">Product Not Found</h1>
-            <p className="text-neutral-600 mb-8">
+            <h1 className="text-2xl font-semibold text-[#1D1D1F] mb-3">Product Not Found</h1>
+            <p className="text-[#1D1D1F]/60 mb-8">
               Sorry, we couldn't find the product you're looking for. It may have been removed or the link is incorrect.
             </p>
             <Link href="/">
-              <span className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-medium hover:bg-neutral-800 transition-colors cursor-pointer">
+              <span className="inline-flex items-center gap-2 px-6 py-3 bg-[#1D1D1F] text-white rounded-full font-medium hover:bg-[#1D1D1F]/90 transition-colors cursor-pointer">
                 <ChevronLeft className="w-4 h-4" />
                 Back to Home
               </span>
@@ -399,15 +424,15 @@ export default function Product() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 py-6 md:py-12">
+    <div className="min-h-screen bg-[#F5F5F7]">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-12 pt-20">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-6"
         >
           <Link href="/">
-            <span className="inline-flex items-center gap-2 text-neutral-600 hover:text-black transition-colors cursor-pointer text-sm">
+            <span className="inline-flex items-center gap-2 text-[#1D1D1F]/60 hover:text-[#1D1D1F] transition-colors cursor-pointer text-sm">
               <ChevronLeft className="w-4 h-4" />
               Back to Shop
             </span>
@@ -421,7 +446,7 @@ export default function Product() {
             transition={{ duration: 0.5 }}
             className="lg:sticky lg:top-24 lg:self-start"
           >
-            <ImageGallery 
+            <SplitImageGallery 
               images={product.images} 
               productTitle={product.title}
               selectedImageIndex={selectedImageIndex}
@@ -436,30 +461,24 @@ export default function Product() {
             className="space-y-6"
           >
             {product.vendor && (
-              <p className="text-xs uppercase tracking-widest text-amber-600 font-medium">
+              <p className="text-xs uppercase tracking-[0.2em] text-[#1D1D1F]/50 font-medium">
                 {product.vendor}
               </p>
             )}
 
             <div>
-              <h1 className="font-heading text-3xl md:text-4xl font-semibold text-black mb-3">
+              <h1 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-tight mb-4">
                 {product.title}
               </h1>
               <div className="flex items-baseline gap-3">
-                <span className="text-2xl font-semibold text-black">{currentPrice}</span>
+                <span className="text-2xl font-semibold text-[#1D1D1F]">{currentPrice}</span>
                 {compareAtPrice && (
-                  <span className="text-lg text-neutral-400 line-through">{compareAtPrice}</span>
+                  <span className="text-lg text-[#1D1D1F]/40 line-through">{compareAtPrice}</span>
                 )}
               </div>
             </div>
 
-            {product.description && (
-              <p className="text-neutral-600 leading-relaxed">
-                {product.description}
-              </p>
-            )}
-
-            <div className="border-t border-neutral-100 pt-6 space-y-6">
+            <div className="border-t border-[#1D1D1F]/10 pt-6 space-y-6">
               {hasOptions && product.options.map((option) => (
                 <OptionSelector
                   key={option.id}
@@ -481,33 +500,59 @@ export default function Product() {
             <div className="pt-4 space-y-3">
               <motion.button
                 onClick={handleBuyNow}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-4 rounded-full text-base font-semibold transition-all bg-black text-white hover:bg-neutral-800"
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className="w-full py-4 rounded-full text-base font-semibold transition-all bg-[#1D1D1F] text-white hover:bg-[#1D1D1F]/90"
               >
                 Buy Now - {currentPrice}
               </motion.button>
             </div>
 
-            <div className="border-t border-neutral-100 pt-6">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="flex items-center gap-2 text-neutral-600">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>Free Shipping</span>
-                </div>
-                <div className="flex items-center gap-2 text-neutral-600">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>Secure Checkout</span>
-                </div>
-                <div className="flex items-center gap-2 text-neutral-600">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>Easy Returns</span>
-                </div>
-                <div className="flex items-center gap-2 text-neutral-600">
-                  <Check className="w-4 h-4 text-green-500" />
-                  <span>Premium Quality</span>
-                </div>
+            <div className="flex items-center justify-center gap-6 py-4 flex-wrap">
+              <div className="flex items-center gap-2 text-[#1D1D1F]/60 text-sm">
+                <Truck className="w-4 h-4" />
+                <span>Free Shipping</span>
               </div>
+              <div className="flex items-center gap-2 text-[#1D1D1F]/60 text-sm">
+                <Shield className="w-4 h-4" />
+                <span>Secure Payment</span>
+              </div>
+              <div className="flex items-center gap-2 text-[#1D1D1F]/60 text-sm">
+                <RotateCcw className="w-4 h-4" />
+                <span>Easy Returns</span>
+              </div>
+            </div>
+
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="details" className="border-[#1D1D1F]/10">
+                <AccordionTrigger className="text-[#1D1D1F] hover:no-underline">
+                  Product Details
+                </AccordionTrigger>
+                <AccordionContent className="text-[#1D1D1F]/70 leading-relaxed">
+                  {product.description || "Premium quality product crafted with the finest materials and attention to detail."}
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="size" className="border-[#1D1D1F]/10">
+                <AccordionTrigger className="text-[#1D1D1F] hover:no-underline">
+                  Size & Fit
+                </AccordionTrigger>
+                <AccordionContent className="text-[#1D1D1F]/70 leading-relaxed">
+                  Please refer to our size guide for the perfect fit. If you're between sizes, we recommend sizing up for a more comfortable fit.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="shipping" className="border-[#1D1D1F]/10">
+                <AccordionTrigger className="text-[#1D1D1F] hover:no-underline">
+                  Shipping & Returns
+                </AccordionTrigger>
+                <AccordionContent className="text-[#1D1D1F]/70 leading-relaxed">
+                  Free shipping on orders over $200. Standard delivery takes 3-5 business days. Easy 30-day returns policy.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
+            <div className="pt-6 border-t border-[#1D1D1F]/10">
+              <h3 className="text-lg font-semibold text-[#1D1D1F] mb-4">Customer Reviews</h3>
+              <ProductReviews />
             </div>
 
             {product.tags.length > 0 && (
@@ -516,7 +561,7 @@ export default function Product() {
                   {product.tags.slice(0, 5).map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 bg-neutral-100 text-neutral-600 text-xs rounded-full"
+                      className="px-3 py-1 bg-white border border-[#1D1D1F]/10 text-[#1D1D1F]/60 text-xs rounded-full"
                     >
                       {tag}
                     </span>
@@ -524,8 +569,6 @@ export default function Product() {
                 </div>
               </div>
             )}
-
-            <CustomerReviews productId={product.id} />
           </motion.div>
         </div>
       </div>

@@ -15,8 +15,8 @@ export function SignatureParallax() {
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative py-24 md:py-40 bg-black overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-neutral-950 via-black to-neutral-950" />
+    <section ref={sectionRef} className="relative py-24 md:py-40 bg-[#1D1D1F] overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1D1D1F] via-black to-[#1D1D1F]" />
       
       <div className="relative max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
@@ -30,26 +30,26 @@ export function SignatureParallax() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>
             <motion.div
-              className="absolute -bottom-4 -right-4 w-32 h-32 border border-[#D4AF37]/30 rounded-2xl"
+              className="absolute -bottom-4 -right-4 w-32 h-32 border border-white/10 rounded-2xl"
               style={{ opacity }}
             />
             <motion.div
-              className="absolute -top-4 -left-4 w-24 h-24 bg-[#D4AF37]/5 rounded-full blur-2xl"
+              className="absolute -top-4 -left-4 w-24 h-24 bg-white/5 rounded-full blur-2xl"
               style={{ opacity }}
             />
           </motion.div>
 
           <motion.div style={{ y: textY }} className="order-1 md:order-2">
             <motion.div style={{ opacity }}>
-              <p className="text-[#D4AF37] text-xs tracking-[0.3em] uppercase mb-4">
+              <p className="text-white/50 text-xs tracking-[0.3em] uppercase mb-4">
                 Limited Edition
               </p>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white tracking-wide leading-tight mb-6">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight mb-6">
                 Signature
                 <br />
-                <span className="italic">Series</span>
+                <span className="font-light italic">Series</span>
               </h2>
-              <p className="text-white/50 text-lg leading-relaxed mb-8 max-w-md">
+              <p className="text-white/60 text-lg leading-relaxed mb-8 max-w-md">
                 Crafted for those who appreciate the extraordinary. Each piece in our Signature Series 
                 represents the pinnacle of luxury craftsmanship.
               </p>
@@ -57,7 +57,7 @@ export function SignatureParallax() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 bg-[#D4AF37] text-black text-sm tracking-[0.2em] uppercase rounded-full hover:bg-[#C5A028] transition-colors"
+                  className="px-8 py-4 bg-white text-[#1D1D1F] text-sm font-semibold tracking-wide rounded-full hover:bg-white/90 transition-colors"
                 >
                   Discover Collection
                 </motion.button>
