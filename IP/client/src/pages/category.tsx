@@ -138,6 +138,56 @@ export default function Category() {
 
       <section className="pb-16" data-testid="products-grid-section">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
+          {slug === "men" && (
+            <div className="flex flex-wrap gap-2 mb-6">
+              <Link href="/collections/men">
+                <span className={`px-4 py-2 rounded-full text-sm cursor-pointer transition-colors ${slug === "men" ? "bg-black text-white" : "bg-gray-100 text-gray-800 hover:bg-gray-200"}`}>
+                  All
+                </span>
+              </Link>
+              <Link href="/collections/mens-clothing">
+                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
+                  Clothing
+                </span>
+              </Link>
+              <Link href="/collections/mens-accessories">
+                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
+                  Accessories
+                </span>
+              </Link>
+              <Link href="/collections/male-footwear">
+                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
+                  Footwear
+                </span>
+              </Link>
+            </div>
+          )}
+
+          {slug === "women" && (
+            <div className="flex flex-wrap gap-2 mb-6">
+              <Link href="/collections/women">
+                <span className={`px-4 py-2 rounded-full text-sm cursor-pointer transition-colors ${slug === "women" ? "bg-black text-white" : "bg-gray-100 text-gray-800 hover:bg-gray-200"}`}>
+                  All
+                </span>
+              </Link>
+              <Link href="/collections/womens-clothing">
+                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
+                  Clothing
+                </span>
+              </Link>
+              <Link href="/collections/bags">
+                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
+                  Bags & Jewelry
+                </span>
+              </Link>
+              <Link href="/collections/female-footwear">
+                <span className="px-4 py-2 rounded-full text-sm cursor-pointer bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors">
+                  Footwear
+                </span>
+              </Link>
+            </div>
+          )}
+
           <div className="flex items-center justify-between mb-6">
             <p className="text-white/50 text-sm">
               {displayProducts.length} {displayProducts.length === 1 ? "product" : "products"}

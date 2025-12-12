@@ -118,10 +118,10 @@ export function BentoGrid() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="flex-none min-w-[85vw] md:min-w-[350px] snap-center"
+            className="flex-none min-w-[260px] md:min-w-[350px] snap-center"
           >
             <Link href={card.href}>
-              <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer bg-white shadow-sm">
+              <div className="group relative aspect-[4/3] md:aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer bg-white shadow-sm">
                 <img
                   src={card.image}
                   alt={card.title}
