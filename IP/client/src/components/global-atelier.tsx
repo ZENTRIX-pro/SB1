@@ -111,10 +111,10 @@ export function GlobalAtelier() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="flex-none w-[300px] md:w-[380px] snap-start"
+            className="flex-none min-w-[280px] w-[80vw] md:w-[380px] snap-start"
           >
             <Link href={location.href}>
-              <div className="group relative h-[400px] md:h-[480px] rounded-2xl overflow-hidden cursor-pointer">
+              <div className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer">
                 <img
                   src={location.image}
                   alt={location.name}

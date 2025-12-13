@@ -25,7 +25,7 @@ const categories: RibbonCategory[] = [
   {
     name: "Beauty",
     link: "/collections/beauty",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?w=150&q=80"
+    image: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=300&q=80"
   },
   {
     name: "Tech",
