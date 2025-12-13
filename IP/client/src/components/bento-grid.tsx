@@ -32,7 +32,7 @@ const essentialCards: EssentialCard[] = [
   {
     title: "Beauty & Care",
     subtitle: "Radiant Glow",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80",
     href: "/collections/beauty"
   },
   {
