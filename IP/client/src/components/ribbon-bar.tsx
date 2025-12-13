@@ -7,45 +7,45 @@ interface RibbonCategory {
 }
 
 const categories: RibbonCategory[] = [
-  { 
-    name: "Men", 
-    link: "/collections/men", 
-    image: "https://images.unsplash.com/photo-1594938298603-c8148c472997?auto=format&fit=crop&w=300&q=80"
+  {
+    name: "Men",
+    link: "/collections/men",
+    image: "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=300&q=80"
   },
-  { 
-    name: "Women", 
-    link: "/collections/women", 
-    image: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=150&q=80"
+  {
+    name: "Women",
+    link: "/collections/women",
+    image: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=300&q=80"
   },
-  { 
-    name: "Active", 
-    link: "/collections/active", 
-    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=300&q=80"
+  {
+    name: "Active",
+    link: "/collections/active",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=300&q=80"
   },
-  { 
-    name: "Beauty", 
-    link: "/collections/beauty", 
+  {
+    name: "Beauty",
+    link: "/collections/beauty",
     image: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=300&q=80"
   },
-  { 
-    name: "Tech", 
-    link: "/collections/tech", 
-    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=150&q=80"
+  {
+    name: "Tech",
+    link: "/collections/tech",
+    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=300&q=80"
   },
-  { 
-    name: "Home", 
-    link: "/collections/home", 
-    image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=150&q=80"
+  {
+    name: "Home",
+    link: "/collections/home",
+    image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=300&q=80"
   },
-  { 
-    name: "Scents", 
-    link: "/collections/fragrances", 
-    image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=150&q=80"
+  {
+    name: "Scents",
+    link: "/collections/fragrances",
+    image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=300&q=80"
   },
-  { 
-    name: "Gifts", 
-    link: "/collections/gifts", 
-    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=150&q=80"
+  {
+    name: "Gifts",
+    link: "/collections/gifts",
+    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=80"
   }
 ];
 
