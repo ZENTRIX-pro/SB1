@@ -65,9 +65,9 @@ export function RibbonBar() {
                 href={category.link}
               >
                 <div className="flex flex-col items-center gap-2 cursor-pointer group">
-                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden transition-transform duration-300 ${
+                  <div className={`w-[70px] h-[70px] md:w-20 md:h-20 rounded-2xl overflow-hidden transition-transform duration-300 bg-transparent shadow-none border-none ${
                     isActive 
-                      ? "ring-2 ring-[#1D1D1F] ring-offset-2" 
+                      ? "opacity-100 scale-105" 
                       : "group-hover:scale-110"
                   }`}>
                     <img 
