@@ -14,7 +14,7 @@ const essentialCards: EssentialCard[] = [
   {
     title: "Men",
     subtitle: "Refined Elegance",
-    image: "https://images.unsplash.com/photo-1593030761757-71bd90dbe3e4?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=800&q=80",
     href: "/collections/men"
   },
   {
@@ -26,7 +26,7 @@ const essentialCards: EssentialCard[] = [
   {
     title: "Active",
     subtitle: "Performance Luxury",
-    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80",
     href: "/collections/active"
   },
   {
