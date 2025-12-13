@@ -14,7 +14,7 @@ const gridCards: GridCard[] = [
   {
     title: "Men's Collection",
     subtitle: "Refined Elegance",
-    image: "https://images.unsplash.com/photo-1593030761757-71bd90dbe3e4?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1594938298603-c8148c472997?auto=format&fit=crop&w=600&q=80",
     href: "/collections/men"
   },
   {

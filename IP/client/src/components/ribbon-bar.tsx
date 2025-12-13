@@ -10,7 +10,7 @@ const categories: RibbonCategory[] = [
   { 
     name: "Men", 
     link: "/collections/men", 
-    image: "https://images.unsplash.com/photo-1593030761757-71bd90dbe3e4?auto=format&fit=crop&w=150&q=80"
+    image: "https://images.unsplash.com/photo-1594938298603-c8148c472997?auto=format&fit=crop&w=150&q=80"
   },
   { 
     name: "Women", 
@@ -20,7 +20,7 @@ const categories: RibbonCategory[] = [
   { 
     name: "Active", 
     link: "/collections/active", 
-    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=150&q=80"
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f9c18206?auto=format&fit=crop&w=150&q=80"
   },
   { 
     name: "Beauty", 
