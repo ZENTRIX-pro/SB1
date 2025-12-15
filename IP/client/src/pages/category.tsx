@@ -42,7 +42,7 @@ const subCategoryMap: Record<string, SubCategory[]> = {
     { handle: "mens-activewear", label: "Men's Active" },
     { handle: "womens-activewear", label: "Women's Active" },
     { handle: "running-shoes", label: "Running Shoes" },
-    { handle: "gym-gear", label: "Gym Gear" },
+    { handle: "gym-gear", label: "Gear" },
   ],
   tech: [
     { handle: "smart-watches", label: "Smart Watches" },
