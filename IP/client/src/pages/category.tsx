@@ -255,7 +255,9 @@ export default function Category() {
     );
   }
 
-  if (!collection && !category && slug !== "all" && products.length === 0) {
+  const hasSubCategories = slug ? !!subCategoryMap[slug] : false;
+  
+  if (!collection && !category && slug !== "all" && products.length === 0 && !hasSubCategories) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7] pt-14">
         <div className="text-center">
