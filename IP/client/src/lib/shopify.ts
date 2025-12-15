@@ -174,36 +174,51 @@ export async function fetchCollections(): Promise<ShopifyCollection[]> {
 export const COLLECTION_HANDLES = {
   MEN: "men",
   WOMEN: "women",
-  MALE_FOOTWEAR: "male-footwear",
-  FEMALE_FOOTWEAR: "female-footwear",
-  WOMENS_FOOTWEAR: "womens-footwear",
-  JEWELRY: "jewelry",
-  WALLETS: "wallets",
-  BAGS: "bags",
+  HOME: "home",
+  ACTIVE: "active",
   TECH: "tech",
+  BEAUTY: "beauty",
+  SCENTS: "scents",
+  GIFTS: "gifts",
+  MENS_SETS: "mens-sets",
+  MENS_KNITWEAR: "mens-knitwear",
+  MENS_RESORT_SHIRTS: "mens-resort-shirts",
+  MENS_T_SHIRTS: "mens-t-shirts",
+  MENS_TROUSERS: "mens-trousers",
+  MENS_WATCHES: "mens-watches",
+  MENS_FOOTWEAR: "mens-footwear",
+  MENS_ACCESSORIES: "mens-accessories",
+  WOMENS_DRESSES: "womens-dresses",
+  WOMENS_TOPS: "womens-tops",
+  WOMENS_HANDBAGS: "womens-handbags",
+  WOMENS_JEWELRY: "womens-jewelry",
+  WOMENS_WATCHES: "womens-watches",
+  WOMENS_FOOTWEAR: "womens-footwear",
+  HOME_DECOR: "home-decor",
+  ITALIAN_FURNITURE: "italian-furniture",
+  WALL_ART: "wall-art",
+  TABLEWARE: "tableware",
+  MENS_ACTIVEWEAR: "mens-activewear",
+  WOMENS_ACTIVEWEAR: "womens-activewear",
+  RUNNING_SHOES: "running-shoes",
+  GYM_GEAR: "gym-gear",
+  SMART_WATCHES: "smart-watches",
+  HEADPHONES: "headphones",
+  TECH_GADGETS: "tech-gadgets",
+  BEAUTY_SKINCARE: "beauty-skincare",
+  BEAUTY_TOOLS: "beauty-tools",
+  HAIR_CARE: "hair-care",
+  MENS_PERFUME: "mens-perfume",
+  WOMENS_PERFUME: "womens-perfume",
+  UNISEX_SCENTS: "unisex-scents",
+  GIFTS_FOR_HIM: "gifts-for-him",
+  GIFTS_FOR_HER: "gifts-for-her",
+  GIFT_BUNDLES: "gift-bundles",
   SIGNATURE: "signature",
   HERITAGE: "heritage",
   TRENDING: "trending",
   NEW: "new",
   HERO_SLIDER: "hero-slider",
-  ACTIVE: "active",
-  MENS_ACTIVEWEAR: "mens-activewear",
-  WOMENS_ACTIVEWEAR: "womens-activewear",
-  WORKOUT_GEAR: "workout-gear",
-  RECOVERY: "recovery",
-  BEAUTY_TOOLS: "beauty-tools",
-  FACE_TOOLS: "face-tools",
-  HAIR_TOOLS: "hair-tools",
-  SKINCARE_DEVICES: "skincare-devices",
-  MENS_CLOTHING: "mens-clothing",
-  WOMENS_CLOTHING: "womens-clothing",
-  MENS_ACCESSORIES: "mens-accessories",
-  AUDIO_HEADPHONES: "audio-headphones",
-  MOBILE_ACCESSORIES: "mobile-accessories",
-  SMART_HOME: "smart-home",
-  HOME: "home",
-  SCENTS: "scents",
-  GIFTS: "gifts",
 } as const;
 
 export interface HeroSlide {
@@ -383,6 +398,20 @@ export function formatPrice(amount: string, currencyCode: string = "USD"): strin
     style: "currency",
     currency: "USD",
   }).format(num);
+}
+
+export async function fetchCollectionImage(handle: string): Promise<string | null> {
+  try {
+    const collections = await client.collection.fetchAll(50);
+    const collection = collections.find((c: any) => c.handle === handle);
+    if (collection && collection.image) {
+      return collection.image.src;
+    }
+    return null;
+  } catch (error) {
+    console.error(`Error fetching collection image for ${handle}:`, error);
+    return null;
+  }
 }
 
 export { client };

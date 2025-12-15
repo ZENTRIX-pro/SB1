@@ -39,7 +39,7 @@ const categories: RibbonCategory[] = [
   },
   {
     name: "Scents",
-    link: "/collections/fragrances",
+    link: "/collections/scents",
     image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=300&q=80"
   },
   {
