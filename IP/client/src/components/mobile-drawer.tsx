@@ -27,7 +27,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 z-50"
+            className="fixed inset-0 bg-black/70 z-50"
             onClick={onClose}
           />
           <motion.div
@@ -35,15 +35,18 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 bottom-0 w-[280px] bg-white z-50 shadow-2xl"
+            className="fixed top-0 right-0 bottom-0 w-[280px] bg-[#111111] z-50 shadow-2xl"
           >
-            <div className="flex items-center justify-between p-4 border-b border-neutral-100">
-              <span className="font-heading text-lg font-semibold text-black">
+            <div className="flex items-center justify-between p-4 border-b border-white/10">
+              <span 
+                className="text-lg font-semibold tracking-[0.15em] bg-gradient-to-r from-[#D4AF37] via-[#F4E4BC] to-[#D4AF37] bg-clip-text text-transparent"
+                style={{ fontFamily: 'Cinzel, serif' }}
+              >
                 ZENTRIX
               </span>
               <button
                 onClick={onClose}
-                className="p-2 text-neutral-600 hover:text-black transition-colors"
+                className="p-2 text-white/60 hover:text-[#D4AF37] transition-colors"
               >
                 <X className="w-5 h-5" strokeWidth={1.5} />
               </button>
@@ -58,9 +61,9 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                   transition={{ delay: index * 0.05 + 0.1 }}
                 >
                   <Link href={link.href} onClick={onClose}>
-                    <div className="flex items-center gap-4 py-4 border-b border-neutral-100 cursor-pointer group">
-                      <link.icon className="w-5 h-5 text-neutral-400 group-hover:text-black transition-colors" strokeWidth={1.5} />
-                      <span className="text-base font-medium text-black group-hover:text-neutral-600 transition-colors">
+                    <div className="flex items-center gap-4 py-4 border-b border-white/10 cursor-pointer group">
+                      <link.icon className="w-5 h-5 text-[#D4AF37]/60 group-hover:text-[#D4AF37] transition-colors" strokeWidth={1.5} />
+                      <span className="text-base font-medium text-white/80 group-hover:text-[#D4AF37] transition-colors">
                         {link.name}
                       </span>
                     </div>
@@ -69,8 +72,8 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
               ))}
             </nav>
 
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-neutral-100">
-              <p className="text-xs text-neutral-500 text-center">
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10">
+              <p className="text-xs text-white/30 text-center tracking-wider">
                 Premium Luxury Since 2026
               </p>
             </div>

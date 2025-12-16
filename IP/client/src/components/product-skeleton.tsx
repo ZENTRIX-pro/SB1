@@ -25,17 +25,32 @@ export function LoadingScreen() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-[400px] flex flex-col items-center justify-center"
+      className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
     >
       <motion.div
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
+        animate={{ 
+          opacity: [0.6, 1, 0.6],
+          scale: [0.98, 1, 0.98]
+        }}
+        transition={{ 
+          duration: 2, 
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
         className="text-center"
       >
-        <h2 className="font-heading text-2xl md:text-3xl font-semibold text-black tracking-wider mb-2">
+        <h2 
+          className="text-3xl md:text-4xl font-semibold tracking-[0.25em] mb-4 bg-gradient-to-r from-[#D4AF37] via-[#F4E4BC] to-[#D4AF37] bg-clip-text text-transparent"
+          style={{ fontFamily: 'Cinzel, serif' }}
+        >
           ZENTRIX
         </h2>
-        <p className="text-neutral-500 text-sm">Loading luxury...</p>
+        <motion.div 
+          className="w-16 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"
+          animate={{ opacity: [0.3, 1, 0.3] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <p className="text-white/40 text-xs mt-4 tracking-[0.3em] uppercase">Loading luxury...</p>
       </motion.div>
     </motion.div>
   );

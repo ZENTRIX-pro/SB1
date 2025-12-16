@@ -43,28 +43,18 @@ export function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-white/90 backdrop-blur-xl shadow-sm"
-            : "bg-white"
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black"
       >
         <div className="max-w-[1200px] mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-14">
-            <Link href="/" data-testid="link-home">
-              <span className="text-xl font-semibold tracking-[0.15em] text-black cursor-pointer" style={{ fontFamily: 'Cinzel, serif' }}>
-                ZENTRIX
-              </span>
-            </Link>
-
             <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
+              {navLinks.slice(0, 2).map((link) => (
                 <Link key={link.name} href={link.href}>
                   <span
-                    className={`text-sm font-medium cursor-pointer transition-colors hover:text-black ${
+                    className={`text-sm font-medium cursor-pointer transition-colors hover:text-[#D4AF37] ${
                       location === link.href
-                        ? "text-black"
-                        : "text-neutral-500"
+                        ? "text-[#D4AF37]"
+                        : "text-white/80"
                     }`}
                     data-testid={`link-nav-${link.name.toLowerCase()}`}
                   >
@@ -74,10 +64,36 @@ export function Navbar() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2">
+            <Link href="/" data-testid="link-home" className="absolute left-1/2 transform -translate-x-1/2">
+              <span 
+                className="text-xl font-semibold tracking-[0.2em] cursor-pointer bg-gradient-to-r from-[#D4AF37] via-[#F4E4BC] to-[#D4AF37] bg-clip-text text-transparent drop-shadow-sm" 
+                style={{ fontFamily: 'Cinzel, serif' }}
+              >
+                ZENTRIX
+              </span>
+            </Link>
+
+            <div className="hidden md:flex items-center gap-8">
+              {navLinks.slice(2).map((link) => (
+                <Link key={link.name} href={link.href}>
+                  <span
+                    className={`text-sm font-medium cursor-pointer transition-colors hover:text-[#D4AF37] ${
+                      location === link.href
+                        ? "text-[#D4AF37]"
+                        : "text-white/80"
+                    }`}
+                    data-testid={`link-nav-${link.name.toLowerCase()}`}
+                  >
+                    {link.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-2 md:absolute md:right-4">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2.5 text-neutral-600 hover:text-black transition-colors"
+                className="p-2.5 text-white/80 hover:text-[#D4AF37] transition-colors"
                 data-testid="button-search"
               >
                 <Search className="w-5 h-5" strokeWidth={1.5} />
@@ -85,7 +101,7 @@ export function Navbar() {
 
               <Link href="/account">
                 <span
-                  className="p-2.5 text-neutral-600 hover:text-black transition-colors cursor-pointer inline-block"
+                  className="p-2.5 text-white/80 hover:text-[#D4AF37] transition-colors cursor-pointer inline-block"
                   data-testid="button-account"
                 >
                   <User className="w-5 h-5" strokeWidth={1.5} />
@@ -94,13 +110,13 @@ export function Navbar() {
 
               <button
                 onClick={openCart}
-                className="p-2.5 text-neutral-600 hover:text-black transition-colors relative"
+                className="p-2.5 text-white/80 hover:text-[#D4AF37] transition-colors relative"
                 data-testid="button-cart"
               >
                 <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
                 {totalItems > 0 && (
                   <span
-                    className="absolute top-1 right-1 w-4 h-4 bg-black text-white text-[10px] rounded-full flex items-center justify-center font-medium"
+                    className="absolute top-1 right-1 w-4 h-4 bg-[#D4AF37] text-black text-[10px] rounded-full flex items-center justify-center font-medium"
                     data-testid="text-cart-count"
                   >
                     {totalItems}
@@ -110,7 +126,7 @@ export function Navbar() {
 
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-2.5 text-neutral-600 hover:text-black transition-colors md:hidden"
+                className="p-2.5 text-white/80 hover:text-[#D4AF37] transition-colors md:hidden"
                 data-testid="button-mobile-menu"
               >
                 <Menu className="w-5 h-5" strokeWidth={1.5} />

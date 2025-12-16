@@ -43,12 +43,16 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#1D1D1F] py-12 md:py-16" data-testid="footer">
+    <footer className="bg-[#0E0E0E] py-10 md:py-14" data-testid="footer">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
           <div className="col-span-2 lg:col-span-2">
             <Link href="/">
-              <span className="text-xl font-semibold tracking-[0.15em] text-white cursor-pointer" data-testid="link-footer-logo">
+              <span 
+                className="text-xl font-semibold tracking-[0.2em] cursor-pointer bg-gradient-to-r from-[#D4AF37] via-[#F4E4BC] to-[#D4AF37] bg-clip-text text-transparent" 
+                style={{ fontFamily: 'Cinzel, serif' }}
+                data-testid="link-footer-logo"
+              >
                 ZENTRIX
               </span>
             </Link>
