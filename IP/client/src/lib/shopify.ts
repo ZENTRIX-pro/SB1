@@ -163,7 +163,7 @@ export async function fetchProductById(id: string): Promise<ShopifyProduct | nul
 
 export async function fetchCollections(): Promise<ShopifyCollection[]> {
   try {
-    const collections = await client.collection.fetchAll(20);
+    const collections = await client.collection.fetchAll(250);
     return collections.map(transformCollection);
   } catch (error) {
     console.error("Error fetching collections:", error);
@@ -263,21 +263,47 @@ export async function fetchCollectionByHandle(handle: string): Promise<{
 }> {
   try {
     console.log(`[Shopify] Fetching collection: ${handle}`);
-    const collections = await client.collection.fetchAllWithProducts();
-    console.log(`[Shopify] Available collections:`, collections.map((c: any) => c.handle));
-    const collection = collections.find((c: any) => c.handle === handle);
     
-    if (collection) {
-      console.log(`[Shopify] Found collection "${handle}" with ${collection.products.length} products`);
+    // Directly fetch the collection by handle using the SDK
+    const collection = await client.collection.fetchByHandle(handle);
+    
+    if (!collection) {
+      console.log(`[Shopify] Collection "${handle}" not found - trying alternative fetch`);
+      // Fallback: fetch all collections with higher limit
+      const allCollections = await client.collection.fetchAllWithProducts({ first: 250 });
+      console.log(`[Shopify] Available collections (${allCollections.length}):`, allCollections.map((c: any) => c.handle));
+      const foundCollection = allCollections.find((c: any) => c.handle === handle);
+      
+      if (foundCollection) {
+        console.log(`[Shopify] Found collection "${handle}" via fallback with ${foundCollection.products?.length || 0} products`);
+        return {
+          collection: transformCollection(foundCollection),
+          products: (foundCollection.products || []).map(transformProduct),
+        };
+      }
+      
+      console.log(`[Shopify] Collection "${handle}" definitely not found in store`);
+      return { collection: null, products: [] };
+    }
+    
+    // Fetch products for this collection with no filters, high limit
+    const collectionWithProducts = await client.collection.fetchWithProducts(collection.id, { productsFirst: 250 });
+    
+    if (collectionWithProducts && collectionWithProducts.products) {
+      console.log(`[Shopify] Found collection "${handle}" with ${collectionWithProducts.products.length} products`);
       return {
-        collection: transformCollection(collection),
-        products: collection.products.map(transformProduct),
+        collection: transformCollection(collectionWithProducts),
+        products: collectionWithProducts.products.map(transformProduct),
       };
     }
-    console.log(`[Shopify] Collection "${handle}" not found`);
-    return { collection: null, products: [] };
+    
+    console.log(`[Shopify] Collection "${handle}" found but has no products`);
+    return { 
+      collection: transformCollection(collection), 
+      products: [] 
+    };
   } catch (error) {
-    console.error(`Error fetching collection by handle (${handle}):`, error);
+    console.error(`[Shopify] Error fetching collection "${handle}":`, error);
     return { collection: null, products: [] };
   }
 }
@@ -310,21 +336,8 @@ export async function fetchCollectionWithProducts(handle: string): Promise<{
   collection: ShopifyCollection | null;
   products: ShopifyProduct[];
 }> {
-  try {
-    const collections = await client.collection.fetchAllWithProducts();
-    const collection = collections.find((c: any) => c.handle === handle);
-    
-    if (collection) {
-      return {
-        collection: transformCollection(collection),
-        products: collection.products.map(transformProduct),
-      };
-    }
-    return { collection: null, products: [] };
-  } catch (error) {
-    console.error("Error fetching collection with products:", error);
-    return { collection: null, products: [] };
-  }
+  // Re-use the improved fetchCollectionByHandle
+  return fetchCollectionByHandle(handle);
 }
 
 export function findVariantByOptions(
@@ -403,10 +416,15 @@ export function formatPrice(amount: string, currencyCode: string = "USD"): strin
 
 export async function fetchCollectionImage(handle: string): Promise<string | null> {
   try {
-    const collections = await client.collection.fetchAll(50);
-    const collection = collections.find((c: any) => c.handle === handle);
+    const collection = await client.collection.fetchByHandle(handle);
     if (collection && collection.image) {
       return collection.image.src;
+    }
+    // Fallback to fetching all
+    const collections = await client.collection.fetchAll(250);
+    const found = collections.find((c: any) => c.handle === handle);
+    if (found && found.image) {
+      return found.image.src;
     }
     return null;
   } catch (error) {
