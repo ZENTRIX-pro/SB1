@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { CartProvider } from "@/lib/cart-context";
 import { ShopifyProvider } from "@/lib/shopify-context";
 import { AuthProvider } from "@/lib/auth-context";
+import { CurrencyProvider } from "@/lib/currency-context";
 import { products } from "@/lib/data";
 import { Navbar } from "@/components/navbar";
 import { ZDrawingLoader } from "@/components/z-drawing-loader";
@@ -72,20 +73,22 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
-          <ShopifyProvider>
-            <AuthProvider>
-              <CartProvider products={products}>
-                {isLoading && <ZDrawingLoader onComplete={() => setIsLoading(false)} />}
-                <div className="min-h-screen bg-white">
-                  <LimitedDropBar />
-                  <Navbar />
-                  <CartDrawer />
-                  <Router />
-                </div>
-                <Toaster />
-              </CartProvider>
-            </AuthProvider>
-          </ShopifyProvider>
+          <CurrencyProvider>
+            <ShopifyProvider>
+              <AuthProvider>
+                <CartProvider products={products}>
+                  {isLoading && <ZDrawingLoader onComplete={() => setIsLoading(false)} />}
+                  <div className="min-h-screen bg-white">
+                    <LimitedDropBar />
+                    <Navbar />
+                    <CartDrawer />
+                    <Router />
+                  </div>
+                  <Toaster />
+                </CartProvider>
+              </AuthProvider>
+            </ShopifyProvider>
+          </CurrencyProvider>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

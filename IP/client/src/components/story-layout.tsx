@@ -1,9 +1,10 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
-import { ShopifyProduct, buildCheckoutUrl, formatPrice } from "@/lib/shopify";
+import { ShopifyProduct, buildCheckoutUrl } from "@/lib/shopify";
 import { Footer } from "@/components/footer";
 import { ProductSkeleton } from "@/components/product-skeleton";
+import { useCurrency } from "@/lib/currency-context";
 
 interface StoryLayoutProps {
   title: string;
@@ -24,6 +25,8 @@ export function StoryLayout({
   isLoading,
   accentColor = "amber",
 }: StoryLayoutProps) {
+  const { formatPrice } = useCurrency();
+  
   const handleBuyNow = (product: ShopifyProduct) => {
     const variant = product.variants[0];
     if (variant) {

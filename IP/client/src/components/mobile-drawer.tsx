@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronDown, User } from "lucide-react";
+import { X, ChevronDown, User, Search } from "lucide-react";
+import { useCurrency, GLOBAL_CURRENCIES } from "@/lib/currency-context";
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -14,20 +15,16 @@ const drawerLinks = [
   { name: "WOMEN", href: "/collections/women" },
   { name: "TECH & GADGETS", href: "/collections/tech" },
   { name: "HOME LIVING", href: "/collections/home" },
+  { name: "ACTIVE", href: "/collections/active" },
   { name: "BEAUTY", href: "/collections/beauty" },
+  { name: "SCENTS", href: "/collections/scents" },
   { name: "GIFTS", href: "/collections/gifts" },
 ];
 
-const currencies = [
-  { code: "USD", symbol: "$", name: "US Dollar" },
-  { code: "EUR", symbol: "€", name: "Euro" },
-  { code: "GBP", symbol: "£", name: "British Pound" },
-  { code: "INR", symbol: "₹", name: "Indian Rupee" },
-];
-
 export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
-  const [selectedCurrency, setSelectedCurrency] = useState(currencies[0]);
+  const { currency, setCurrency } = useCurrency();
   const [currencyOpen, setCurrencyOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <AnimatePresence>
@@ -95,7 +92,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                   onClick={() => setCurrencyOpen(!currencyOpen)}
                   className="flex items-center justify-between w-full py-3 text-sm font-medium text-black uppercase tracking-wider"
                 >
-                  <span>{selectedCurrency.symbol} {selectedCurrency.code}</span>
+                  <span>{currency.symbol} {currency.code}</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${currencyOpen ? 'rotate-180' : ''}`} />
                 </button>
                 
@@ -105,22 +102,42 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute bottom-full left-0 right-0 bg-white border border-neutral-200 shadow-lg mb-2"
+                      className="absolute bottom-full left-0 right-0 bg-white border border-neutral-200 shadow-lg mb-2 max-h-[300px] overflow-hidden flex flex-col"
                     >
-                      {currencies.map((currency) => (
-                        <button
-                          key={currency.code}
-                          onClick={() => {
-                            setSelectedCurrency(currency);
-                            setCurrencyOpen(false);
-                          }}
-                          className={`w-full px-4 py-3 text-left text-sm hover:bg-neutral-50 ${
-                            selectedCurrency.code === currency.code ? 'bg-neutral-100' : ''
-                          }`}
-                        >
-                          {currency.symbol} {currency.code} - {currency.name}
-                        </button>
-                      ))}
+                      <div className="sticky top-0 bg-white border-b border-neutral-100 p-2">
+                        <div className="relative">
+                          <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                          <input
+                            type="text"
+                            placeholder="Search currency..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-8 pr-3 py-2 text-sm border border-neutral-200 rounded focus:outline-none focus:border-black"
+                          />
+                        </div>
+                      </div>
+                      <div className="overflow-y-auto max-h-[240px]">
+                        {GLOBAL_CURRENCIES
+                          .filter(c => 
+                            c.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            c.name.toLowerCase().includes(searchQuery.toLowerCase())
+                          )
+                          .map((curr) => (
+                          <button
+                            key={curr.code}
+                            onClick={() => {
+                              setCurrency(curr);
+                              setCurrencyOpen(false);
+                              setSearchQuery("");
+                            }}
+                            className={`w-full px-4 py-3 text-left text-sm hover:bg-neutral-50 ${
+                              currency.code === curr.code ? 'bg-neutral-100' : ''
+                            }`}
+                          >
+                            {curr.symbol} {curr.code} - {curr.name}
+                          </button>
+                        ))}
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>

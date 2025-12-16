@@ -3,10 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { fetchCollectionByHandle, fetchCollectionImage, ShopifyProduct, ShopifyCollection, formatPrice } from "@/lib/shopify";
+import { fetchCollectionByHandle, fetchCollectionImage, ShopifyProduct, ShopifyCollection } from "@/lib/shopify";
 import { categories } from "@/lib/data";
 import { Footer } from "@/components/footer";
 import { ProductSkeleton } from "@/components/product-skeleton";
+import { useCurrency } from "@/lib/currency-context";
 
 interface SubCategory {
   handle: string;
@@ -33,15 +34,15 @@ const subCategoryMap: Record<string, SubCategory[]> = {
     { handle: "womens-footwear", label: "Footwear" },
   ],
   home: [
-    { handle: "home-decor", label: "Artisan Decor" },
-    { handle: "italian-furniture", label: "Italian Living" },
-    { handle: "wall-art", label: "Minimalist Art" },
+    { handle: "artisan-decor", label: "Decor" },
+    { handle: "italian-living", label: "Furniture" },
+    { handle: "minimalist-art", label: "Art" },
     { handle: "tableware", label: "Tableware" },
   ],
   active: [
-    { handle: "mens-activewear", label: "Men's Active" },
-    { handle: "womens-activewear", label: "Women's Active" },
-    { handle: "running-shoes", label: "Running Shoes" },
+    { handle: "mens-activewear", label: "Men" },
+    { handle: "womens-activewear", label: "Women" },
+    { handle: "running-shoes", label: "Shoes" },
     { handle: "gym-gear", label: "Gear" },
   ],
   tech: [
@@ -50,9 +51,9 @@ const subCategoryMap: Record<string, SubCategory[]> = {
     { handle: "tech-gadgets", label: "Gadgets" },
   ],
   beauty: [
-    { handle: "beauty-skincare", label: "Skincare" },
+    { handle: "skincare", label: "Skincare" },
     { handle: "beauty-tools", label: "Tools" },
-    { handle: "hair-care", label: "Hair Care" },
+    { handle: "hair-care", label: "Hair" },
   ],
   scents: [
     { handle: "mens-perfume", label: "For Him" },
@@ -81,9 +82,9 @@ const placeholderIcons: Record<string, string> = {
   "womens-jewelry": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=150&q=80",
   "womens-watches": "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=150&q=80",
   "womens-footwear": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=150&q=80",
-  "home-decor": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=150&q=80",
-  "italian-furniture": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=150&q=80",
-  "wall-art": "https://images.unsplash.com/photo-1513519245088-0e12902e35ca?auto=format&fit=crop&w=150&q=80",
+  "artisan-decor": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=150&q=80",
+  "italian-living": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=150&q=80",
+  "minimalist-art": "https://images.unsplash.com/photo-1513519245088-0e12902e35ca?auto=format&fit=crop&w=150&q=80",
   "tableware": "https://images.unsplash.com/photo-1603199506016-5d54ebf27d1d?auto=format&fit=crop&w=150&q=80",
   "mens-activewear": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=150&q=80",
   "womens-activewear": "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=150&q=80",
@@ -92,7 +93,7 @@ const placeholderIcons: Record<string, string> = {
   "smart-watches": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=150&q=80",
   "headphones": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=150&q=80",
   "tech-gadgets": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=150&q=80",
-  "beauty-skincare": "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=150&q=80",
+  "skincare": "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=150&q=80",
   "beauty-tools": "https://images.unsplash.com/photo-1522338242042-a1bdc4c94f24?auto=format&fit=crop&w=150&q=80",
   "hair-care": "https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=150&q=80",
   "mens-perfume": "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=150&q=80",
@@ -209,6 +210,7 @@ export default function Category() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [collection, setCollection] = useState<ShopifyCollection | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { formatPrice } = useCurrency();
   
   const category = categories.find((c) => c.slug === slug);
 
