@@ -150,7 +150,7 @@ function VisualIconRow({ slug }: { slug: string }) {
       <div className="flex items-center gap-2">
         <button
           onClick={() => scroll("left")}
-          className="hidden md:flex w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-[#1D1D1F]/60 hover:bg-gray-50 hover:shadow-xl transition-all flex-shrink-0"
+          className="hidden md:flex w-8 h-8 rounded-full items-center justify-center text-[#1D1D1F]/40 hover:text-[#1D1D1F] transition-all flex-shrink-0"
           aria-label="Scroll left"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -173,7 +173,7 @@ function VisualIconRow({ slug }: { slug: string }) {
                   whileTap={{ scale: 0.95 }}
                   className="flex flex-col items-center gap-2.5 cursor-pointer group"
                 >
-                  <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden bg-white shadow-md ring-2 ring-black/5 group-hover:ring-black/20 group-hover:shadow-xl transition-all duration-300">
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden transition-transform duration-300">
                     {imageUrl ? (
                       <img
                         src={imageUrl}
@@ -186,7 +186,7 @@ function VisualIconRow({ slug }: { slug: string }) {
                       </div>
                     )}
                   </div>
-                  <span className="text-xs md:text-sm font-medium text-[#1D1D1F] text-center whitespace-nowrap group-hover:text-[#0066CC] transition-colors">
+                  <span className="text-xs md:text-sm font-medium text-[#1D1D1F]/80 text-center whitespace-nowrap group-hover:text-[#1D1D1F] transition-colors">
                     {cat.label}
                   </span>
                 </motion.div>
@@ -196,7 +196,7 @@ function VisualIconRow({ slug }: { slug: string }) {
         </div>
         <button
           onClick={() => scroll("right")}
-          className="hidden md:flex w-10 h-10 rounded-full bg-white shadow-lg items-center justify-center text-[#1D1D1F]/60 hover:bg-gray-50 hover:shadow-xl transition-all flex-shrink-0"
+          className="hidden md:flex w-8 h-8 rounded-full items-center justify-center text-[#1D1D1F]/40 hover:text-[#1D1D1F] transition-all flex-shrink-0"
           aria-label="Scroll right"
         >
           <ChevronRight className="w-5 h-5" />

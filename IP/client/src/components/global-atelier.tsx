@@ -111,27 +111,27 @@ export function GlobalAtelier() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="flex-none min-w-[280px] w-[80vw] md:w-[380px] snap-start"
+            className="flex-none min-w-[200px] w-[60vw] md:w-[380px] snap-start"
           >
             <Link href={location.href}>
               <div className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer">
                 <img
                   src={location.image}
                   alt={location.name}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                 <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-                  <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-2">
+                  <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-2 transition-colors duration-300 group-hover:text-amber-400">
                     {location.country}
                   </p>
-                  <h3 className="text-white text-2xl md:text-3xl font-semibold tracking-tight mb-3">
+                  <h3 className="text-white text-2xl md:text-3xl font-semibold tracking-tight mb-3 transition-colors duration-300 group-hover:text-amber-400">
                     {location.name}
                   </h3>
                   <p className="text-white/70 text-sm leading-relaxed mb-4">
                     {location.description}
                   </p>
-                  <span className="inline-flex items-center text-white text-sm font-medium group-hover:underline">
+                  <span className="inline-flex items-center text-white text-sm font-medium transition-colors duration-300 group-hover:text-amber-400">
                     Explore Collection
                     <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
                   </span>

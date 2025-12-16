@@ -128,7 +128,7 @@ export function TrendingSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: idx * 0.05, duration: 0.4 }}
-            className="group flex-none snap-start w-[220px] md:w-[280px]"
+            className="group flex-none snap-start w-[160px] md:w-[280px]"
           >
             <Link href={`/product/${product.handle}`}>
               <div className="cursor-pointer">

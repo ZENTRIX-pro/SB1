@@ -4,7 +4,15 @@ import { motion } from "framer-motion";
 import { fetchCollectionByHandle, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
 import { ProductSkeleton } from "@/components/product-skeleton";
 
-export function SignatureSeries() {
+interface SignatureSeriesProps {
+  videoUrl?: string;
+  showVideoBackground?: boolean;
+}
+
+export function SignatureSeries({ 
+  videoUrl = "https://assets.mixkit.co/videos/preview/mixkit-luxury-watch-close-up-3752-large.mp4",
+  showVideoBackground = false 
+}: SignatureSeriesProps) {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -54,8 +62,22 @@ export function SignatureSeries() {
   }
 
   return (
-    <section className="py-12 bg-white">
-      <div className="max-w-[1200px] mx-auto px-4 md:px-6">
+    <section className="py-12 bg-white relative overflow-hidden">
+      {showVideoBackground && videoUrl && (
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-10"
+          >
+            <source src={videoUrl} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-white via-white/90 to-white" />
+        </div>
+      )}
+      <div className="max-w-[1200px] mx-auto px-4 md:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
