@@ -19,7 +19,16 @@ The MVP is complete with full frontend functionality:
 
 ## Recent Changes (December 2024)
 
-### V12 Navigation Architecture (Latest)
+### Midnight Luxury Theme (Latest)
+- **Header:** Pure black (#000000) background with centered gold ZENTRIX logo
+- **Gold Branding:** Gradient from #D4AF37 via #F4E4BC to #D4AF37 for logos
+- **Loading Screen:** Full "ZENTRIX" gold text with pulse/breathing animation
+- **Mobile Menu:** Dark charcoal (#111111) with gold branding and icons
+- **Footer:** Deep charcoal (#0E0E0E) with gold logo and minimal styling
+- **Trust Badges:** 4-column layout on mobile with reduced icon/text sizes
+- **Navigation Icons:** White with gold hover states
+
+### V12 Navigation Architecture
 - **Main Ribbon Bar:** Men, Women, Active, Tech, Home, Scents, Gifts with correct icons and links
 - **Beauty Sub-Architecture:** Women -> Beauty -> Face Tools, Hair Tools, Skincare
 - **Active Sub-Architecture:** Active -> Men's Active, Women's Active, Gear, Recovery
