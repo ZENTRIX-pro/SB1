@@ -219,6 +219,7 @@ export const COLLECTION_HANDLES = {
   TRENDING: "trending",
   NEW: "new",
   HERO_SLIDER: "hero-slider",
+  LIMITED_DROP: "limited-drop",
 } as const;
 
 export interface HeroSlide {

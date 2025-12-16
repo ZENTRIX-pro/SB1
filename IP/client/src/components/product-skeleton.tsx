@@ -25,32 +25,25 @@ export function LoadingScreen() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
+      className="min-h-[400px] flex flex-col items-center justify-center bg-white"
     >
       <motion.div
-        animate={{ 
-          opacity: [0.6, 1, 0.6],
-          scale: [0.98, 1, 0.98]
-        }}
-        transition={{ 
-          duration: 2, 
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+        animate={{ opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
         className="text-center"
       >
         <h2 
-          className="text-3xl md:text-4xl font-semibold tracking-[0.25em] mb-4 bg-gradient-to-r from-[#D4AF37] via-[#F4E4BC] to-[#D4AF37] bg-clip-text text-transparent"
-          style={{ fontFamily: 'Cinzel, serif' }}
+          className="text-2xl md:text-3xl font-bold tracking-[0.3em] text-black uppercase"
+          style={{ fontFamily: 'Inter, -apple-system, sans-serif' }}
         >
           ZENTRIX
         </h2>
         <motion.div 
-          className="w-16 h-[1px] mx-auto bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"
-          animate={{ opacity: [0.3, 1, 0.3] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="w-12 h-[2px] mx-auto mt-3 bg-black"
+          animate={{ scaleX: [0.5, 1, 0.5] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
         />
-        <p className="text-white/40 text-xs mt-4 tracking-[0.3em] uppercase">Loading luxury...</p>
+        <p className="text-neutral-400 text-xs mt-4 tracking-widest uppercase">Loading...</p>
       </motion.div>
     </motion.div>
   );

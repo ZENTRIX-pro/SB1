@@ -6,11 +6,12 @@ import { useCart } from "@/lib/cart-context";
 import { MobileDrawer } from "@/components/mobile-drawer";
 
 const navLinks = [
+  { name: "New Arrivals", href: "/collections/new" },
   { name: "Men", href: "/collections/men" },
   { name: "Women", href: "/collections/women" },
-  { name: "Jewelry", href: "/collections/jewelry" },
-  { name: "Bags", href: "/collections/bags" },
-  { name: "Accessories", href: "/collections/wallets" },
+  { name: "Tech", href: "/collections/tech" },
+  { name: "Home", href: "/collections/home" },
+  { name: "Beauty", href: "/collections/beauty" },
 ];
 
 export function Navbar() {
@@ -43,20 +44,24 @@ export function Navbar() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-white/95 backdrop-blur-md shadow-sm"
+            : "bg-white"
+        }`}
       >
-        <div className="max-w-[1200px] mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between h-14">
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.slice(0, 2).map((link) => (
+        <div className="max-w-[1400px] mx-auto px-4 md:px-6">
+          <div className="flex items-center justify-between h-16">
+            <div className="hidden lg:flex items-center gap-6">
+              {navLinks.slice(0, 3).map((link) => (
                 <Link key={link.name} href={link.href}>
                   <span
-                    className={`text-sm font-medium cursor-pointer transition-colors hover:text-[#D4AF37] ${
+                    className={`text-xs font-medium uppercase tracking-wider cursor-pointer transition-colors hover:text-neutral-500 ${
                       location === link.href
-                        ? "text-[#D4AF37]"
-                        : "text-white/80"
+                        ? "text-black"
+                        : "text-neutral-700"
                     }`}
-                    data-testid={`link-nav-${link.name.toLowerCase()}`}
+                    data-testid={`link-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {link.name}
                   </span>
@@ -64,23 +69,23 @@ export function Navbar() {
               ))}
             </div>
 
-            <Link href="/" data-testid="link-home" className="absolute left-1/2 transform -translate-x-1/2">
+            <Link href="/" data-testid="link-home" className="lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
               <span 
-                className="text-xl font-semibold tracking-[0.2em] cursor-pointer bg-gradient-to-r from-[#D4AF37] via-[#F4E4BC] to-[#D4AF37] bg-clip-text text-transparent drop-shadow-sm" 
-                style={{ fontFamily: 'Cinzel, serif' }}
+                className="text-2xl font-bold tracking-[0.3em] text-black cursor-pointer uppercase"
+                style={{ fontFamily: 'Inter, -apple-system, sans-serif' }}
               >
                 ZENTRIX
               </span>
             </Link>
 
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.slice(2).map((link) => (
+            <div className="hidden lg:flex items-center gap-6">
+              {navLinks.slice(3).map((link) => (
                 <Link key={link.name} href={link.href}>
                   <span
-                    className={`text-sm font-medium cursor-pointer transition-colors hover:text-[#D4AF37] ${
+                    className={`text-xs font-medium uppercase tracking-wider cursor-pointer transition-colors hover:text-neutral-500 ${
                       location === link.href
-                        ? "text-[#D4AF37]"
-                        : "text-white/80"
+                        ? "text-black"
+                        : "text-neutral-700"
                     }`}
                     data-testid={`link-nav-${link.name.toLowerCase()}`}
                   >
@@ -90,10 +95,10 @@ export function Navbar() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2 md:absolute md:right-4">
+            <div className="flex items-center gap-1 lg:absolute lg:right-6">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2.5 text-white/80 hover:text-[#D4AF37] transition-colors"
+                className="p-2.5 text-black hover:text-neutral-500 transition-colors"
                 data-testid="button-search"
               >
                 <Search className="w-5 h-5" strokeWidth={1.5} />
@@ -101,7 +106,7 @@ export function Navbar() {
 
               <Link href="/account">
                 <span
-                  className="p-2.5 text-white/80 hover:text-[#D4AF37] transition-colors cursor-pointer inline-block"
+                  className="p-2.5 text-black hover:text-neutral-500 transition-colors cursor-pointer inline-block"
                   data-testid="button-account"
                 >
                   <User className="w-5 h-5" strokeWidth={1.5} />
@@ -110,13 +115,13 @@ export function Navbar() {
 
               <button
                 onClick={openCart}
-                className="p-2.5 text-white/80 hover:text-[#D4AF37] transition-colors relative"
+                className="p-2.5 text-black hover:text-neutral-500 transition-colors relative"
                 data-testid="button-cart"
               >
                 <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
                 {totalItems > 0 && (
                   <span
-                    className="absolute top-1 right-1 w-4 h-4 bg-[#D4AF37] text-black text-[10px] rounded-full flex items-center justify-center font-medium"
+                    className="absolute top-1 right-1 w-4 h-4 bg-black text-white text-[10px] rounded-full flex items-center justify-center font-medium"
                     data-testid="text-cart-count"
                   >
                     {totalItems}
@@ -126,7 +131,7 @@ export function Navbar() {
 
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-2.5 text-white/80 hover:text-[#D4AF37] transition-colors md:hidden"
+                className="p-2.5 text-black hover:text-neutral-500 transition-colors lg:hidden"
                 data-testid="button-mobile-menu"
               >
                 <Menu className="w-5 h-5" strokeWidth={1.5} />
@@ -163,7 +168,7 @@ export function Navbar() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for products..."
                   autoFocus
-                  className="w-full bg-neutral-100 rounded-xl px-5 py-4 text-lg text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full bg-neutral-100 rounded-none border-b-2 border-black px-4 py-4 text-lg text-black placeholder:text-neutral-400 focus:outline-none"
                   data-testid="input-search"
                 />
               </form>

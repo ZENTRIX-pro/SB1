@@ -9,9 +9,10 @@ import { CartProvider } from "@/lib/cart-context";
 import { ShopifyProvider } from "@/lib/shopify-context";
 import { AuthProvider } from "@/lib/auth-context";
 import { products } from "@/lib/data";
-import { ZentrixNavbar } from "@/components/zentrix-navbar";
+import { Navbar } from "@/components/navbar";
 import { ZDrawingLoader } from "@/components/z-drawing-loader";
 import { CartDrawer } from "@/components/cart-drawer";
+import { LimitedDropBar } from "@/components/limited-drop-bar";
 import Home from "@/pages/home";
 import Category from "@/pages/category";
 import Product from "@/pages/product";
@@ -75,8 +76,9 @@ function App() {
             <AuthProvider>
               <CartProvider products={products}>
                 {isLoading && <ZDrawingLoader onComplete={() => setIsLoading(false)} />}
-                <div className="min-h-screen bg-[#F5F5F7]">
-                  <ZentrixNavbar />
+                <div className="min-h-screen bg-white">
+                  <LimitedDropBar />
+                  <Navbar />
                   <CartDrawer />
                   <Router />
                 </div>
