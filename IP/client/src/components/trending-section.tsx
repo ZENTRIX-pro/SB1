@@ -59,9 +59,9 @@ export function TrendingSection() {
               </h2>
             </div>
           </div>
-          <div className="flex gap-4 overflow-hidden">
+          <div className="flex gap-3 overflow-hidden">
             {Array.from({ length: 4 }).map((_, idx) => (
-              <div key={idx} className="flex-none w-[220px] md:w-[280px]">
+              <div key={idx} className="flex-none w-[140px] md:w-[280px]">
                 <ProductSkeleton />
               </div>
             ))}
@@ -118,7 +118,7 @@ export function TrendingSection() {
 
       <div 
         ref={scrollContainerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 pb-4 px-4"
+        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 md:gap-4 pb-4 px-4"
       >
         <div className="flex-none w-0 md:w-[calc((100vw-1280px)/2)]" />
         {trendingProducts.map((product, idx) => (
@@ -128,11 +128,11 @@ export function TrendingSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: idx * 0.05, duration: 0.4 }}
-            className="group flex-none snap-start w-[160px] md:w-[280px]"
+            className="group flex-none snap-start w-[120px] md:w-[280px]"
           >
             <Link href={`/product/${product.handle}`}>
               <div className="cursor-pointer">
-                <div className="relative aspect-[4/5] overflow-hidden bg-white rounded-2xl mb-4 shadow-sm">
+                <div className="relative aspect-[3/4] overflow-hidden bg-white rounded-xl md:rounded-2xl mb-2 md:mb-4 shadow-sm">
                   <img
                     src={product.images[0]?.src || "https://placehold.co/400x500?text=No+Image"}
                     alt={product.title}
@@ -140,10 +140,10 @@ export function TrendingSection() {
                   />
                 </div>
                 <div className="px-1">
-                  <h3 className="font-medium text-[#1D1D1F] mb-1 group-hover:underline transition-colors text-sm line-clamp-1">
+                  <h3 className="font-medium text-[#1D1D1F] mb-1 group-hover:underline transition-colors text-xs md:text-sm line-clamp-1">
                     {product.title}
                   </h3>
-                  <p className="text-[#1D1D1F]/60 text-sm font-medium">
+                  <p className="text-[#1D1D1F]/60 text-xs md:text-sm font-medium">
                     {formatDisplayPrice(product.variants[0]?.price.amount || "0")}
                   </p>
                 </div>

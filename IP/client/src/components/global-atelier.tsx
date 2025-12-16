@@ -1,7 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { fetchCollectionsWithImages, ShopifyCollection } from "@/lib/shopify";
 
 import nordicImage from "@assets/generated_images/nordic_minimalist_interior_design.png";
 import italianImage from "@assets/generated_images/italian_leather_texture_close-up.png";
@@ -14,17 +15,19 @@ interface AtelierLocation {
   country: string;
   description: string;
   href: string;
-  image: string;
+  collectionHandle: string;
+  fallbackImage: string;
 }
 
-const locations: AtelierLocation[] = [
+const locationConfig: AtelierLocation[] = [
   {
     id: "sweden",
     name: "Nordic Zen",
     country: "Sweden",
     description: "Minimalist design philosophy meets premium craftsmanship",
     href: "/collections/nordic-zen",
-    image: nordicImage
+    collectionHandle: "nordic-zen",
+    fallbackImage: nordicImage
   },
   {
     id: "italy",
@@ -32,7 +35,8 @@ const locations: AtelierLocation[] = [
     country: "Italy",
     description: "Heritage luxury with timeless Mediterranean elegance",
     href: "/collections/italian-classico",
-    image: italianImage
+    collectionHandle: "italian-classico",
+    fallbackImage: italianImage
   },
   {
     id: "japan",
@@ -40,7 +44,8 @@ const locations: AtelierLocation[] = [
     country: "Japan",
     description: "Where ancient tradition meets cutting-edge innovation",
     href: "/collections/eastern-soul",
-    image: japaneseImage
+    collectionHandle: "eastern-soul",
+    fallbackImage: japaneseImage
   },
   {
     id: "india",
@@ -48,12 +53,33 @@ const locations: AtelierLocation[] = [
     country: "India",
     description: "Opulent craftsmanship inspired by centuries of artistry",
     href: "/collections/heritage",
-    image: indianImage
+    collectionHandle: "heritage",
+    fallbackImage: indianImage
   }
 ];
 
 export function GlobalAtelier() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [collections, setCollections] = useState<ShopifyCollection[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCollections = async () => {
+      try {
+        const data = await fetchCollectionsWithImages();
+        setCollections(data);
+      } catch (error) {
+        console.error("Error loading collections:", error);
+      }
+      setIsLoading(false);
+    };
+    loadCollections();
+  }, []);
+
+  const getCollectionImage = (handle: string, fallback: string): string => {
+    const collection = collections.find(c => c.handle === handle);
+    return collection?.image?.src || fallback;
+  };
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
@@ -104,42 +130,48 @@ export function GlobalAtelier() {
         className="flex gap-4 overflow-x-auto scrollbar-hide px-4 pb-4 snap-x snap-mandatory"
       >
         <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
-        {locations.map((location, index) => (
-          <motion.div
-            key={location.id}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="flex-none min-w-[200px] w-[60vw] md:w-[380px] snap-start"
-          >
-            <Link href={location.href}>
-              <div className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer">
-                <img
-                  src={location.image}
-                  alt={location.name}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-                  <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-2 transition-colors duration-300 group-hover:text-amber-400">
-                    {location.country}
-                  </p>
-                  <h3 className="text-white text-2xl md:text-3xl font-semibold tracking-tight mb-3 transition-colors duration-300 group-hover:text-amber-400">
-                    {location.name}
-                  </h3>
-                  <p className="text-white/70 text-sm leading-relaxed mb-4">
-                    {location.description}
-                  </p>
-                  <span className="inline-flex items-center text-white text-sm font-medium transition-colors duration-300 group-hover:text-amber-400">
-                    Explore Collection
-                    <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                  </span>
+        {locationConfig.map((location, index) => {
+          const imageSrc = getCollectionImage(location.collectionHandle, location.fallbackImage);
+          
+          return (
+            <motion.div
+              key={location.id}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="flex-none min-w-[160px] w-[45vw] md:w-[380px] snap-start"
+            >
+              <Link href={location.href}>
+                <div className="group relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer" style={{ maxHeight: 'calc(45vw * 1.33)' }}>
+                  <img
+                    src={imageSrc}
+                    alt={location.name}
+                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+                      isLoading ? "opacity-50" : "opacity-100"
+                    }`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                  <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-8">
+                    <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-1 md:mb-2 transition-colors duration-300 group-hover:text-amber-400">
+                      {location.country}
+                    </p>
+                    <h3 className="text-white text-lg md:text-3xl font-semibold tracking-tight mb-2 md:mb-3 transition-colors duration-300 group-hover:text-amber-400">
+                      {location.name}
+                    </h3>
+                    <p className="text-white/70 text-xs md:text-sm leading-relaxed mb-2 md:mb-4 line-clamp-2">
+                      {location.description}
+                    </p>
+                    <span className="inline-flex items-center text-white text-xs md:text-sm font-medium transition-colors duration-300 group-hover:text-amber-400">
+                      Explore Collection
+                      <ChevronRight className="w-3 h-3 md:w-4 md:h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          </motion.div>
-        ))}
+              </Link>
+            </motion.div>
+          );
+        })}
         <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
       </div>
     </section>

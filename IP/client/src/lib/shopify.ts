@@ -420,7 +420,6 @@ export async function fetchCollectionImage(handle: string): Promise<string | nul
     if (collection && collection.image) {
       return collection.image.src;
     }
-    // Fallback to fetching all
     const collections = await client.collection.fetchAll(250);
     const found = collections.find((c: any) => c.handle === handle);
     if (found && found.image) {
@@ -431,6 +430,153 @@ export async function fetchCollectionImage(handle: string): Promise<string | nul
     console.error(`Error fetching collection image for ${handle}:`, error);
     return null;
   }
+}
+
+export interface ShopifyMenuItem {
+  id: string;
+  title: string;
+  url: string;
+  type: string;
+  items: ShopifyMenuItem[];
+  collectionHandle?: string;
+  collectionImage?: string | null;
+  productCount?: number;
+}
+
+export interface ShopifyMenu {
+  id: string;
+  title: string;
+  handle: string;
+  items: ShopifyMenuItem[];
+}
+
+const GRAPHQL_URL = `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`;
+
+async function shopifyGraphQL<T>(query: string, variables: Record<string, any> = {}): Promise<T | null> {
+  try {
+    const response = await fetch(GRAPHQL_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Storefront-Access-Token": STOREFRONT_TOKEN,
+      },
+      body: JSON.stringify({ query, variables }),
+    });
+    const result = await response.json();
+    if (result.errors) {
+      console.error("GraphQL Errors:", result.errors);
+      return null;
+    }
+    return result.data;
+  } catch (error) {
+    console.error("GraphQL fetch error:", error);
+    return null;
+  }
+}
+
+export async function fetchShopifyMenu(handle: string = "main-menu"): Promise<ShopifyMenu | null> {
+  const query = `
+    query GetMenu($handle: String!) {
+      menu(handle: $handle) {
+        id
+        title
+        handle
+        items {
+          id
+          title
+          url
+          type
+          items {
+            id
+            title
+            url
+            type
+          }
+        }
+      }
+    }
+  `;
+  
+  const data = await shopifyGraphQL<{ menu: any }>(query, { handle });
+  if (!data?.menu) return null;
+  
+  const transformMenuItem = (item: any): ShopifyMenuItem => ({
+    id: item.id,
+    title: item.title,
+    url: item.url,
+    type: item.type,
+    items: item.items?.map(transformMenuItem) || [],
+  });
+  
+  return {
+    id: data.menu.id,
+    title: data.menu.title,
+    handle: data.menu.handle,
+    items: data.menu.items.map(transformMenuItem),
+  };
+}
+
+export async function fetchCollectionsWithImages(): Promise<ShopifyCollection[]> {
+  try {
+    const collections = await client.collection.fetchAll(250);
+    return collections.map(transformCollection);
+  } catch (error) {
+    console.error("Error fetching collections with images:", error);
+    return [];
+  }
+}
+
+export async function fetchMenuWithCollectionImages(menuHandle: string = "main-menu"): Promise<ShopifyMenuItem[]> {
+  const [menu, collections, allProducts] = await Promise.all([
+    fetchShopifyMenu(menuHandle),
+    fetchCollectionsWithImages(),
+    fetchAllProducts(),
+  ]);
+  
+  if (!menu) return [];
+  
+  const collectionMap = new Map(collections.map(c => [c.handle, c]));
+  const productsByCollection = new Map<string, number>();
+  
+  allProducts.forEach(product => {
+    product.tags.forEach(tag => {
+      const current = productsByCollection.get(tag.toLowerCase()) || 0;
+      productsByCollection.set(tag.toLowerCase(), current + 1);
+    });
+  });
+  
+  const enrichMenuItem = (item: ShopifyMenuItem): ShopifyMenuItem => {
+    const urlParts = item.url.split("/");
+    const handle = urlParts[urlParts.length - 1];
+    const collection = collectionMap.get(handle);
+    
+    let productCount = 0;
+    if (collection) {
+      productCount = productsByCollection.get(handle) || 0;
+    }
+    
+    return {
+      ...item,
+      collectionHandle: handle,
+      collectionImage: collection?.image?.src || null,
+      productCount,
+      items: item.items.map(enrichMenuItem),
+    };
+  };
+  
+  return menu.items.map(enrichMenuItem);
+}
+
+export async function fetchCollectionImagesMap(handles: string[]): Promise<Map<string, string | null>> {
+  const collections = await fetchCollectionsWithImages();
+  const imageMap = new Map<string, string | null>();
+  
+  handles.forEach(handle => {
+    const collection = collections.find(c => c.handle === handle);
+    imageMap.set(handle, collection?.image?.src || null);
+  });
+  
+  return imageMap;
 }
 
 export { client };

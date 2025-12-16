@@ -3,7 +3,15 @@ import { useRef } from "react";
 import { Link } from "wouter";
 import signatureImage from "@assets/generated_images/luxury_leather_bag_product.png";
 
-export function SignatureParallax() {
+interface SignatureParallaxProps {
+  videoUrl?: string;
+  showVideoBackground?: boolean;
+}
+
+export function SignatureParallax({ 
+  videoUrl,
+  showVideoBackground = false 
+}: SignatureParallaxProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -16,9 +24,24 @@ export function SignatureParallax() {
 
   return (
     <section ref={sectionRef} className="relative py-24 md:py-40 bg-[#1D1D1F] overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1D1D1F] via-black to-[#1D1D1F]" />
+      {showVideoBackground && videoUrl ? (
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-30"
+          >
+            <source src={videoUrl} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1D1D1F]/80 via-black/60 to-[#1D1D1F]/80" />
+        </div>
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1D1D1F] via-black to-[#1D1D1F]" />
+      )}
       
-      <div className="relative max-w-7xl mx-auto px-4">
+      <div className="relative z-10 max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
           <motion.div style={{ y: imageY }} className="relative order-2 md:order-1">
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">

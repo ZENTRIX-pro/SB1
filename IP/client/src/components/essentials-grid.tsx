@@ -1,44 +1,68 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { fetchCollectionsWithImages, ShopifyCollection } from "@/lib/shopify";
 
 interface GridCard {
   title: string;
   subtitle: string;
-  image: string;
+  handle: string;
   href: string;
+  fallbackImage: string;
 }
 
-const gridCards: GridCard[] = [
+const gridCardConfig: GridCard[] = [
   {
     title: "Men's Collection",
     subtitle: "Refined Elegance",
-    image: "https://images.unsplash.com/photo-1594938298603-c8148c472997?auto=format&fit=crop&w=600&q=80",
+    handle: "men",
+    fallbackImage: "https://images.unsplash.com/photo-1594938298603-c8148c472997?auto=format&fit=crop&w=600&q=80",
     href: "/collections/men"
   },
   {
     title: "Women's Collection",
     subtitle: "Timeless Beauty",
-    image: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=600&q=80",
+    handle: "women",
+    fallbackImage: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=600&q=80",
     href: "/collections/women"
   },
   {
     title: "Beauty & Care",
     subtitle: "Radiant Glow",
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=600&q=80",
+    handle: "beauty",
+    fallbackImage: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=600&q=80",
     href: "/collections/beauty"
   },
   {
     title: "Tech Lifestyle",
     subtitle: "Innovation Meets Luxury",
-    image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=600&q=80",
+    handle: "tech",
+    fallbackImage: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=600&q=80",
     href: "/collections/tech"
   }
 ];
 
 export function EssentialsGrid() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [collections, setCollections] = useState<ShopifyCollection[]>([]);
+
+  useEffect(() => {
+    const loadCollections = async () => {
+      try {
+        const data = await fetchCollectionsWithImages();
+        setCollections(data);
+      } catch (error) {
+        console.error("Error loading collections:", error);
+      }
+    };
+    loadCollections();
+  }, []);
+
+  const getCollectionImage = (handle: string, fallback: string): string => {
+    const collection = collections.find(c => c.handle === handle);
+    return collection?.image?.src || fallback;
+  };
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
@@ -86,40 +110,44 @@ export function EssentialsGrid() {
 
       <div
         ref={scrollRef}
-        className="flex flex-row gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory px-4 pb-4"
+        className="flex flex-row gap-3 md:gap-6 overflow-x-auto snap-x snap-mandatory px-4 pb-4"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
-        {gridCards.map((card, index) => (
-          <motion.div
-            key={card.title}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="flex-none min-w-[280px] w-[80vw] md:w-[400px] snap-center"
-          >
-            <Link href={card.href}>
-              <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer">
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-                  <p className="text-white/70 text-xs tracking-[0.15em] uppercase mb-2">
-                    {card.subtitle}
-                  </p>
-                  <h3 className="text-white text-xl md:text-2xl font-semibold tracking-tight">
-                    {card.title}
-                  </h3>
+        {gridCardConfig.map((card, index) => {
+          const imageSrc = getCollectionImage(card.handle, card.fallbackImage);
+          
+          return (
+            <motion.div
+              key={card.title}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="flex-none min-w-[200px] w-[60vw] md:w-[400px] snap-center"
+            >
+              <Link href={card.href}>
+                <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer" style={{ maxHeight: 'calc(60vw * 1.33)' }}>
+                  <img
+                    src={imageSrc}
+                    alt={card.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                    <p className="text-white/70 text-xs tracking-[0.15em] uppercase mb-1 md:mb-2">
+                      {card.subtitle}
+                    </p>
+                    <h3 className="text-white text-lg md:text-2xl font-semibold tracking-tight">
+                      {card.title}
+                    </h3>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          </motion.div>
-        ))}
+              </Link>
+            </motion.div>
+          );
+        })}
         <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
       </div>
     </section>
