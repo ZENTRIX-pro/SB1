@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { fetchCollectionsWithImages, ShopifyCollection } from "@/lib/shopify";
 
@@ -10,6 +10,12 @@ interface RibbonCategory {
 }
 
 const categoryConfig: RibbonCategory[] = [
+  {
+    name: "New Arrivals",
+    link: "/collections/new-arrivals",
+    handle: "new",
+    fallbackImage: "https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=300&q=80"
+  },
   {
     name: "Men",
     link: "/collections/men",
@@ -47,12 +53,6 @@ const categoryConfig: RibbonCategory[] = [
     fallbackImage: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=300&q=80"
   },
   {
-    name: "Scents",
-    link: "/collections/scents",
-    handle: "scents",
-    fallbackImage: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=300&q=80"
-  },
-  {
     name: "Gifts",
     link: "/collections/gifts",
     handle: "gifts",
@@ -64,6 +64,7 @@ export function RibbonBar() {
   const [location] = useLocation();
   const [collections, setCollections] = useState<ShopifyCollection[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const loadCollections = async () => {
@@ -85,44 +86,89 @@ export function RibbonBar() {
 
   return (
     <div id="category-ribbon" className="relative z-40 bg-[#F5F5F7] py-6">
-      <div className="overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-        <div className="flex items-center justify-start md:justify-center gap-3 md:gap-4 px-4 min-w-max max-w-7xl mx-auto">
-          {categoryConfig.map((category) => {
-            const isActive = location === category.link || location.startsWith(category.link + "/");
-            const imageSrc = getCollectionImage(category.handle, category.fallbackImage);
-            
-            return (
-              <Link
-                key={category.name}
-                href={category.link}
-              >
-                <div className="flex flex-col items-center gap-2 cursor-pointer group">
-                  <div className={`w-[70px] h-[100px] md:w-[80px] md:h-[110px] rounded-xl overflow-hidden transition-all duration-300 shadow-sm ${
-                    isActive 
-                      ? "ring-2 ring-[#D4AF37] scale-105" 
-                      : "group-hover:scale-105 group-hover:shadow-md"
-                  }`}>
-                    <img
-                      src={imageSrc}
-                      alt={category.name}
-                      className={`w-full h-full object-cover transition-all duration-300 ${
-                        isLoading ? "opacity-50" : "opacity-100"
-                      }`}
-                      loading="lazy"
-                    />
-                  </div>
-                  <span className={`text-xs tracking-wide font-medium transition-colors duration-300 ${
-                    isActive
-                      ? "text-[#D4AF37]"
-                      : "text-[#1D1D1F]/60 group-hover:text-[#D4AF37]"
-                  }`}>
-                    {category.name}
-                  </span>
+      <div 
+        ref={scrollRef}
+        className="flex md:hidden gap-5 overflow-x-auto snap-x snap-mandatory px-4 pb-2"
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none',
+          WebkitOverflowScrolling: 'touch'
+        }}
+      >
+        {categoryConfig.map((category) => {
+          const isActive = location === category.link || location.startsWith(category.link + "/");
+          const imageSrc = getCollectionImage(category.handle, category.fallbackImage);
+          
+          return (
+            <Link
+              key={category.name}
+              href={category.link}
+            >
+              <div className="flex-none flex flex-col items-center gap-2 cursor-pointer group snap-start">
+                <div className={`w-[72px] h-[72px] rounded-full overflow-hidden transition-all duration-300 shadow-sm ring-2 ${
+                  isActive 
+                    ? "ring-[#D4AF37] scale-105" 
+                    : "ring-neutral-200 group-hover:ring-[#D4AF37] group-hover:scale-105"
+                }`}>
+                  <img
+                    src={imageSrc}
+                    alt={category.name}
+                    className={`w-full h-full object-cover transition-all duration-300 ${
+                      isLoading ? "opacity-50" : "opacity-100"
+                    }`}
+                    loading="lazy"
+                  />
                 </div>
-              </Link>
-            );
-          })}
-        </div>
+                <span className={`text-[10px] tracking-wide font-medium transition-colors duration-300 whitespace-nowrap ${
+                  isActive
+                    ? "text-[#D4AF37]"
+                    : "text-[#1D1D1F]/70 group-hover:text-[#D4AF37]"
+                }`}>
+                  {category.name}
+                </span>
+              </div>
+            </Link>
+          );
+        })}
+        <div className="flex-none w-4" />
+      </div>
+
+      <div className="hidden md:flex items-center justify-center gap-6 px-4 max-w-7xl mx-auto">
+        {categoryConfig.map((category) => {
+          const isActive = location === category.link || location.startsWith(category.link + "/");
+          const imageSrc = getCollectionImage(category.handle, category.fallbackImage);
+          
+          return (
+            <Link
+              key={category.name}
+              href={category.link}
+            >
+              <div className="flex flex-col items-center gap-3 cursor-pointer group">
+                <div className={`w-[100px] h-[140px] rounded-2xl overflow-hidden transition-all duration-300 shadow-sm ${
+                  isActive 
+                    ? "ring-2 ring-[#D4AF37] scale-105" 
+                    : "group-hover:scale-105 group-hover:shadow-lg"
+                }`}>
+                  <img
+                    src={imageSrc}
+                    alt={category.name}
+                    className={`w-full h-full object-cover transition-all duration-300 ${
+                      isLoading ? "opacity-50" : "opacity-100"
+                    }`}
+                    loading="lazy"
+                  />
+                </div>
+                <span className={`text-sm tracking-wide font-medium transition-colors duration-300 ${
+                  isActive
+                    ? "text-[#D4AF37]"
+                    : "text-[#1D1D1F]/70 group-hover:text-[#D4AF37]"
+                }`}>
+                  {category.name}
+                </span>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

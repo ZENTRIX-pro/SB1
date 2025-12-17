@@ -6,7 +6,7 @@ import { useCart } from "@/lib/cart-context";
 import { MobileDrawer } from "@/components/mobile-drawer";
 
 const navLinks = [
-  { name: "New Arrivals", href: "/collections/new" },
+  { name: "New Arrivals", href: "/collections/new-arrivals" },
   { name: "Men", href: "/collections/men" },
   { name: "Women", href: "/collections/women" },
   { name: "Tech", href: "/collections/tech" },
@@ -52,7 +52,7 @@ export function Navbar() {
       >
         <div className="max-w-[1400px] mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-16">
-            <div className="hidden lg:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-6 flex-1">
               {navLinks.slice(0, 3).map((link) => (
                 <Link key={link.name} href={link.href}>
                   <span
@@ -69,7 +69,7 @@ export function Navbar() {
               ))}
             </div>
 
-            <Link href="/" data-testid="link-home" className="lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+            <Link href="/" data-testid="link-home" className="flex-shrink-0">
               <span 
                 className="text-2xl font-bold tracking-[0.3em] text-black cursor-pointer uppercase"
                 style={{ fontFamily: 'Inter, -apple-system, sans-serif' }}
@@ -78,7 +78,7 @@ export function Navbar() {
               </span>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-6 flex-1 justify-end">
               {navLinks.slice(3).map((link) => (
                 <Link key={link.name} href={link.href}>
                   <span
@@ -95,7 +95,7 @@ export function Navbar() {
               ))}
             </div>
 
-            <div className="flex items-center gap-1 lg:absolute lg:right-6">
+            <div className="flex items-center gap-1 ml-4 lg:ml-6">
               <button
                 onClick={() => setSearchOpen(true)}
                 className="p-2.5 text-black hover:text-neutral-500 transition-colors"
