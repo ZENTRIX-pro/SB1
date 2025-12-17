@@ -84,9 +84,9 @@ export function RibbonBar() {
   };
 
   return (
-    <div id="category-ribbon" className="relative z-40 bg-transparent">
+    <div id="category-ribbon" className="relative z-40 bg-[#F5F5F7] py-6">
       <div className="overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-        <div className="flex items-center justify-start md:justify-center gap-6 md:gap-8 px-4 py-4 min-w-max max-w-7xl mx-auto">
+        <div className="flex items-center justify-start md:justify-center gap-3 md:gap-4 px-4 min-w-max max-w-7xl mx-auto">
           {categoryConfig.map((category) => {
             const isActive = location === category.link || location.startsWith(category.link + "/");
             const imageSrc = getCollectionImage(category.handle, category.fallbackImage);
@@ -97,10 +97,10 @@ export function RibbonBar() {
                 href={category.link}
               >
                 <div className="flex flex-col items-center gap-2 cursor-pointer group">
-                  <div className={`w-[70px] h-[70px] md:w-20 md:h-20 rounded-full overflow-hidden transition-transform duration-300 ${
+                  <div className={`w-[70px] h-[100px] md:w-[80px] md:h-[110px] rounded-xl overflow-hidden transition-all duration-300 shadow-sm ${
                     isActive 
-                      ? "opacity-100 scale-105" 
-                      : "group-hover:scale-110"
+                      ? "ring-2 ring-[#D4AF37] scale-105" 
+                      : "group-hover:scale-105 group-hover:shadow-md"
                   }`}>
                     <img
                       src={imageSrc}
@@ -113,8 +113,8 @@ export function RibbonBar() {
                   </div>
                   <span className={`text-xs tracking-wide font-medium transition-colors duration-300 ${
                     isActive
-                      ? "text-[#1D1D1F]"
-                      : "text-[#1D1D1F]/60 group-hover:text-[#1D1D1F]"
+                      ? "text-[#D4AF37]"
+                      : "text-[#1D1D1F]/60 group-hover:text-[#D4AF37]"
                   }`}>
                     {category.name}
                   </span>

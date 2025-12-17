@@ -4,7 +4,7 @@ import { SiInstagram, SiFacebook, SiPinterest, SiVisa, SiMastercard, SiPaypal, S
 
 const footerLinks = {
   shop: [
-    { name: "New Arrivals", href: "/collections/new" },
+    { name: "New Arrivals", href: "/collections/new-arrivals" },
     { name: "Men", href: "/collections/men" },
     { name: "Women", href: "/collections/women" },
     { name: "Tech & Gadgets", href: "/collections/tech" },
@@ -15,7 +15,7 @@ const footerLinks = {
   support: [
     { name: "Track Your Order", href: "/track-order" },
     { name: "Shipping Info", href: "/shipping" },
-    { name: "Returns Policy", href: "/returns" },
+    { name: "Return Policy", href: "/returns" },
     { name: "Contact Us", href: "/contact" },
   ],
   company: [

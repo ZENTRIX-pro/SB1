@@ -6,14 +6,14 @@ import { GlobalAtelier } from "@/components/global-atelier";
 import { SignatureParallax } from "@/components/signature-parallax";
 import { TrendingSection } from "@/components/trending-section";
 import { TrustBadges } from "@/components/trust-badges";
+import { ZentrixCircle } from "@/components/zentrix-circle";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
     <motion.main
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
       className="bg-[#F5F5F7]"
       data-testid="page-home"
     >
@@ -24,6 +24,7 @@ export default function Home() {
       <SignatureParallax />
       <TrendingSection />
       <TrustBadges />
+      <ZentrixCircle />
       <Footer />
     </motion.main>
   );

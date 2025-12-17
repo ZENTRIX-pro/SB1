@@ -34,6 +34,8 @@ import FutureTechStory from "@/pages/story/future-tech";
 import GentlemanStory from "@/pages/story/gentleman";
 import MuseStory from "@/pages/story/muse";
 import SignatureStory from "@/pages/story/signature";
+import Returns from "@/pages/returns";
+import TrackOrder from "@/pages/track-order";
 
 function Router() {
   return (
@@ -50,6 +52,8 @@ function Router() {
       <Route path="/careers" component={Careers} />
       <Route path="/stores" component={Stores} />
       <Route path="/press" component={Press} />
+      <Route path="/returns" component={Returns} />
+      <Route path="/track-order" component={TrackOrder} />
       <Route path="/story/heritage" component={HeritageStory} />
       <Route path="/story/future-tech" component={FutureTechStory} />
       <Route path="/story/gentleman" component={GentlemanStory} />

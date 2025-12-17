@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { fetchCollectionByHandle, COLLECTION_HANDLES, ShopifyProduct } from "@/lib/shopify";
+import { fetchCollectionByHandle, ShopifyProduct } from "@/lib/shopify";
 import { ProductSkeleton } from "@/components/product-skeleton";
 
 function formatDisplayPrice(amount: string): string {
@@ -22,10 +22,10 @@ export function TrendingSection() {
     const loadProducts = async () => {
       setIsLoading(true);
       try {
-        const { products: trendingProducts } = await fetchCollectionByHandle(COLLECTION_HANDLES.TRENDING);
-        setProducts(trendingProducts);
+        const { products: newArrivalsProducts } = await fetchCollectionByHandle("new-arrivals");
+        setProducts(newArrivalsProducts);
       } catch (error) {
-        console.error("Error loading trending products:", error);
+        console.error("Error loading new arrivals products:", error);
         setProducts([]);
       }
       setIsLoading(false);
@@ -33,7 +33,7 @@ export function TrendingSection() {
     loadProducts();
   }, []);
   
-  const trendingProducts = products;
+  const newArrivalsProducts = products;
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
@@ -52,10 +52,10 @@ export function TrendingSection() {
           <div className="flex items-center justify-between mb-10">
             <div>
               <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">
-                What's Hot
+                Just Dropped
               </p>
               <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-tight">
-                Trending Now
+                New Arrivals
               </h2>
             </div>
           </div>
@@ -71,7 +71,7 @@ export function TrendingSection() {
     );
   }
 
-  if (trendingProducts.length === 0) {
+  if (newArrivalsProducts.length === 0) {
     return null;
   }
 
@@ -85,30 +85,30 @@ export function TrendingSection() {
           className="flex items-end justify-between mb-10"
         >
           <div>
-            <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">What's Hot</p>
+            <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">Just Dropped</p>
             <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-tight">
-              Trending Now
+              New Arrivals
             </h2>
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-2">
               <button
                 onClick={() => scroll("left")}
-                className="w-10 h-10 rounded-full border border-[#1D1D1F]/10 flex items-center justify-center text-[#1D1D1F]/60 hover:bg-[#1D1D1F] hover:text-white transition-all"
+                className="w-10 h-10 rounded-full border border-[#1D1D1F]/10 flex items-center justify-center text-[#1D1D1F]/60 hover:bg-[#1D1D1F] hover:text-white transition-all duration-300"
                 aria-label="Scroll left"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={() => scroll("right")}
-                className="w-10 h-10 rounded-full border border-[#1D1D1F]/10 flex items-center justify-center text-[#1D1D1F]/60 hover:bg-[#1D1D1F] hover:text-white transition-all"
+                className="w-10 h-10 rounded-full border border-[#1D1D1F]/10 flex items-center justify-center text-[#1D1D1F]/60 hover:bg-[#1D1D1F] hover:text-white transition-all duration-300"
                 aria-label="Scroll right"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
-            <Link href="/collections/trending">
-              <span className="text-sm text-[#1D1D1F] font-medium hover:underline transition-colors cursor-pointer">
+            <Link href="/collections/new-arrivals">
+              <span className="text-sm text-[#1D1D1F] font-medium hover:text-[#D4AF37] transition-colors duration-300 cursor-pointer">
                 View All
               </span>
             </Link>
@@ -121,7 +121,7 @@ export function TrendingSection() {
         className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 md:gap-4 pb-4 px-4"
       >
         <div className="flex-none w-0 md:w-[calc((100vw-1280px)/2)]" />
-        {trendingProducts.map((product, idx) => (
+        {newArrivalsProducts.map((product, idx) => (
           <motion.div
             key={product.id}
             initial={{ opacity: 0, y: 20 }}
@@ -140,7 +140,7 @@ export function TrendingSection() {
                   />
                 </div>
                 <div className="px-1">
-                  <h3 className="font-medium text-[#1D1D1F] mb-1 group-hover:underline transition-colors text-xs md:text-sm line-clamp-1">
+                  <h3 className="font-medium text-[#1D1D1F] mb-1 group-hover:text-[#D4AF37] transition-colors duration-300 text-xs md:text-sm line-clamp-1">
                     {product.title}
                   </h3>
                   <p className="text-[#1D1D1F]/60 text-xs md:text-sm font-medium">

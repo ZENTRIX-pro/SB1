@@ -23,7 +23,7 @@ export function SignatureParallax({
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative py-24 md:py-40 bg-[#1D1D1F] overflow-hidden">
+    <section ref={sectionRef} className="relative py-16 md:py-40 bg-[#1D1D1F] overflow-hidden">
       {showVideoBackground && videoUrl ? (
         <div className="absolute inset-0 z-0">
           <video
@@ -42,8 +42,39 @@ export function SignatureParallax({
       )}
       
       <div className="relative z-10 max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
-          <motion.div style={{ y: imageY }} className="relative order-2 md:order-1">
+        <div className="md:hidden relative">
+          <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
+            <img
+              src={signatureImage}
+              alt="Signature Series"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-6">
+              <p className="text-white/50 text-xs tracking-[0.3em] uppercase mb-2">
+                Limited Edition
+              </p>
+              <h2 className="text-3xl font-semibold text-white tracking-tight leading-tight mb-3">
+                Signature
+                <span className="font-light italic"> Series</span>
+              </h2>
+              <p className="text-white/60 text-sm leading-relaxed mb-4">
+                Crafted for those who appreciate the extraordinary.
+              </p>
+              <Link href="/collections/signature">
+                <motion.button
+                  whileTap={{ scale: 0.98 }}
+                  className="px-6 py-3 bg-white text-[#1D1D1F] text-sm font-semibold tracking-wide rounded-full hover:bg-white/90 transition-colors duration-300"
+                >
+                  Discover Collection
+                </motion.button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden md:grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+          <motion.div style={{ y: imageY }} className="relative">
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
               <img
                 src={signatureImage}
@@ -62,7 +93,7 @@ export function SignatureParallax({
             />
           </motion.div>
 
-          <motion.div style={{ y: textY }} className="order-1 md:order-2">
+          <motion.div style={{ y: textY }}>
             <motion.div style={{ opacity }}>
               <p className="text-white/50 text-xs tracking-[0.3em] uppercase mb-4">
                 Limited Edition
@@ -80,7 +111,7 @@ export function SignatureParallax({
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 bg-white text-[#1D1D1F] text-sm font-semibold tracking-wide rounded-full hover:bg-white/90 transition-colors"
+                  className="px-8 py-4 bg-white text-[#1D1D1F] text-sm font-semibold tracking-wide rounded-full hover:bg-white/90 transition-colors duration-300"
                 >
                   Discover Collection
                 </motion.button>

@@ -1,136 +1,62 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import heroImage1 from "@assets/generated_images/cinematic_luxury_fashion_hero.png";
-import heroImage2 from "@assets/generated_images/premium_tech_gadgets_collection.png";
-import heroImage3 from "@assets/generated_images/indian_silk_ornate_pattern.png";
-
-interface Slide {
-  id: number;
-  title: string;
-  subtitle: string;
-  image: string;
-  href: string;
-  cta: string;
-}
-
-const slides: Slide[] = [
-  {
-    id: 1,
-    title: "Define Your Legacy",
-    subtitle: "The pinnacle of modern luxury",
-    image: heroImage1,
-    href: "/collections/signature",
-    cta: "Explore Signature"
-  },
-  {
-    id: 2,
-    title: "Smart Living",
-    subtitle: "Technology meets elegance",
-    image: heroImage2,
-    href: "/collections/tech",
-    cta: "Shop Innovation"
-  },
-  {
-    id: 3,
-    title: "Curated from the World",
-    subtitle: "Global artisanship rooted in tradition",
-    image: heroImage3,
-    href: "/collections/heritage",
-    cta: "Discover Heritage"
-  }
-];
 
 export function HeroAutoSlider() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-
   return (
-    <section className="relative h-[60vh] w-full overflow-hidden bg-[#F5F5F7]">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentSlide}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 0.7 }}
-          className="absolute inset-0"
-        >
-          <img
-            src={slides[currentSlide].image}
-            alt={slides[currentSlide].title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
-        </motion.div>
-      </AnimatePresence>
+    <section className="relative h-[100vh] w-full overflow-hidden bg-black">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source 
+          src="https://assets.mixkit.co/videos/preview/mixkit-elegant-woman-in-silk-dress-4713-large.mp4" 
+          type="video/mp4" 
+        />
+      </video>
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
 
       <div className="absolute inset-0 flex items-center justify-center">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0, y: 30 }}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="text-center px-4"
+        >
+          <motion.h1 
+            className="text-5xl md:text-7xl lg:text-8xl font-extralight text-white tracking-[0.15em] mb-6"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -30 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center px-4"
+            transition={{ duration: 1, delay: 0.5 }}
           >
-            <p className="text-white/70 text-sm md:text-base tracking-[0.3em] uppercase mb-4">
-              {slides[currentSlide].subtitle}
-            </p>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extralight text-white tracking-tight mb-8">
-              {slides[currentSlide].title}
-            </h1>
-            <Link href={slides[currentSlide].href}>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-8 py-4 bg-white text-[#1D1D1F] text-sm font-semibold tracking-wide rounded-full hover:bg-white/90 transition-colors"
-              >
-                {slides[currentSlide].cta}
-              </motion.button>
-            </Link>
-          </motion.div>
-        </AnimatePresence>
+            DEFINE YOUR LEGACY
+          </motion.h1>
+          <motion.p 
+            className="text-white/70 text-lg md:text-xl tracking-[0.2em] uppercase mb-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.8 }}
+          >
+            Silent luxury for the modern soul.
+          </motion.p>
+          <Link href="/collections/new-arrivals">
+            <motion.button
+              whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.95)" }}
+              whileTap={{ scale: 0.98 }}
+              className="px-10 py-4 bg-white text-[#1D1D1F] text-sm font-semibold tracking-[0.15em] uppercase rounded-full transition-all duration-300 hover:shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+            >
+              Explore New Arrivals
+            </motion.button>
+          </Link>
+        </motion.div>
       </div>
-
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
-        {slides.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrentSlide(idx)}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              idx === currentSlide ? "w-8 bg-white" : "w-1.5 bg-white/40"
-            }`}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
-      </div>
-
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-        aria-label="Next slide"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </button>
     </section>
   );
 }
