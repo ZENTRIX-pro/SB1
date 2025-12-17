@@ -61,7 +61,7 @@ export function TrendingSection() {
           </div>
           <div className="flex gap-3 overflow-hidden">
             {Array.from({ length: 4 }).map((_, idx) => (
-              <div key={idx} className="flex-none w-[140px] md:w-[280px]">
+              <div key={idx} className="flex-none min-w-[160px] w-[45vw] md:w-[380px]">
                 <ProductSkeleton />
               </div>
             ))}
@@ -128,11 +128,11 @@ export function TrendingSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: idx * 0.05, duration: 0.4 }}
-            className="group flex-none snap-start w-[120px] md:w-[280px]"
+            className="group flex-none snap-start min-w-[160px] w-[45vw] md:w-[380px]"
           >
             <Link href={`/product/${product.handle}`}>
               <div className="cursor-pointer">
-                <div className="relative aspect-[3/4] overflow-hidden bg-white rounded-xl md:rounded-2xl mb-2 md:mb-4 shadow-sm">
+                <div className="relative aspect-[3/4] overflow-hidden bg-white rounded-2xl mb-2 md:mb-4 shadow-sm" style={{ maxHeight: 'calc(45vw * 1.33)' }}>
                   <img
                     src={product.images[0]?.src || "https://placehold.co/400x500?text=No+Image"}
                     alt={product.title}
