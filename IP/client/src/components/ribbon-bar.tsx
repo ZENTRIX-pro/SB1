@@ -84,7 +84,7 @@ export function RibbonBar() {
   };
 
   return (
-    <div id="category-ribbon" className="sticky top-14 z-40 bg-transparent">
+    <div id="category-ribbon" className="relative z-40 bg-transparent">
       <div className="overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         <div className="flex items-center justify-start md:justify-center gap-6 md:gap-8 px-4 py-4 min-w-max max-w-7xl mx-auto">
           {categoryConfig.map((category) => {

@@ -110,14 +110,14 @@ export function BentoGrid() {
 
       <div
         ref={scrollRef}
-        className="flex flex-row flex-nowrap gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory px-4 pb-4"
+        className="flex flex-row flex-nowrap gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pl-0 pr-4 md:px-4 pb-4"
         style={{ 
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
           WebkitOverflowScrolling: 'touch'
         }}
       >
-        <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
+        <div className="flex-none w-0 md:w-[calc((100vw-1280px)/2+16px)]" />
         {essentialCards.map((card, index) => (
           <motion.div
             key={card.title}
@@ -125,10 +125,10 @@ export function BentoGrid() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="flex-none min-w-[200px] w-[60vw] md:w-[350px] snap-center"
+            className="flex-none min-w-[160px] w-[45vw] md:w-[380px] snap-start"
           >
             <Link href={card.href}>
-              <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer">
+              <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer" style={{ maxHeight: 'calc(45vw * 1.33)' }}>
                 <img
                   src={card.image}
                   alt={card.title}
@@ -148,7 +148,7 @@ export function BentoGrid() {
             </Link>
           </motion.div>
         ))}
-        <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
+        <div className="flex-none w-0 md:w-[calc((100vw-1280px)/2+16px)]" />
       </div>
     </section>
   );
