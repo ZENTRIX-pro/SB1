@@ -37,7 +37,7 @@ export default function Returns() {
           
           <h2 className="text-2xl font-semibold text-[#1D1D1F] mt-12 mb-4">How to Return</h2>
           <ol className="list-decimal pl-6 space-y-3">
-            <li>Contact our customer service team at returns@zentrix.com</li>
+            <li>Contact our customer service team at shop.with.zentrix@gmail.com</li>
             <li>Receive your prepaid return label</li>
             <li>Pack items securely in original packaging</li>
             <li>Drop off at your nearest shipping location</li>
@@ -59,8 +59,8 @@ export default function Returns() {
             <p className="text-[#1D1D1F] font-medium">Need Help?</p>
             <p className="text-[#1D1D1F]/60 mt-2">
               Contact our support team at{" "}
-              <a href="mailto:support@zentrix.com" className="text-[#D4AF37] hover:underline">
-                support@zentrix.com
+              <a href="mailto:shop.with.zentrix@gmail.com" className="text-[#D4AF37] hover:underline">
+                shop.with.zentrix@gmail.com
               </a>
             </p>
           </div>

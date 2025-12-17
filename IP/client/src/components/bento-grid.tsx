@@ -125,10 +125,10 @@ export function BentoGrid() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="flex-none w-[200px] md:w-[280px] snap-start"
+            className="flex-none min-w-[160px] w-[45vw] md:w-[380px] snap-start"
           >
             <Link href={card.href}>
-              <div className="group relative overflow-hidden rounded-2xl cursor-pointer h-[280px] md:h-[380px]">
+              <div className="group relative overflow-hidden rounded-2xl cursor-pointer aspect-[3/4]" style={{ maxHeight: 'calc(45vw * 1.33)' }}>
                 <img
                   src={card.image}
                   alt={card.title}

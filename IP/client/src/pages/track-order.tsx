@@ -81,8 +81,8 @@ export default function TrackOrder() {
           <p className="text-[#1D1D1F] font-medium mb-2">Can't find your order?</p>
           <p className="text-[#1D1D1F]/60 text-sm">
             Contact our support team at{" "}
-            <a href="mailto:support@zentrix.com" className="text-[#D4AF37] hover:underline">
-              support@zentrix.com
+            <a href="mailto:shop.with.zentrix@gmail.com" className="text-[#D4AF37] hover:underline">
+              shop.with.zentrix@gmail.com
             </a>
             {" "}or check your email for shipping confirmation.
           </p>

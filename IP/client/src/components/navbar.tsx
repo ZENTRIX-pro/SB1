@@ -11,7 +11,7 @@ const navLinks = [
   { name: "Women", href: "/collections/women" },
   { name: "Tech", href: "/collections/tech" },
   { name: "Home", href: "/collections/home" },
-  { name: "Beauty", href: "/collections/beauty" },
+  { name: "Scents", href: "/collections/scents" },
 ];
 
 export function Navbar() {
@@ -51,34 +51,45 @@ export function Navbar() {
         }`}
       >
         <div className="max-w-[1400px] mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between h-16">
-            <div className="hidden lg:flex items-center gap-6 flex-1">
-              {navLinks.slice(0, 3).map((link) => (
-                <Link key={link.name} href={link.href}>
-                  <span
-                    className={`text-xs font-medium uppercase tracking-wider cursor-pointer transition-colors hover:text-neutral-500 ${
-                      location === link.href
-                        ? "text-black"
-                        : "text-neutral-700"
-                    }`}
-                    data-testid={`link-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    {link.name}
-                  </span>
-                </Link>
-              ))}
+          <div className="flex items-center justify-between h-16 relative">
+            <div className="flex items-center gap-1 flex-1 min-w-0">
+              <button
+                onClick={() => setMobileMenuOpen(true)}
+                className="p-2.5 text-black hover:text-neutral-500 transition-colors lg:hidden flex-shrink-0"
+                data-testid="button-mobile-menu"
+              >
+                <Menu className="w-5 h-5" strokeWidth={1.5} />
+              </button>
+              <div className="hidden lg:flex items-center gap-6">
+                {navLinks.slice(0, 3).map((link) => (
+                  <Link key={link.name} href={link.href}>
+                    <span
+                      className={`text-xs font-medium uppercase tracking-wider cursor-pointer transition-colors hover:text-neutral-500 ${
+                        location === link.href
+                          ? "text-black"
+                          : "text-neutral-700"
+                      }`}
+                      data-testid={`link-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      {link.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
             </div>
 
-            <Link href="/" data-testid="link-home" className="flex-shrink-0">
-              <span 
-                className="text-2xl font-bold tracking-[0.3em] text-black cursor-pointer uppercase"
-                style={{ fontFamily: 'Inter, -apple-system, sans-serif' }}
-              >
-                ZENTRIX
-              </span>
-            </Link>
+            <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
+              <Link href="/" data-testid="link-home">
+                <span 
+                  className="text-2xl font-bold tracking-[0.3em] text-black cursor-pointer uppercase whitespace-nowrap"
+                  style={{ fontFamily: 'Inter, -apple-system, sans-serif' }}
+                >
+                  ZENTRIX
+                </span>
+              </Link>
+            </div>
 
-            <div className="hidden lg:flex items-center gap-6 flex-1 justify-end">
+            <div className="hidden lg:flex items-center gap-6 flex-1 justify-end min-w-0">
               {navLinks.slice(3).map((link) => (
                 <Link key={link.name} href={link.href}>
                   <span
@@ -95,7 +106,7 @@ export function Navbar() {
               ))}
             </div>
 
-            <div className="flex items-center gap-1 ml-4 lg:ml-6">
+            <div className="flex items-center gap-1 flex-shrink-0">
               <button
                 onClick={() => setSearchOpen(true)}
                 className="p-2.5 text-black hover:text-neutral-500 transition-colors"
@@ -127,14 +138,6 @@ export function Navbar() {
                     {totalItems}
                   </span>
                 )}
-              </button>
-
-              <button
-                onClick={() => setMobileMenuOpen(true)}
-                className="p-2.5 text-black hover:text-neutral-500 transition-colors lg:hidden"
-                data-testid="button-mobile-menu"
-              >
-                <Menu className="w-5 h-5" strokeWidth={1.5} />
               </button>
             </div>
           </div>

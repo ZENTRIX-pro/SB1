@@ -54,7 +54,7 @@ export function SignatureParallax({
               <p className="text-white/50 text-xs tracking-[0.3em] uppercase mb-2">
                 Limited Edition
               </p>
-              <h2 className="text-3xl font-semibold text-white tracking-tight leading-tight mb-3">
+              <h2 className="text-3xl font-semibold text-white tracking-tight leading-tight mb-3 transition-colors duration-300 hover:text-[#D4AF37]">
                 Signature
                 <span className="font-light italic"> Series</span>
               </h2>
@@ -64,7 +64,7 @@ export function SignatureParallax({
               <Link href="/collections/signature">
                 <motion.button
                   whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 bg-white text-[#1D1D1F] text-sm font-semibold tracking-wide rounded-full hover:bg-white/90 transition-colors duration-300"
+                  className="px-6 py-3 bg-white text-[#1D1D1F] text-sm font-semibold tracking-wide rounded-full hover:bg-[#D4AF37] hover:text-white transition-colors duration-300"
                 >
                   Discover Collection
                 </motion.button>
@@ -98,7 +98,7 @@ export function SignatureParallax({
               <p className="text-white/50 text-xs tracking-[0.3em] uppercase mb-4">
                 Limited Edition
               </p>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight mb-6">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight mb-6 transition-colors duration-300 hover:text-[#D4AF37] cursor-pointer">
                 Signature
                 <br />
                 <span className="font-light italic">Series</span>
@@ -111,7 +111,7 @@ export function SignatureParallax({
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 bg-white text-[#1D1D1F] text-sm font-semibold tracking-wide rounded-full hover:bg-white/90 transition-colors duration-300"
+                  className="px-8 py-4 bg-white text-[#1D1D1F] text-sm font-semibold tracking-wide rounded-full hover:bg-[#D4AF37] hover:text-white transition-colors duration-300"
                 >
                   Discover Collection
                 </motion.button>

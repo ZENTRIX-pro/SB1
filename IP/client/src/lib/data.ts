@@ -111,10 +111,10 @@ export const categories: Category[] = [
   },
   {
     id: "7",
-    name: "Wallets",
-    slug: "wallets",
-    description: "Premium Wallets & Card Holders",
-    image: walletImage
+    name: "Scents",
+    slug: "scents",
+    description: "Signature Fragrances & Perfumes",
+    image: beautyCategoryImage
   },
   {
     id: "8",

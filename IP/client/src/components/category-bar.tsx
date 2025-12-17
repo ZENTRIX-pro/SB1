@@ -7,12 +7,12 @@ import { categories } from "@/lib/data";
 const categoryLabels: Record<string, string> = {
   men: "Men",
   women: "Women",
-  footwear: "Shoes",
-  leather: "Bags",
-  beauty: "Beauty",
+  "male-footwear": "Shoes",
+  "female-footwear": "Heels",
+  jewelry: "Jewelry",
+  bags: "Bags",
+  scents: "Scents",
   tech: "Tech",
-  "womens-footwear": "Heels",
-  lifestyle: "Lifestyle",
 };
 
 export function CategoryBar() {

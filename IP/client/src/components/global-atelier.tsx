@@ -144,10 +144,10 @@ export function GlobalAtelier() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="flex-none w-[200px] snap-start"
+              className="flex-none min-w-[160px] w-[45vw] md:w-[380px] snap-start"
             >
               <Link href={location.href}>
-                <div className="group relative h-[280px] rounded-2xl overflow-hidden cursor-pointer">
+                <div className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4]" style={{ maxHeight: 'calc(45vw * 1.33)' }}>
                   <img
                     src={imageSrc}
                     alt={location.name}
@@ -189,7 +189,7 @@ export function GlobalAtelier() {
               transition={{ delay: index * 0.1 }}
             >
               <Link href={location.href}>
-                <div className="group relative rounded-2xl overflow-hidden cursor-pointer" style={{ height: '380px' }}>
+                <div className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4]">
                   <img
                     src={imageSrc}
                     alt={location.name}
