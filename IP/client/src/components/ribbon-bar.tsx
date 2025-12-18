@@ -23,12 +23,6 @@ const categoryConfig: RibbonCategory[] = [
     fallbackImage: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=300&q=80"
   },
   {
-    name: "Scents",
-    link: "/collections/scents",
-    handle: "scents",
-    fallbackImage: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=300&q=80"
-  },
-  {
     name: "Active",
     link: "/collections/active",
     handle: "active",
@@ -51,6 +45,12 @@ const categoryConfig: RibbonCategory[] = [
     link: "/collections/home",
     handle: "home",
     fallbackImage: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    name: "Scents",
+    link: "/collections/scents",
+    handle: "scents",
+    fallbackImage: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=300&q=80"
   },
   {
     name: "Gifts",
