@@ -59,7 +59,7 @@ export function WorldMapSection() {
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
 
   return (
-    <section id="world-map-section" className="relative py-24 md:py-32 bg-neutral-950 overflow-hidden">
+    <section id="world-map-section" className="relative py-24 md:py-32 bg-neutral-950 overflow-hidden mt-12">
       <div 
         className="absolute inset-0"
         style={{
@@ -134,7 +134,7 @@ export function WorldMapSection() {
           ))}
         </div>
 
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
           {hotspots.map((hotspot, index) => (
             <motion.div
               key={hotspot.id}
@@ -144,10 +144,10 @@ export function WorldMapSection() {
               transition={{ delay: index * 0.1 }}
             >
               <Link href={hotspot.href}>
-                <div className="group relative aspect-[3/4] overflow-hidden rounded-xl border border-white/10 hover:border-[#D4AF37]/30 transition-colors cursor-pointer">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex flex-col items-center justify-end p-4">
+                <div className="group relative aspect-[3/4] overflow-hidden rounded-xl border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300 cursor-pointer h-full">
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex flex-col items-center justify-end p-6 group-hover:to-black/70 transition-all duration-300">
                     <p className="text-[#D4AF37] text-lg font-light text-center">{hotspot.tooltip}</p>
-                    <p className="text-white/40 text-sm text-center">{hotspot.name}</p>
+                    <p className="text-white/40 text-sm text-center mt-1">{hotspot.name}</p>
                   </div>
                 </div>
               </Link>

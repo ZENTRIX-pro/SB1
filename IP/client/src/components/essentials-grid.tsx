@@ -75,7 +75,7 @@ export function EssentialsGrid() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-[#F5F5F7]">
+    <section className="py-16 md:py-32 bg-[#F5F5F7]">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -124,10 +124,10 @@ export function EssentialsGrid() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="flex-none min-w-[160px] w-[45vw] md:w-[calc((100%-32px)/4)] snap-start"
+              className="flex-none min-w-[160px] w-[45vw] md:w-[calc((100vw-1280px-48px)/4)] snap-start"
             >
               <Link href={card.href}>
-                <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer">
+                <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer h-full">
                   <img
                     src={imageSrc}
                     alt={card.title}

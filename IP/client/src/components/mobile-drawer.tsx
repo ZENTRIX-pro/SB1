@@ -9,22 +9,41 @@ interface MobileDrawerProps {
   onClose: () => void;
 }
 
-const drawerLinks = [
-  { name: "NEW ARRIVALS", href: "/collections/new" },
+interface DrawerLink {
+  name: string;
+  href?: string;
+  subcategories?: Array<{ name: string; href: string }>;
+}
+
+const drawerLinks: DrawerLink[] = [
   { name: "MEN", href: "/collections/men" },
-  { name: "WOMEN", href: "/collections/women" },
+  {
+    name: "WOMEN",
+    href: "/collections/women"
+  },
+  {
+    name: "SCENTS",
+    subcategories: [
+      { name: "Men's Perfume", href: "/collections/mens-perfume" },
+      { name: "Women's Perfume", href: "/collections/womens-perfume" },
+      { name: "Unisex Scents", href: "/collections/unisex-scents" }
+    ]
+  },
   { name: "TECH & GADGETS", href: "/collections/tech" },
   { name: "HOME LIVING", href: "/collections/home" },
-  { name: "ACTIVE", href: "/collections/active" },
   { name: "BEAUTY", href: "/collections/beauty" },
-  { name: "SCENTS", href: "/collections/scents" },
   { name: "GIFTS", href: "/collections/gifts" },
 ];
 
 export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   const { currency, setCurrency } = useCurrency();
   const [currencyOpen, setCurrencyOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const toggleCategory = (categoryName: string) => {
+    setExpandedCategory(expandedCategory === categoryName ? null : categoryName);
+  };
 
   return (
     <AnimatePresence>
@@ -45,16 +64,16 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed top-0 left-0 bottom-0 w-[320px] bg-white z-50 shadow-2xl flex flex-col"
           >
-            <div className="flex items-center justify-between p-5 border-b border-neutral-200">
+            <div className="flex items-center justify-center p-5 border-b border-neutral-200">
               <span 
-                className="text-xl font-bold tracking-[0.25em] text-black uppercase"
+                className="text-2xl font-bold tracking-[0.3em] text-black uppercase"
                 style={{ fontFamily: 'Inter, -apple-system, sans-serif' }}
               >
                 ZENTRIX
               </span>
               <button
                 onClick={onClose}
-                className="p-2 text-black hover:text-neutral-500 transition-colors"
+                className="absolute right-5 p-2 text-black hover:text-neutral-500 transition-colors"
               >
                 <X className="w-5 h-5" strokeWidth={1.5} />
               </button>
@@ -68,13 +87,53 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.04 + 0.1 }}
                 >
-                  <Link href={link.href} onClick={onClose}>
-                    <div className="px-6 py-5 border-b border-neutral-100/50 cursor-pointer group hover:bg-neutral-50 transition-all duration-200 hover:border-neutral-300">
-                      <span className="text-xs font-semibold text-black tracking-[0.1em] uppercase">
-                        {link.name}
-                      </span>
-                    </div>
-                  </Link>
+                  {link.subcategories ? (
+                    <>
+                      <button
+                        onClick={() => toggleCategory(link.name)}
+                        className="w-full px-6 py-5 border-b border-neutral-100/50 cursor-pointer hover:bg-neutral-50 transition-all duration-200 hover:border-neutral-300 flex items-center justify-between"
+                      >
+                        <span className="text-xs font-semibold text-black tracking-[0.1em] uppercase">
+                          {link.name}
+                        </span>
+                        <motion.div
+                          animate={{ rotate: expandedCategory === link.name ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <ChevronDown className="w-4 h-4 text-neutral-600" strokeWidth={2} />
+                        </motion.div>
+                      </button>
+                      <AnimatePresence>
+                        {expandedCategory === link.name && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="bg-neutral-50 overflow-hidden"
+                          >
+                            {link.subcategories.map((sub) => (
+                              <Link key={sub.name} href={sub.href} onClick={onClose}>
+                                <div className="px-8 py-4 border-b border-neutral-100 hover:bg-neutral-100 transition-colors">
+                                  <span className="text-xs font-medium text-neutral-700 tracking-wider uppercase">
+                                    {sub.name}
+                                  </span>
+                                </div>
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  ) : (
+                    <Link href={link.href!} onClick={onClose}>
+                      <div className="px-6 py-5 border-b border-neutral-100/50 cursor-pointer group hover:bg-neutral-50 transition-all duration-200 hover:border-neutral-300">
+                        <span className="text-xs font-semibold text-black tracking-[0.1em] uppercase">
+                          {link.name}
+                        </span>
+                      </div>
+                    </Link>
+                  )}
                 </motion.div>
               ))}
             </nav>
