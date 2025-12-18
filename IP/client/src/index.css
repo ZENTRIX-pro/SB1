@@ -190,6 +190,49 @@
   }
 }
 
+/* FORCE DESKTOP GRID SYNC: World of ZENTRIX & New Arrivals match The Essentials */
+@media (min-width: 1024px) {
+  /* Ensure all product card containers have consistent sizing */
+  #world-map-section .flex-none.min-w-\[160px\],
+  .new-arrivals .flex-none.min-w-\[160px\],
+  .essentials-grid .flex-none.min-w-\[160px\] {
+    height: 100% !important;
+    min-height: 450px !important;
+  }
+
+  /* Force aspect ratio on all product card images */
+  #world-map-section [class*="aspect-\[3\/4\]"],
+  .new-arrivals [class*="aspect-\[3\/4\]"],
+  .essentials-grid [class*="aspect-\[3\/4\]"] {
+    aspect-ratio: 3 / 4 !important;
+    height: 100% !important;
+  }
+
+  /* Force image sizing and object-fit */
+  #world-map-section img,
+  .new-arrivals img,
+  .essentials-grid img {
+    object-fit: cover !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Ensure flex containers maintain consistency */
+  #world-map-section .flex-col,
+  .new-arrivals .flex-col,
+  .essentials-grid .flex-col {
+    height: 100% !important;
+  }
+
+  /* Grid column sizing enforcement */
+  #world-map-section .overflow-x-auto,
+  .new-arrivals .overflow-x-auto,
+  .essentials-grid .overflow-x-auto {
+    display: flex;
+    align-items: stretch;
+  }
+}
+
 /**
  * Using the elevate system.
  * Automatic contrast adjustment.
