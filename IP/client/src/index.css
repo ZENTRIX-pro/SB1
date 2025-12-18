@@ -209,11 +209,11 @@
   /* CLONE ESSENTIALS CARD CLASSES EXACTLY */
   .world-of-zentrix .snap-start,
   .new-arrivals .snap-start {
+    min-width: 400px !important;
+    width: 400px !important;
+    height: 600px !important;
     flex: 0 0 auto !important;
-    min-width: 160px !important;
-    width: calc((100vw - 1280px - 48px) / 4) !important;
-    flex-shrink: 0 !important;
-    height: 100% !important;
+    aspect-ratio: 2/3 !important;
     display: flex !important;
     flex-direction: column !important;
   }
