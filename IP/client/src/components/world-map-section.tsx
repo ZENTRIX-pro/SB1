@@ -85,7 +85,7 @@ export function WorldMapSection() {
           className="text-center mb-16"
         >
           <p className="text-[#D4AF37] text-xs tracking-[0.3em] uppercase mb-3">Global Inspiration</p>
-          <h2 className="text-3xl md:text-5xl font-light text-white tracking-wide">
+          <h2 className="text-3xl md:text-5xl font-light text-white tracking-[0.15em]">
             World of ZENTRIX
           </h2>
           <p className="mt-4 text-white/50 max-w-xl mx-auto">
@@ -135,22 +135,25 @@ export function WorldMapSection() {
         </div>
 
         <div 
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
-          style={{ gridTemplateRows: '1fr' }}
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-fr lg:auto-rows-max"
+          style={{ 
+            gridTemplateRows: 'repeat(auto-fit, minmax(0, 1fr))',
+            minHeight: '400px'
+          }}
         >
           {hotspots.map((hotspot, index) => (
             <motion.div
               key={hotspot.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="h-full"
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ delay: index * 0.12, duration: 1.0, ease: "easeOut" }}
+              className="h-full w-full"
             >
               <Link href={hotspot.href}>
                 <div 
-                  className="group relative w-full overflow-hidden rounded-2xl border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300 cursor-pointer"
-                  style={{ aspectRatio: '3/4', minHeight: '320px' }}
+                  className="group relative w-full h-full overflow-hidden rounded-2xl border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300 cursor-pointer"
+                  style={{ aspectRatio: '3/4' }}
                 >
                   <img
                     src={`https://images.unsplash.com/photo-1${1234567890 + index}?auto=format&fit=crop&w=500&q=80`}

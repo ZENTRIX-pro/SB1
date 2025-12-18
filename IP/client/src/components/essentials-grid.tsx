@@ -85,7 +85,7 @@ export function EssentialsGrid() {
         >
           <div className="text-center md:text-left flex-1">
             <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">Curated For You</p>
-            <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-[0.1em]">
               The Essentials
             </h2>
           </div>
@@ -120,10 +120,10 @@ export function EssentialsGrid() {
           return (
             <motion.div
               key={card.title}
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ delay: index * 0.12, duration: 0.9, ease: "easeOut" }}
               className="flex-none min-w-[160px] w-[45vw] md:w-[calc((100vw-1280px-48px)/4)] snap-start h-full flex flex-col"
             >
               <Link href={card.href}>

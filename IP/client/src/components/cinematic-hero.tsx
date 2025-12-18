@@ -64,12 +64,12 @@ export function CinematicHero({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.8 }}
         >
-          <button
-            onClick={scrollToContent}
+          <a
+            href="/collections/the-master-collection"
             className="inline-block px-8 py-3 border border-white/30 text-white text-sm tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all duration-300"
           >
-            Explore
-          </button>
+            Discover the Collection
+          </a>
         </motion.div>
       </div>
 
