@@ -71,7 +71,7 @@ export function WorldMapSection() {
   };
 
   return (
-    <section id="world-map-section" className="relative py-24 md:py-32 bg-neutral-950 overflow-hidden mt-12">
+    <section id="world-map-section" className="world-of-zentrix relative py-24 md:py-32 bg-neutral-950 overflow-hidden mt-12">
       <div 
         className="absolute inset-0"
         style={{
