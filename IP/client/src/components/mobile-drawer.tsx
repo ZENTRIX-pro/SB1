@@ -84,25 +84,6 @@ const fallbackLinks: DrawerLink[] = [
     ]
   },
   {
-    name: "TECH & GADGETS",
-    subcategories: [
-      { name: "All Tech", href: "/collections/tech" },
-      { name: "Tech Gadgets", href: "/collections/tech-gadgets" },
-      { name: "Smart Watches", href: "/collections/smart-watches" },
-      { name: "Headphones", href: "/collections/headphones" }
-    ]
-  },
-  {
-    name: "HOME LIVING",
-    subcategories: [
-      { name: "All Home", href: "/collections/home" },
-      { name: "Home Décor", href: "/collections/home-decor" },
-      { name: "Italian Furniture", href: "/collections/italian-furniture" },
-      { name: "Wall Art", href: "/collections/wall-art" },
-      { name: "Tableware", href: "/collections/tableware" }
-    ]
-  },
-  {
     name: "BEAUTY",
     subcategories: [
       { name: "All Beauty", href: "/collections/beauty" },

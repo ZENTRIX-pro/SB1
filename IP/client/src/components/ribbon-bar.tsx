@@ -35,18 +35,6 @@ const categoryConfig: RibbonCategory[] = [
     fallbackImage: "https://images.unsplash.com/photo-1596462502278-27bfdd403348?auto=format&fit=crop&w=300&q=80"
   },
   {
-    name: "Tech",
-    link: "/collections/tech",
-    handle: "tech",
-    fallbackImage: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=300&q=80"
-  },
-  {
-    name: "Home",
-    link: "/collections/home",
-    handle: "home",
-    fallbackImage: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=300&q=80"
-  },
-  {
     name: "Scents",
     link: "/collections/scents",
     handle: "scents",

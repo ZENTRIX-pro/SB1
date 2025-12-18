@@ -16,8 +16,6 @@ const fallbackMenuCategories: MegaMenuCategory[] = [
     links: [
       { label: "Men's Collection", href: "/collections/men" },
       { label: "Women's Collection", href: "/collections/women" },
-      { label: "Tech Lifestyle", href: "/collections/tech" },
-      { label: "Home & Living", href: "/collections/home" },
       { label: "Scents", href: "/collections/scents" },
       { label: "Accessories", href: "/collections/jewelry" },
     ]
