@@ -192,21 +192,26 @@
 
 /* FORCE DESKTOP GRID SYNC: World of ZENTRIX & New Arrivals match The Essentials */
 @media (min-width: 1024px) {
-  /* Card sizing - matches The Essentials exactly */
-  .world-of-zentrix .flex-none.flex.flex-col,
-  .new-arrivals .flex-none.flex.flex-col {
-    width: calc((100vw - 1280px - 48px) / 4) !important;
-    min-width: 320px !important;
-    max-width: 100% !important;
+  /* CRITICAL: Force card sizing to 350px - PREVENT SHRINKING */
+  .world-of-zentrix .snap-start,
+  .new-arrivals .snap-start {
+    min-width: 350px !important;
+    width: 350px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Card container consistency */
+  .world-of-zentrix .flex-col,
+  .new-arrivals .flex-col {
+    height: 100% !important;
+    width: 100% !important;
   }
 
   /* Aspect ratio enforcement */
-  .world-of-zentrix .aspect-\[3\/4\],
-  .new-arrivals .aspect-\[3\/4\],
   .world-of-zentrix [class*="aspect"],
   .new-arrivals [class*="aspect"] {
     aspect-ratio: 3 / 4 !important;
-    height: auto !important;
+    height: 100% !important;
   }
 
   /* Image sizing and object-fit */
@@ -217,25 +222,13 @@
     width: 100% !important;
   }
 
-  /* Flex container consistency */
-  .world-of-zentrix .flex-col,
-  .new-arrivals .flex-col {
-    height: 100% !important;
-    flex: 1 !important;
-  }
-
-  /* Horizontal scroll container - maintain full height */
+  /* Horizontal scroll container */
   .world-of-zentrix .overflow-x-auto,
   .new-arrivals .overflow-x-auto {
     display: flex;
     align-items: stretch;
-    height: auto !important;
-  }
-
-  /* Prevent shrinking of flex items */
-  .world-of-zentrix .snap-start,
-  .new-arrivals .snap-start {
-    flex-shrink: 0 !important;
+    overflow-x: auto;
+    justify-content: flex-start;
   }
 }
 
