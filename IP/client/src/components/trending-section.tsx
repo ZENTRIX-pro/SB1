@@ -3,17 +3,11 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { fetchCollectionByHandle, ShopifyProduct } from "@/lib/shopify";
+import { useCurrency } from "@/lib/currency-context";
 import { ProductSkeleton } from "@/components/product-skeleton";
 
-function formatDisplayPrice(amount: string): string {
-  const price = parseFloat(amount);
-  if (price > 500) {
-    return `$${(price / 84).toFixed(2)}`;
-  }
-  return `$${price.toFixed(2)}`;
-}
-
 export function TrendingSection() {
+  const { formatPrice } = useCurrency();
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -144,7 +138,7 @@ export function TrendingSection() {
                     {product.title}
                   </h3>
                   <p className="text-[#1D1D1F]/60 text-xs md:text-sm font-medium">
-                    {formatDisplayPrice(product.variants[0]?.price.amount || "0")}
+                    {formatPrice(product.variants[0]?.price.amount || "0", "USD")}
                   </p>
                 </div>
               </div>

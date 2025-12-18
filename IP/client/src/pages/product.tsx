@@ -3,6 +3,7 @@ import { useParams, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Minus, Plus, Check, ChevronLeft, ChevronRight, AlertCircle, Truck, Shield, RotateCcw, Star } from "lucide-react";
 import { useShopify } from "@/lib/shopify-context";
+import { useCurrency } from "@/lib/currency-context";
 import { 
   fetchProductByHandle, 
   ShopifyProduct, 
@@ -22,14 +23,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-function formatDisplayPrice(amount: string): string {
-  const price = parseFloat(amount);
-  if (price > 500) {
-    return `$${(price / 84).toFixed(2)}`;
-  }
-  return `$${price.toFixed(2)}`;
-}
 
 interface SplitImageGalleryProps {
   images: ShopifyImage[];
@@ -283,6 +276,7 @@ function ProductReviews() {
 export default function Product() {
   const { id } = useParams<{ id: string }>();
   const { products, isLoading: contextLoading } = useShopify();
+  const { formatPrice } = useCurrency();
   
   const [product, setProduct] = useState<ShopifyProduct | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -378,13 +372,13 @@ export default function Product() {
   };
 
   const currentPrice = selectedVariant 
-    ? formatDisplayPrice(selectedVariant.price.amount)
+    ? formatPrice(selectedVariant.price.amount, "USD")
     : product?.variants[0] 
-      ? formatDisplayPrice(product.variants[0].price.amount)
+      ? formatPrice(product.variants[0].price.amount, "USD")
       : "$0.00";
 
   const compareAtPrice = selectedVariant?.compareAtPrice 
-    ? formatDisplayPrice(selectedVariant.compareAtPrice.amount)
+    ? formatPrice(selectedVariant.compareAtPrice.amount, "USD")
     : null;
 
   const hasOptions = product?.options && product.options.length > 0 && 
