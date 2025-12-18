@@ -144,9 +144,11 @@ export function WorldMapSection() {
               transition={{ delay: index * 0.1 }}
             >
               <Link href={hotspot.href}>
-                <div className="group p-4 border border-white/10 rounded-xl hover:border-[#D4AF37]/30 transition-colors cursor-pointer">
-                  <p className="text-[#D4AF37] text-lg font-light">{hotspot.tooltip}</p>
-                  <p className="text-white/40 text-sm">{hotspot.name}</p>
+                <div className="group relative aspect-[3/4] overflow-hidden rounded-xl border border-white/10 hover:border-[#D4AF37]/30 transition-colors cursor-pointer">
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex flex-col items-center justify-end p-4">
+                    <p className="text-[#D4AF37] text-lg font-light text-center">{hotspot.tooltip}</p>
+                    <p className="text-white/40 text-sm text-center">{hotspot.name}</p>
+                  </div>
                 </div>
               </Link>
             </motion.div>

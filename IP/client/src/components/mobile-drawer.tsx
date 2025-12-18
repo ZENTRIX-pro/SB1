@@ -39,11 +39,11 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             onClick={onClose}
           />
           <motion.div
-            initial={{ x: "100%" }}
+            initial={{ x: "-100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: "-100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 bottom-0 w-[320px] bg-white z-50 shadow-2xl flex flex-col"
+            className="fixed top-0 left-0 bottom-0 w-[320px] bg-white z-50 shadow-2xl flex flex-col"
           >
             <div className="flex items-center justify-between p-5 border-b border-neutral-200">
               <span 
@@ -60,17 +60,17 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
               </button>
             </div>
 
-            <nav className="flex-1 overflow-y-auto py-4">
+            <nav className="flex-1 overflow-y-auto py-0">
               {drawerLinks.map((link, index) => (
                 <motion.div
                   key={link.name}
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 + 0.1 }}
+                  transition={{ delay: index * 0.04 + 0.1 }}
                 >
                   <Link href={link.href} onClick={onClose}>
-                    <div className="px-6 py-4 border-b border-neutral-100 cursor-pointer group hover:bg-neutral-50 transition-colors">
-                      <span className="text-sm font-bold text-black tracking-wider uppercase">
+                    <div className="px-6 py-5 border-b border-neutral-100/50 cursor-pointer group hover:bg-neutral-50 transition-all duration-200 hover:border-neutral-300">
+                      <span className="text-xs font-semibold text-black tracking-[0.1em] uppercase">
                         {link.name}
                       </span>
                     </div>
