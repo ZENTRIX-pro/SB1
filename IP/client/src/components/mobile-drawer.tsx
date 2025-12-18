@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronDown, User, Search } from "lucide-react";
 import { useCurrency, GLOBAL_CURRENCIES } from "@/lib/currency-context";
+import { fetchNavigationMenu, type MenuItem } from "@/lib/shopify";
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -15,11 +16,48 @@ interface DrawerLink {
   subcategories?: Array<{ name: string; href: string }>;
 }
 
-const drawerLinks: DrawerLink[] = [
+function convertShopifyUrlToPath(url: string): string {
+  try {
+    const urlObj = new URL(url);
+    return urlObj.pathname;
+  } catch {
+    if (url.startsWith('/')) return url;
+    return '/' + url;
+  }
+}
+
+function mapMenuItemsToDrawerLinks(items: MenuItem[]): DrawerLink[] {
+  return items.map(item => {
+    const hasChildren = item.items && item.items.length > 0;
+    
+    if (hasChildren) {
+      return {
+        name: item.title.toUpperCase(),
+        subcategories: item.items.map(subItem => ({
+          name: subItem.title,
+          href: convertShopifyUrlToPath(subItem.url)
+        }))
+      };
+    }
+    
+    return {
+      name: item.title.toUpperCase(),
+      href: convertShopifyUrlToPath(item.url)
+    };
+  });
+}
+
+const fallbackLinks: DrawerLink[] = [
   {
     name: "MEN",
     subcategories: [
       { name: "All Men's", href: "/collections/men" },
+      { name: "Luxury Sets", href: "/collections/mens-sets" },
+      { name: "Knitwear", href: "/collections/mens-knitwear" },
+      { name: "Resort Shirts", href: "/collections/mens-resort-shirts" },
+      { name: "T-Shirts", href: "/collections/mens-t-shirts" },
+      { name: "Trousers", href: "/collections/mens-trousers" },
+      { name: "Watches", href: "/collections/mens-watches" },
       { name: "Footwear", href: "/collections/mens-footwear" },
       { name: "Accessories", href: "/collections/mens-accessories" }
     ]
@@ -29,7 +67,12 @@ const drawerLinks: DrawerLink[] = [
     subcategories: [
       { name: "All Women's", href: "/collections/women" },
       { name: "Dresses", href: "/collections/womens-dresses" },
-      { name: "Footwear", href: "/collections/womens-footwear" }
+      { name: "Tops", href: "/collections/womens-tops" },
+      { name: "Handbags", href: "/collections/womens-handbags" },
+      { name: "Jewelry", href: "/collections/womens-jewelry" },
+      { name: "Watches", href: "/collections/womens-watches" },
+      { name: "Footwear", href: "/collections/womens-footwear" },
+      { name: "Activewear", href: "/collections/womens-activewear" }
     ]
   },
   {
@@ -43,6 +86,7 @@ const drawerLinks: DrawerLink[] = [
   {
     name: "TECH & GADGETS",
     subcategories: [
+      { name: "All Tech", href: "/collections/tech" },
       { name: "Tech Gadgets", href: "/collections/tech-gadgets" },
       { name: "Smart Watches", href: "/collections/smart-watches" },
       { name: "Headphones", href: "/collections/headphones" }
@@ -51,14 +95,17 @@ const drawerLinks: DrawerLink[] = [
   {
     name: "HOME LIVING",
     subcategories: [
+      { name: "All Home", href: "/collections/home" },
       { name: "Home Décor", href: "/collections/home-decor" },
       { name: "Italian Furniture", href: "/collections/italian-furniture" },
+      { name: "Wall Art", href: "/collections/wall-art" },
       { name: "Tableware", href: "/collections/tableware" }
     ]
   },
   {
     name: "BEAUTY",
     subcategories: [
+      { name: "All Beauty", href: "/collections/beauty" },
       { name: "Skincare", href: "/collections/beauty-skincare" },
       { name: "Beauty Tools", href: "/collections/beauty-tools" },
       { name: "Hair Care", href: "/collections/hair-care" }
@@ -67,6 +114,7 @@ const drawerLinks: DrawerLink[] = [
   {
     name: "GIFTS",
     subcategories: [
+      { name: "All Gifts", href: "/collections/gifts" },
       { name: "For Him", href: "/collections/gifts-for-him" },
       { name: "For Her", href: "/collections/gifts-for-her" },
       { name: "Gift Bundles", href: "/collections/gift-bundles" }
@@ -79,6 +127,29 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   const [currencyOpen, setCurrencyOpen] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [drawerLinks, setDrawerLinks] = useState<DrawerLink[]>(fallbackLinks);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadNavigationMenu() {
+      try {
+        const menu = await fetchNavigationMenu("main-menu");
+        if (menu && menu.items && menu.items.length > 0) {
+          const mappedLinks = mapMenuItemsToDrawerLinks(menu.items);
+          setDrawerLinks(mappedLinks);
+          console.log('[MobileDrawer] Loaded dynamic menu from Shopify:', mappedLinks.length, 'items');
+        } else {
+          console.log('[MobileDrawer] Using fallback menu - Shopify menu empty or unavailable');
+        }
+      } catch (error) {
+        console.error('[MobileDrawer] Error loading menu, using fallback:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    
+    loadNavigationMenu();
+  }, []);
 
   const toggleCategory = (categoryName: string) => {
     setExpandedCategory(expandedCategory === categoryName ? null : categoryName);

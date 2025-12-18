@@ -2,12 +2,86 @@ import Client from "shopify-buy";
 
 const SHOPIFY_DOMAIN = "p52yuw-uq.myshopify.com";
 const STOREFRONT_TOKEN = "c65b638b635b6782cc4d5a467c024378";
+const API_VERSION = "2024-01";
 
 const client = Client.buildClient({
   domain: SHOPIFY_DOMAIN,
   storefrontAccessToken: STOREFRONT_TOKEN,
-  apiVersion: "2024-01",
+  apiVersion: API_VERSION,
 });
+
+export interface MenuItem {
+  id: string;
+  title: string;
+  url: string;
+  type: string;
+  items: MenuItem[];
+}
+
+export interface NavigationMenu {
+  id: string;
+  handle: string;
+  title: string;
+  items: MenuItem[];
+}
+
+export async function fetchNavigationMenu(handle: string = "main-menu"): Promise<NavigationMenu | null> {
+  try {
+    const query = `
+      query getMenu($handle: String!) {
+        menu(handle: $handle) {
+          id
+          handle
+          title
+          items {
+            id
+            title
+            url
+            type
+            items {
+              id
+              title
+              url
+              type
+              items {
+                id
+                title
+                url
+                type
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    const response = await fetch(`https://${SHOPIFY_DOMAIN}/api/${API_VERSION}/graphql.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': STOREFRONT_TOKEN,
+      },
+      body: JSON.stringify({ query, variables: { handle } }),
+    });
+
+    const data = await response.json();
+    
+    if (data.errors) {
+      console.error('[Shopify] GraphQL errors:', data.errors);
+      return null;
+    }
+
+    if (data.data?.menu) {
+      console.log(`[Shopify] Fetched navigation menu: ${handle}`);
+      return data.data.menu as NavigationMenu;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('[Shopify] Error fetching navigation menu:', error);
+    return null;
+  }
+}
 
 export interface SelectedOption {
   name: string;
