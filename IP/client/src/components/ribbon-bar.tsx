@@ -11,12 +11,6 @@ interface RibbonCategory {
 
 const categoryConfig: RibbonCategory[] = [
   {
-    name: "New Arrivals",
-    link: "/collections/new-arrivals",
-    handle: "new",
-    fallbackImage: "https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=300&q=80"
-  },
-  {
     name: "Men",
     link: "/collections/men",
     handle: "men",
@@ -27,6 +21,12 @@ const categoryConfig: RibbonCategory[] = [
     link: "/collections/women",
     handle: "women",
     fallbackImage: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=300&q=80"
+  },
+  {
+    name: "Scents",
+    link: "/collections/scents",
+    handle: "scents",
+    fallbackImage: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=300&q=80"
   },
   {
     name: "Active",
