@@ -134,7 +134,7 @@ export function WorldMapSection() {
           ))}
         </div>
 
-        <div className="mt-16 grid grid-cols-2 gap-4 md:gap-6">
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {hotspots.map((hotspot, index) => (
             <motion.div
               key={hotspot.id}
@@ -142,14 +142,14 @@ export function WorldMapSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="h-full md:col-span-1"
+              className="h-full flex flex-col"
             >
               <Link href={hotspot.href}>
-                <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300 cursor-pointer h-full">
+                <div className="group relative w-full flex-1 min-h-0 aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300 cursor-pointer">
                   <img
                     src={`https://images.unsplash.com/photo-1${1234567890 + index}?auto=format&fit=crop&w=500&q=80`}
                     alt={hotspot.tooltip}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex flex-col items-center justify-end p-6 group-hover:to-black/70 transition-all duration-300">

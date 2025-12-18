@@ -124,14 +124,14 @@ export function EssentialsGrid() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="flex-none min-w-[160px] w-[45vw] md:w-[calc((100vw-1280px-48px)/4)] snap-start"
+              className="flex-none min-w-[160px] w-[45vw] md:w-[calc((100vw-1280px-48px)/4)] snap-start h-full flex flex-col"
             >
               <Link href={card.href}>
-                <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer h-full">
+                <div className="group relative w-full flex-1 min-h-0 aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer">
                   <img
                     src={imageSrc}
                     alt={card.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
