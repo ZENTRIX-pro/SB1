@@ -16,10 +16,21 @@ interface DrawerLink {
 }
 
 const drawerLinks: DrawerLink[] = [
-  { name: "MEN", href: "/collections/men" },
+  {
+    name: "MEN",
+    subcategories: [
+      { name: "Apparel", href: "/collections/men" },
+      { name: "Footwear", href: "/collections/male-footwear" },
+      { name: "Accessories", href: "/collections/accessories" }
+    ]
+  },
   {
     name: "WOMEN",
-    href: "/collections/women"
+    subcategories: [
+      { name: "Apparel", href: "/collections/women" },
+      { name: "Footwear", href: "/collections/female-footwear" },
+      { name: "Accessories", href: "/collections/accessories" }
+    ]
   },
   {
     name: "SCENTS",
@@ -29,9 +40,30 @@ const drawerLinks: DrawerLink[] = [
       { name: "Unisex Scents", href: "/collections/unisex-scents" }
     ]
   },
-  { name: "TECH & GADGETS", href: "/collections/tech" },
-  { name: "HOME LIVING", href: "/collections/home" },
-  { name: "BEAUTY", href: "/collections/beauty" },
+  {
+    name: "TECH & GADGETS",
+    subcategories: [
+      { name: "Smart Devices", href: "/collections/tech" },
+      { name: "Wearables", href: "/collections/wearables" },
+      { name: "Lifestyle", href: "/collections/lifestyle" }
+    ]
+  },
+  {
+    name: "HOME LIVING",
+    subcategories: [
+      { name: "Décor", href: "/collections/home" },
+      { name: "Furniture", href: "/collections/furniture" },
+      { name: "Essentials", href: "/collections/home-essentials" }
+    ]
+  },
+  {
+    name: "BEAUTY",
+    subcategories: [
+      { name: "Skincare", href: "/collections/skincare" },
+      { name: "Makeup", href: "/collections/makeup" },
+      { name: "Wellness", href: "/collections/wellness" }
+    ]
+  },
   { name: "GIFTS", href: "/collections/gifts" },
 ];
 

@@ -142,9 +142,10 @@ export function WorldMapSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
+              className="h-full"
             >
               <Link href={hotspot.href}>
-                <div className="group relative aspect-[3/4] overflow-hidden rounded-xl border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300 cursor-pointer h-full">
+                <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300 cursor-pointer h-full">
                   <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex flex-col items-center justify-end p-6 group-hover:to-black/70 transition-all duration-300">
                     <p className="text-[#D4AF37] text-lg font-light text-center">{hotspot.tooltip}</p>
                     <p className="text-white/40 text-sm text-center mt-1">{hotspot.name}</p>

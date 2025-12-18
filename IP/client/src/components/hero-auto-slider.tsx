@@ -43,7 +43,7 @@ export function HeroAutoSlider() {
           >
             Silent luxury for the modern soul.
           </motion.p>
-          <Link href="/collections/new-arrivals">
+          <Link href="/collections/scents">
             <motion.button
               whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.95)" }}
               whileTap={{ scale: 0.98 }}
@@ -52,7 +52,7 @@ export function HeroAutoSlider() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.1 }}
             >
-              Explore New Arrivals
+              Discover The Collection
             </motion.button>
           </Link>
         </motion.div>
