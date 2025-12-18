@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Hotspot {
   id: string;
@@ -57,6 +58,17 @@ function PulsingDot({ isHovered }: { isHovered: boolean }) {
 
 export function WorldMapSection() {
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 400;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
 
   return (
     <section id="world-map-section" className="relative py-24 md:py-32 bg-neutral-950 overflow-hidden mt-12">
@@ -82,18 +94,33 @@ export function WorldMapSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="flex items-end justify-between mb-12"
         >
-          <p className="text-[#D4AF37] text-xs tracking-[0.3em] uppercase mb-3">Global Inspiration</p>
-          <h2 className="text-3xl md:text-5xl font-light text-white tracking-[0.15em]">
-            World of ZENTRIX
-          </h2>
-          <p className="mt-4 text-white/50 max-w-xl mx-auto">
-            Discover collections inspired by the world's most iconic design philosophies
-          </p>
+          <div className="text-center md:text-left flex-1">
+            <p className="text-[#D4AF37] text-xs tracking-[0.3em] uppercase mb-3">Global Inspiration</p>
+            <h2 className="text-3xl md:text-4xl font-light text-white tracking-[0.15em]">
+              World of ZENTRIX
+            </h2>
+          </div>
+          <div className="hidden md:flex gap-2">
+            <button
+              onClick={() => scroll("left")}
+              className="w-10 h-10 rounded-full border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37]/60 hover:bg-[#D4AF37] hover:text-black transition-all"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="w-10 h-10 rounded-full border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37]/60 hover:bg-[#D4AF37] hover:text-black transition-all"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         </motion.div>
 
-        <div className="relative aspect-[2/1] max-w-4xl mx-auto">
+        <div className="relative aspect-[2/1] max-w-4xl mx-auto mb-12 hidden md:block">
           {hotspots.map((hotspot) => (
             <motion.div
               key={hotspot.id}
@@ -134,13 +161,12 @@ export function WorldMapSection() {
           ))}
         </div>
 
-        <div 
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-fr lg:auto-rows-max"
-          style={{ 
-            gridTemplateRows: 'repeat(auto-fit, minmax(0, 1fr))',
-            minHeight: '400px'
-          }}
+        <div
+          ref={scrollRef}
+          className="flex flex-row gap-3 md:gap-6 overflow-x-auto snap-x snap-mandatory px-0 pb-4"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
+          <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
           {hotspots.map((hotspot, index) => (
             <motion.div
               key={hotspot.id}
@@ -148,28 +174,25 @@ export function WorldMapSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: index * 0.12, duration: 1.0, ease: "easeOut" }}
-              className="h-full w-full"
+              className="flex-none min-w-[160px] w-[45vw] md:w-[calc((100vw-1280px-48px)/4)] snap-start h-full flex flex-col"
             >
               <Link href={hotspot.href}>
-                <div 
-                  className="group relative w-full h-full overflow-hidden rounded-2xl border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300 cursor-pointer"
-                  style={{ aspectRatio: '3/4' }}
-                >
+                <div className="group relative w-full flex-1 min-h-0 aspect-[3/4] overflow-hidden rounded-2xl cursor-pointer border border-white/10 hover:border-[#D4AF37]/30 transition-all">
                   <img
                     src={`https://images.unsplash.com/photo-1${1234567890 + index}?auto=format&fit=crop&w=500&q=80`}
                     alt={hotspot.tooltip}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    className="transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex flex-col items-center justify-end p-6 group-hover:to-black/70 transition-all duration-300">
-                    <p className="text-[#D4AF37] text-lg font-light text-center">{hotspot.tooltip}</p>
-                    <p className="text-white/40 text-sm text-center mt-1">{hotspot.name}</p>
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex flex-col items-center justify-end p-4 md:p-6 group-hover:to-black/70 transition-all duration-300">
+                    <p className="text-[#D4AF37] text-sm md:text-lg font-light text-center">{hotspot.tooltip}</p>
+                    <p className="text-white/40 text-xs md:text-sm text-center mt-1">{hotspot.name}</p>
                   </div>
                 </div>
               </Link>
             </motion.div>
           ))}
+          <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
         </div>
       </div>
     </section>

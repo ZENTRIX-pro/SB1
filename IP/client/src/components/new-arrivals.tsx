@@ -39,21 +39,21 @@ export function NewArrivals() {
 
   if (isLoading) {
     return (
-      <section className="py-12 px-4 md:px-6 bg-white">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <p className="text-xs uppercase tracking-widest text-neutral-500 mb-1">
+      <section className="py-16 md:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-end justify-between mb-12">
+            <div className="text-center md:text-left flex-1">
+              <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">
                 Just Dropped
               </p>
-              <h2 className="font-heading text-2xl md:text-3xl font-semibold text-black">
+              <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-[0.1em]">
                 New Arrivals
               </h2>
             </div>
           </div>
-          <div className="flex gap-4 md:gap-6 overflow-hidden">
+          <div className="flex flex-row gap-3 md:gap-6 overflow-hidden px-4">
             {Array.from({ length: 4 }).map((_, idx) => (
-              <div key={idx} className="flex-none w-[calc(66.666%-8px)] md:w-[280px]">
+              <div key={idx} className="flex-none min-w-[160px] w-[45vw] md:w-[calc((100vw-1280px-48px)/4)]">
                 <ProductSkeleton />
               </div>
             ))}
@@ -68,63 +68,58 @@ export function NewArrivals() {
   }
 
   return (
-    <section className="py-12 px-4 md:px-6 bg-white">
-      <div className="max-w-[1200px] mx-auto">
+    <section className="py-16 md:py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex items-center justify-between mb-6"
+          className="flex items-end justify-between mb-12"
         >
-          <div>
-            <p className="text-xs uppercase tracking-widest text-neutral-500 mb-1">
+          <div className="text-center md:text-left flex-1">
+            <p className="text-[#1D1D1F]/50 text-xs tracking-[0.3em] uppercase mb-3">
               Just Dropped
             </p>
-            <h2 className="font-heading text-2xl md:text-3xl font-semibold text-black">
+            <h2 className="text-3xl md:text-4xl font-semibold text-[#1D1D1F] tracking-[0.1em]">
               New Arrivals
             </h2>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-2">
-              <button
-                onClick={() => scroll("left")}
-                className="p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 transition-colors"
-                aria-label="Scroll left"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => scroll("right")}
-                className="p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 transition-colors"
-                aria-label="Scroll right"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-            <Link href="/collections/new">
-              <span className="text-sm text-black font-medium hover:text-neutral-600 transition-colors cursor-pointer">
-                View All →
-              </span>
-            </Link>
+          <div className="hidden md:flex gap-2">
+            <button
+              onClick={() => scroll("left")}
+              className="w-10 h-10 rounded-full border border-[#1D1D1F]/10 flex items-center justify-center text-[#1D1D1F]/60 hover:bg-[#1D1D1F] hover:text-white transition-all"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="w-10 h-10 rounded-full border border-[#1D1D1F]/10 flex items-center justify-center text-[#1D1D1F]/60 hover:bg-[#1D1D1F] hover:text-white transition-all"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
         </motion.div>
 
         <div 
           ref={scrollContainerRef}
-          className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 pb-4 -mx-4 px-4 md:mx-0 md:px-0"
+          className="flex flex-row gap-3 md:gap-6 overflow-x-auto snap-x snap-mandatory px-0 pb-4"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
+          <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
           {displayProducts.map((product, idx) => (
             <motion.div
               key={product.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.05, duration: 0.4 }}
-              className="group flex-none snap-start w-[calc(66.666%-8px)] md:w-[280px]"
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ delay: idx * 0.12, duration: 0.9, ease: "easeOut" }}
+              className="group flex-none min-w-[160px] w-[45vw] md:w-[calc((100vw-1280px-48px)/4)] snap-start h-full flex flex-col"
             >
               <Link href={`/product/${product.handle}`}>
-                <div className="cursor-pointer">
-                  <div className="relative aspect-[4/5] overflow-hidden bg-neutral-50 rounded-2xl mb-3">
+                <div className="cursor-pointer flex flex-col h-full">
+                  <div className="relative flex-1 min-h-0 aspect-[3/4] overflow-hidden bg-neutral-50 rounded-2xl mb-3">
                     <img
                       src={product.images[0]?.src || "https://placehold.co/400x500?text=No+Image"}
                       alt={product.title}
@@ -136,16 +131,17 @@ export function NewArrivals() {
                       </span>
                     </div>
                   </div>
-                  <h3 className="font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors text-sm line-clamp-1">
+                  <h3 className="font-medium text-black mb-1 group-hover:text-neutral-600 transition-colors text-xs md:text-sm line-clamp-1">
                     {product.title}
                   </h3>
-                  <p className="text-neutral-500 text-sm">
+                  <p className="text-neutral-500 text-xs md:text-sm">
                     ${parseFloat(product.variants[0]?.price.amount || "0").toLocaleString()}
                   </p>
                 </div>
               </Link>
             </motion.div>
           ))}
+          <div className="flex-none w-4 md:w-[calc((100vw-1280px)/2+16px)]" />
         </div>
       </div>
     </section>
