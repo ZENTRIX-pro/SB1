@@ -19,17 +19,17 @@ const drawerLinks: DrawerLink[] = [
   {
     name: "MEN",
     subcategories: [
-      { name: "Apparel", href: "/collections/men" },
-      { name: "Footwear", href: "/collections/male-footwear" },
-      { name: "Accessories", href: "/collections/accessories" }
+      { name: "All Men's", href: "/collections/men" },
+      { name: "Footwear", href: "/collections/mens-footwear" },
+      { name: "Accessories", href: "/collections/mens-accessories" }
     ]
   },
   {
     name: "WOMEN",
     subcategories: [
-      { name: "Apparel", href: "/collections/women" },
-      { name: "Footwear", href: "/collections/female-footwear" },
-      { name: "Accessories", href: "/collections/accessories" }
+      { name: "All Women's", href: "/collections/women" },
+      { name: "Dresses", href: "/collections/womens-dresses" },
+      { name: "Footwear", href: "/collections/womens-footwear" }
     ]
   },
   {
@@ -43,28 +43,35 @@ const drawerLinks: DrawerLink[] = [
   {
     name: "TECH & GADGETS",
     subcategories: [
-      { name: "Smart Devices", href: "/collections/tech" },
-      { name: "Wearables", href: "/collections/wearables" },
-      { name: "Lifestyle", href: "/collections/lifestyle" }
+      { name: "Tech Gadgets", href: "/collections/tech-gadgets" },
+      { name: "Smart Watches", href: "/collections/smart-watches" },
+      { name: "Headphones", href: "/collections/headphones" }
     ]
   },
   {
     name: "HOME LIVING",
     subcategories: [
-      { name: "Décor", href: "/collections/home" },
-      { name: "Furniture", href: "/collections/furniture" },
-      { name: "Essentials", href: "/collections/home-essentials" }
+      { name: "Home Décor", href: "/collections/home-decor" },
+      { name: "Italian Furniture", href: "/collections/italian-furniture" },
+      { name: "Tableware", href: "/collections/tableware" }
     ]
   },
   {
     name: "BEAUTY",
     subcategories: [
-      { name: "Skincare", href: "/collections/skincare" },
-      { name: "Makeup", href: "/collections/makeup" },
-      { name: "Wellness", href: "/collections/wellness" }
+      { name: "Skincare", href: "/collections/beauty-skincare" },
+      { name: "Beauty Tools", href: "/collections/beauty-tools" },
+      { name: "Hair Care", href: "/collections/hair-care" }
     ]
   },
-  { name: "GIFTS", href: "/collections/gifts" },
+  {
+    name: "GIFTS",
+    subcategories: [
+      { name: "For Him", href: "/collections/gifts-for-him" },
+      { name: "For Her", href: "/collections/gifts-for-her" },
+      { name: "Gift Bundles", href: "/collections/gift-bundles" }
+    ]
+  }
 ];
 
 export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
