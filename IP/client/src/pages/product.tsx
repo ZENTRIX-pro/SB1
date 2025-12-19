@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minus, Plus, Check, ChevronLeft, ChevronRight, AlertCircle, Truck, Shield, RotateCcw, Star } from "lucide-react";
+import { Minus, Plus, Check, ChevronLeft, ChevronRight, AlertCircle, Truck, Shield, RotateCcw, Star, Zap, Crown } from "lucide-react";
 import { useShopify } from "@/lib/shopify-context";
 import { useCurrency } from "@/lib/currency-context";
+import { useCart } from "@/lib/cart-context";
 import { 
   fetchProductByHandle, 
   ShopifyProduct, 
@@ -273,6 +274,178 @@ function ProductReviews() {
   );
 }
 
+function MembershipLandingPage({ product }: { product: ShopifyProduct }) {
+  const { addItem } = useCart();
+  const [inventoryLeft, setInventoryLeft] = useState(500);
+  
+  useEffect(() => {
+    const totalInventory = product.variants.reduce((sum, v) => {
+      const match = v.sku.match(/(\d+)/);
+      return sum + (match ? parseInt(match[1]) : 0);
+    }, 0);
+    setInventoryLeft(Math.max(0, totalInventory));
+  }, [product]);
+
+  const handleJoinClub = () => {
+    // Redirect to checkout with the membership product
+    const membershipVariant = product.variants[0];
+    if (membershipVariant) {
+      const checkoutUrl = buildCheckoutUrl(membershipVariant.id, 1);
+      window.location.href = checkoutUrl;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-black via-[#0a0a0a] to-black text-white">
+      <div className="max-w-6xl mx-auto px-4 py-12 pt-24">
+        {/* Back Button */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-12"
+        >
+          <Link href="/">
+            <span className="inline-flex items-center gap-2 text-[#D4AF37] hover:text-white transition-colors cursor-pointer text-sm">
+              <ChevronLeft className="w-4 h-4" />
+              Back to Shop
+            </span>
+          </Link>
+        </motion.div>
+
+        {/* Hero Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16">
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="relative"
+          >
+            <div className="relative aspect-square rounded-2xl overflow-hidden border-2 border-[#D4AF37]/30">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/10 to-transparent z-10" />
+              <img
+                src={product.images[0]?.src || "https://placehold.co/600x600?text=ZENTRIX+BLACK"}
+                alt="Zentrix Black Membership"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="absolute -top-4 -right-4 bg-[#D4AF37] text-black p-3 rounded-full">
+              <Crown className="w-6 h-6" />
+            </div>
+          </motion.div>
+
+          {/* Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-8"
+          >
+            <div>
+              <h1 className="text-5xl md:text-6xl font-bold text-[#D4AF37] mb-4 tracking-tight">
+                Welcome to the Inner Circle
+              </h1>
+              <p className="text-lg text-white/70">
+                Exclusive membership for the discerning collector.
+              </p>
+            </div>
+
+            {/* Scarcity Counter */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-gradient-to-r from-[#D4AF37]/20 to-transparent border border-[#D4AF37]/50 rounded-lg p-4"
+            >
+              <div className="flex items-center gap-3">
+                <Zap className="w-5 h-5 text-[#D4AF37]" />
+                <div>
+                  <p className="text-sm font-semibold text-[#D4AF37]">Limited Founding Membership</p>
+                  <p className="text-xs text-white/60">🔥 Only {inventoryLeft} of 500 Founding Memberships left.</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Benefits */}
+            <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-[#D4AF37] uppercase tracking-wide">Your Benefits</h3>
+              <ul className="space-y-2">
+                {[
+                  "Lifetime Free Express Shipping",
+                  "Priority Dispatch",
+                  "Exclusive Early Access"
+                ].map((benefit, idx) => (
+                  <motion.li
+                    key={idx}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 + idx * 0.1 }}
+                    className="flex items-center gap-3 text-white/80"
+                  >
+                    <div className="w-2 h-2 bg-[#D4AF37] rounded-full" />
+                    {benefit}
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Price and Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="space-y-4 pt-4"
+            >
+              <div>
+                <p className="text-4xl font-bold text-[#D4AF37] mb-1">$9.99</p>
+                <p className="text-xs text-white/60">One-time fee • Lifetime access</p>
+              </div>
+              
+              <motion.button
+                onClick={handleJoinClub}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-[#D4AF37] text-black font-bold py-4 rounded-full uppercase tracking-widest text-lg hover:bg-[#E8C547] transition-all"
+              >
+                JOIN THE CLUB - $9.99
+              </motion.button>
+
+              <p className="text-xs text-white/50 text-center">
+                Secure checkout • Instant access
+              </p>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Terms & Policy Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9 }}
+          className="mt-20 border-t border-white/10 pt-12"
+        >
+          <h2 className="text-2xl font-bold text-[#D4AF37] mb-8 uppercase tracking-wide">Terms & Conditions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="space-y-2">
+              <h3 className="font-semibold text-white uppercase text-sm tracking-wider">Validity</h3>
+              <p className="text-sm text-white/70">Lifetime access for a one-time fee. Once purchased, membership is permanent.</p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-semibold text-white uppercase text-sm tracking-wider">Refunds</h3>
+              <p className="text-sm text-white/70">Non-refundable digital service. This is a permanent membership benefit.</p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-semibold text-white uppercase text-sm tracking-wider">Usage</h3>
+              <p className="text-sm text-white/70">Strictly for the registered account holder only. Non-transferable.</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
 export default function Product() {
   const { id } = useParams<{ id: string }>();
   const { products, isLoading: contextLoading } = useShopify();
@@ -415,6 +588,11 @@ export default function Product() {
         <Footer />
       </div>
     );
+  }
+
+  // Render custom membership landing page for zentrix-black-membership
+  if (product.handle === "zentrix-black-membership") {
+    return <MembershipLandingPage product={product} />;
   }
 
   return (

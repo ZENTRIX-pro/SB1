@@ -14,6 +14,10 @@ const navLinks = [
   { name: "Beauty", href: "/collections/beauty" },
 ];
 
+const premiumLinks = [
+  { name: "ZENTRIX BLACK", href: "/products/zentrix-black-membership", isPremium: true },
+];
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -99,6 +103,21 @@ export function Navbar() {
                         : "text-neutral-700"
                     }`}
                     data-testid={`link-nav-${link.name.toLowerCase()}`}
+                  >
+                    {link.name}
+                  </span>
+                </Link>
+              ))}
+              {premiumLinks.map((link) => (
+                <Link key={link.name} href={link.href}>
+                  <span
+                    className={`text-xs font-bold uppercase tracking-wider cursor-pointer transition-all ${
+                      location === link.href
+                        ? "text-[#D4AF37]"
+                        : "text-[#D4AF37] hover:text-[#E8C547] drop-shadow-sm"
+                    }`}
+                    data-testid={`link-nav-zentrix-black`}
+                    style={{ textShadow: "0 1px 2px rgba(212, 175, 55, 0.1)" }}
                   >
                     {link.name}
                   </span>

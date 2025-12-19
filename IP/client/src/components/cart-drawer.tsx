@@ -12,8 +12,14 @@ export function CartDrawer() {
     updateQuantity, 
     totalPrice, 
     getProduct,
-    totalItems
+    totalItems,
+    addItem
   } = useCart();
+
+  const hasMembership = items.some(item => {
+    const product = getProduct(item.productId);
+    return product?.name.toLowerCase().includes("zentrix black") || product?.name.toLowerCase().includes("membership");
+  });
 
   return (
     <AnimatePresence>
@@ -159,6 +165,38 @@ export function CartDrawer() {
               {/* Footer */}
               {items.length > 0 && (
                 <div className="border-t border-border px-6 py-6 space-y-4">
+                  {/* Membership Upsell Banner */}
+                  {!hasMembership && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-gradient-to-r from-black to-[#1a1a1a] rounded-lg p-4 border border-[#D4AF37]/30"
+                    >
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-2xl">🔥</span>
+                          <h3 className="text-sm font-bold text-[#D4AF37] uppercase tracking-wide">
+                            Exclusive Offer
+                          </h3>
+                        </div>
+                        <p className="text-xs text-white/90">
+                          Get FREE Express Shipping instantly with ZENTRIX BLACK.
+                        </p>
+                        <Button
+                          onClick={() => {
+                            // Note: In a real implementation, find the actual membership product from the available products
+                            // For now, this will trigger a modal or redirect to the membership page
+                            window.location.href = "/products/zentrix-black-membership";
+                          }}
+                          className="w-full bg-[#D4AF37] text-black hover:bg-[#E8C547] font-bold text-xs uppercase tracking-wide"
+                          size="sm"
+                        >
+                          Add to Order - $9.99
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+
                   {/* Subtotal */}
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Subtotal</span>
