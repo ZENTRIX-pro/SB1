@@ -23,6 +23,12 @@ const categoryConfig: RibbonCategory[] = [
     fallbackImage: "https://images.unsplash.com/photo-1618244972963-dbee1a7edc95?auto=format&fit=crop&w=300&q=80"
   },
   {
+    name: "Accessories",
+    link: "/collections/all-accessories",
+    handle: "all-accessories",
+    fallbackImage: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=300&q=80"
+  },
+  {
     name: "Active",
     link: "/collections/active",
     handle: "active",

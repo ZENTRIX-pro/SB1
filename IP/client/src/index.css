@@ -240,6 +240,24 @@
     width: 100% !important;
     height: 100% !important;
   }
+
+  /* Force matching dimensions for .card and .product-card */
+  .world-of-zentrix .card,
+  .world-of-zentrix .product-card {
+    min-width: 400px !important;
+    height: 600px !important;
+    flex: 0 0 auto !important;
+    aspect-ratio: 2/3 !important;
+  }
+
+  /* Ensure horizontal scroll works for container */
+  .world-of-zentrix-container {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 20px;
+    padding-bottom: 20px;
+  }
 }
 
 /**
