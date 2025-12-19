@@ -117,10 +117,25 @@ const placeholderIcons: Record<string, string> = {
 function VisualIconRow({ slug }: { slug: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [subCategoryImages, setSubCategoryImages] = useState<Record<string, string>>({});
-  const subCategories = subCategoryMap[slug];
+  
+  // HARD-CODE FORCE for Accessories page - ensure icons display immediately
+  const isAccessoriesPage = slug === "all-accessories";
+  const subCategories = isAccessoriesPage 
+    ? subCategoryMap["all-accessories"] 
+    : subCategoryMap[slug];
   
   useEffect(() => {
     if (!subCategories) return;
+    
+    // For Accessories page, immediately use placeholder icons without fetching
+    if (isAccessoriesPage) {
+      const imagesMap: Record<string, string> = {};
+      subCategories.forEach(cat => {
+        imagesMap[cat.handle] = placeholderIcons[cat.handle] || "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=150&q=80";
+      });
+      setSubCategoryImages(imagesMap);
+      return;
+    }
     
     const loadImages = async () => {
       const imagePromises = subCategories.map(async (cat) => {
@@ -141,7 +156,7 @@ function VisualIconRow({ slug }: { slug: string }) {
     };
     
     loadImages();
-  }, [subCategories]);
+  }, [subCategories, isAccessoriesPage]);
   
   if (!subCategories) return null;
 
