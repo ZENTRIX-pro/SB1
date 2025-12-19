@@ -17,6 +17,7 @@ const fallbackMenuCategories: MegaMenuCategory[] = [
       { label: "Men's Collection", href: "/collections/men" },
       { label: "Women's Collection", href: "/collections/women" },
       { label: "Accessories", href: "/collections/all-accessories" },
+      { label: "Active", href: "/collections/active" },
       { label: "Scents", href: "/collections/scents" },
     ]
   },

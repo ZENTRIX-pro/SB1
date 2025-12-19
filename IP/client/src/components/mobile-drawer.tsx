@@ -80,9 +80,14 @@ const fallbackLinks: DrawerLink[] = [
     subcategories: [
       { name: "All Accessories", href: "/collections/all-accessories" },
       { name: "Watches", href: "/collections/ultimate-watches" },
+      { name: "Jewelry", href: "/collections/womens-jewelry" },
       { name: "Bags & Leather", href: "/collections/leather-goods" },
-      { name: "Jewelry", href: "/collections/womens-jewelry" }
+      { name: "Sunglasses", href: "/collections/sunglasses" }
     ]
+  },
+  {
+    name: "ACTIVE",
+    href: "/collections/active"
   },
   {
     name: "SCENTS",
