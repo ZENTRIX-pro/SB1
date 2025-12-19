@@ -87,7 +87,13 @@ const fallbackLinks: DrawerLink[] = [
   },
   {
     name: "ACTIVE",
-    href: "/collections/active"
+    subcategories: [
+      { name: "All Active", href: "/collections/active" },
+      { name: "Men's Active", href: "/collections/mens-activewear" },
+      { name: "Women's Active", href: "/collections/womens-activewear" },
+      { name: "Performance Shoes", href: "/collections/running-shoes" },
+      { name: "Gym Gear", href: "/collections/gym-gear" }
+    ]
   },
   {
     name: "SCENTS",
