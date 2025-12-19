@@ -66,6 +66,12 @@ const subCategoryMap: Record<string, SubCategory[]> = {
     { handle: "gifts-for-her", label: "For Her" },
     { handle: "gift-bundles", label: "Bundles" },
   ],
+  "all-accessories": [
+    { handle: "ultimate-watches", label: "Watches" },
+    { handle: "leather-goods", label: "Bags & Wallets" },
+    { handle: "womens-jewelry", label: "Jewelry" },
+    { handle: "eyewear", label: "Sunglasses" },
+  ],
 };
 
 const placeholderIcons: Record<string, string> = {
@@ -103,6 +109,9 @@ const placeholderIcons: Record<string, string> = {
   "gifts-for-him": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=150&q=80",
   "gifts-for-her": "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=150&q=80",
   "gift-bundles": "https://images.unsplash.com/photo-1607469256872-48e4c6ae4fc9?auto=format&fit=crop&w=150&q=80",
+  "ultimate-watches": "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=150&q=80",
+  "leather-goods": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=150&q=80",
+  "eyewear": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=150&q=80",
 };
 
 function VisualIconRow({ slug }: { slug: string }) {
