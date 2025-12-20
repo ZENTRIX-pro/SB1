@@ -7,10 +7,11 @@ const footerLinks = {
     { name: "New Arrivals", href: "/collections/new-arrivals" },
     { name: "Men", href: "/collections/men" },
     { name: "Women", href: "/collections/women" },
-    { name: "Tech & Gadgets", href: "/collections/tech" },
-    { name: "Home Living", href: "/collections/home" },
+    { name: "Scents", href: "/collections/scents" },
     { name: "Beauty", href: "/collections/beauty" },
+    { name: "Accessories", href: "/collections/accessories" },
     { name: "Gifts", href: "/collections/gifts" },
+    { name: "ZENTRIX BLACK", href: "/products/zentrix-black-membership" },
   ],
   support: [
     { name: "Track Your Order", href: "/track-order" },

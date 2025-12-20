@@ -110,22 +110,22 @@ export function MembershipCard() {
                 <div className="flex items-start gap-3">
                   <Gift className="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-semibold text-[#D4AF37]">Instant Benefit</p>
-                    <p className="text-xs text-white/80">Get a $20 Store Credit immediately</p>
+                    <p className="text-sm font-semibold text-[#D4AF37]">Welcome Gift</p>
+                    <p className="text-xs text-white/80">Immediate $20 Store Credit (One-Time)</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Truck className="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-sm font-semibold text-[#D4AF37]">Lifetime Privilege</p>
-                    <p className="text-xs text-white/80">Never pay for shipping again</p>
+                    <p className="text-xs text-white/80">Free Express Shipping Worldwide</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Crown className="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-semibold text-[#D4AF37]">VIP Status</p>
-                    <p className="text-xs text-white/80">Priority access to exclusive drops</p>
+                    <p className="text-sm font-semibold text-[#D4AF37]">Exclusive Access</p>
+                    <p className="text-xs text-white/80">First 500 Members Only</p>
                   </div>
                 </div>
               </div>
