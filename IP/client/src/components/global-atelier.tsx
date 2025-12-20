@@ -144,7 +144,7 @@ export function GlobalAtelier() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="flex-none min-w-[160px] w-[45vw] md:w-[380px] snap-start"
+              className="flex-none min-w-[85vw] snap-start"
             >
               <Link href={location.href}>
                 <div className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4]" style={{ maxHeight: 'calc(45vw * 1.33)' }}>
@@ -176,7 +176,7 @@ export function GlobalAtelier() {
         <div className="flex-none w-4" />
       </div>
 
-      <div className="hidden md:grid max-w-7xl mx-auto px-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="hidden md:grid max-w-7xl mx-auto px-4 md:grid-cols-4 gap-6">
         {locationConfig.map((location, index) => {
           const imageSrc = getCollectionImage(location.collectionHandle, location.fallbackImage);
           
