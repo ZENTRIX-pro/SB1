@@ -33,21 +33,24 @@ export function MembershipCard() {
   }, []);
 
   const handleAddToCart = () => {
-    if (product?.id) {
-      const imageUrl = product.images?.[0]?.src || "";
-      addItem({
-        id: product.id,
-        name: product.title,
-        description: product.description || "",
-        price: parseFloat(product.variants?.[0]?.price?.amount || "9.99"),
-        category: "membership",
-        image: imageUrl,
-        isNew: false,
-      });
-      setTimeout(() => {
-        window.location.href = '/checkout';
-      }, 100);
-    }
+    // Add membership with fallback if product isn't loaded
+    const membershipId = product?.id || "zentrix-black-membership";
+    const membershipName = product?.title || "ZENTRIX BLACK Membership";
+    const membershipPrice = product?.variants?.[0]?.price?.amount || "9.99";
+    const membershipImage = product?.images?.[0]?.src || "";
+    
+    addItem({
+      id: membershipId,
+      name: membershipName,
+      description: product?.description || "",
+      price: parseFloat(membershipPrice),
+      category: "membership",
+      image: membershipImage,
+      isNew: false,
+    });
+    
+    // Instant redirect to checkout - no delay, no drawer
+    window.location.href = '/checkout';
   };
 
   if (loading) {
@@ -58,10 +61,11 @@ export function MembershipCard() {
     );
   }
 
-  if (!product) return null;
+  // Show card even if product failed to load from Shopify
+  const showFallback = !product;
 
-  const price = product.variants?.[0]?.price?.amount || "9.99";
-  const imageUrl = product.images?.[0]?.src;
+  const price = product?.variants?.[0]?.price?.amount || "9.99";
+  const imageUrl = product?.images?.[0]?.src;
 
   return (
     <section className="w-full py-20 px-4 md:px-8 bg-black">

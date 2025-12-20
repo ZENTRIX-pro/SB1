@@ -189,7 +189,7 @@ export function GlobalAtelier() {
               transition={{ delay: index * 0.1 }}
             >
               <Link href={location.href}>
-                <div className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4]">
+                <div className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4] md:h-[600px] md:aspect-auto">
                   <img
                     src={imageSrc}
                     alt={location.name}
