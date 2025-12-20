@@ -165,6 +165,25 @@ export function CartDrawer() {
               {/* Footer */}
               {items.length > 0 && (
                 <div className="border-t border-border px-6 py-6 space-y-4">
+                  {/* Membership Status */}
+                  {hasMembership && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-gradient-to-r from-[#D4AF37]/20 to-[#D4AF37]/10 rounded-lg p-4 border border-[#D4AF37]/50"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">👑</span>
+                        <h3 className="text-sm font-bold text-[#D4AF37] uppercase tracking-wide">
+                          VIP Member Applied
+                        </h3>
+                      </div>
+                      <p className="text-xs text-[#D4AF37]/80 mt-2">
+                        Enjoy priority access & lifetime free shipping!
+                      </p>
+                    </motion.div>
+                  )}
+
                   {/* Membership Upsell Banner */}
                   {!hasMembership && (
                     <motion.div
@@ -174,24 +193,22 @@ export function CartDrawer() {
                     >
                       <div className="space-y-3">
                         <div className="flex items-center gap-2">
-                          <span className="text-2xl">🔥</span>
+                          <span className="text-2xl">🚀</span>
                           <h3 className="text-sm font-bold text-[#D4AF37] uppercase tracking-wide">
-                            Exclusive Offer
+                            Get Free Shipping & VIP Status?
                           </h3>
                         </div>
                         <p className="text-xs text-white/90">
-                          Get FREE Express Shipping instantly with ZENTRIX BLACK.
+                          ZENTRIX BLACK gives you priority access & lifetime free shipping.
                         </p>
                         <Button
                           onClick={() => {
-                            // Note: In a real implementation, find the actual membership product from the available products
-                            // For now, this will trigger a modal or redirect to the membership page
                             window.location.href = "/products/zentrix-black-membership";
                           }}
                           className="w-full bg-[#D4AF37] text-black hover:bg-[#E8C547] font-bold text-xs uppercase tracking-wide"
                           size="sm"
                         >
-                          Add to Order - $9.99
+                          Add Membership +
                         </Button>
                       </div>
                     </motion.div>

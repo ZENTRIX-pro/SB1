@@ -5,6 +5,7 @@ import { BentoGrid } from "@/components/bento-grid";
 import { GlobalAtelier } from "@/components/global-atelier";
 import { SignatureParallax } from "@/components/signature-parallax";
 import { TrendingSection } from "@/components/trending-section";
+import { MembershipCard } from "@/components/membership-card";
 import { TrustBadges } from "@/components/trust-badges";
 import { ZentrixCircle } from "@/components/zentrix-circle";
 import { Footer } from "@/components/footer";
@@ -23,6 +24,7 @@ export default function Home() {
       <GlobalAtelier />
       <SignatureParallax />
       <TrendingSection />
+      <MembershipCard />
       <TrustBadges />
       <ZentrixCircle />
       <Footer />
