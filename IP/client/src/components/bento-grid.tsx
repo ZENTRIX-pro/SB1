@@ -132,15 +132,15 @@ export function BentoGrid() {
                 <img
                   src={card.image}
                   alt={card.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ease-out"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-                  <p className="text-white/70 text-xs tracking-[0.15em] uppercase mb-2">
+                  <p className="text-white/70 text-xs tracking-[0.15em] uppercase mb-2 transition-colors duration-300 group-hover:text-yellow-500">
                     {card.subtitle}
                   </p>
-                  <h3 className="text-white text-xl md:text-2xl font-semibold tracking-tight">
+                  <h3 className="text-white text-xl md:text-2xl font-semibold tracking-tight transition-colors duration-300 group-hover:text-yellow-500">
                     {card.title}
                   </h3>
                 </div>

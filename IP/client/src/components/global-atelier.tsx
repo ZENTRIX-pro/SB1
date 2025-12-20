@@ -127,7 +127,7 @@ export function GlobalAtelier() {
 
       <div
         ref={scrollRef}
-        className="md:hidden flex flex-row flex-nowrap gap-4 overflow-x-auto snap-x snap-mandatory px-4 pb-4"
+        className="md:hidden flex flex-row flex-nowrap gap-3 overflow-x-auto snap-x snap-mandatory px-4 pb-4"
         style={{ 
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
@@ -151,7 +151,7 @@ export function GlobalAtelier() {
                   <img
                     src={imageSrc}
                     alt={location.name}
-                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
                       isLoading ? "opacity-50" : "opacity-100"
                     }`}
                   />
@@ -193,16 +193,16 @@ export function GlobalAtelier() {
                   <img
                     src={imageSrc}
                     alt={location.name}
-                    className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+                    className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ease-out ${
                       isLoading ? "opacity-50" : "opacity-100"
                     }`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                   <div className="absolute inset-0 flex flex-col justify-end p-6">
-                    <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-1 transition-colors duration-300 group-hover:text-[#D4AF37]">
+                    <p className="text-white/60 text-xs tracking-[0.2em] uppercase mb-1 transition-colors duration-300 group-hover:text-yellow-500">
                       {location.country}
                     </p>
-                    <h3 className="text-white text-xl font-semibold tracking-tight mb-2 transition-colors duration-300 group-hover:text-[#D4AF37]">
+                    <h3 className="text-white text-xl font-semibold tracking-tight mb-2 transition-colors duration-300 group-hover:text-yellow-500">
                       {location.name}
                     </h3>
                     <p className="text-white/70 text-xs leading-relaxed line-clamp-2">
