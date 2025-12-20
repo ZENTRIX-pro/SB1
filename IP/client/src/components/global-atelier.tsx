@@ -127,7 +127,7 @@ export function GlobalAtelier() {
 
       <div
         ref={scrollRef}
-        className="md:hidden flex flex-row flex-nowrap gap-3 overflow-x-auto snap-x snap-mandatory px-4 pb-4"
+        className="md:hidden flex flex-row flex-nowrap gap-4 overflow-x-auto snap-x snap-mandatory px-4 pb-4"
         style={{ 
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
@@ -144,23 +144,23 @@ export function GlobalAtelier() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="flex-none min-w-[85vw] snap-start"
+              className="flex-none min-w-[80vw] w-[80vw] md:w-auto snap-start"
             >
               <Link href={location.href}>
                 <div className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4]" style={{ maxHeight: 'calc(45vw * 1.33)' }}>
                   <img
                     src={imageSrc}
                     alt={location.name}
-                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${
+                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
                       isLoading ? "opacity-50" : "opacity-100"
                     }`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                   <div className="absolute inset-0 flex flex-col justify-end p-4">
-                    <p className="text-white/60 text-[10px] tracking-[0.2em] uppercase mb-1 transition-colors duration-300 group-hover:text-[#D4AF37]">
+                    <p className="text-white/60 text-[10px] tracking-[0.2em] uppercase mb-1 transition-colors duration-300 group-hover:text-yellow-500">
                       {location.country}
                     </p>
-                    <h3 className="text-white text-base font-semibold tracking-tight mb-1 transition-colors duration-300 group-hover:text-[#D4AF37]">
+                    <h3 className="text-white text-base font-semibold tracking-tight mb-1 transition-colors duration-300 group-hover:text-yellow-500">
                       {location.name}
                     </h3>
                     <span className="inline-flex items-center text-white text-xs font-medium mt-1 transition-colors duration-300 group-hover:text-[#D4AF37]">
