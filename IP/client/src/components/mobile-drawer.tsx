@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronDown, User, Search } from "lucide-react";
+import { X, ChevronDown, User, Search, Crown } from "lucide-react";
 import { useCurrency, GLOBAL_CURRENCIES } from "@/lib/currency-context";
 import { fetchNavigationMenu, type MenuItem } from "@/lib/shopify";
 
@@ -250,6 +250,14 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             </nav>
 
             <div className="border-t border-neutral-200 p-5 space-y-4">
+              {/* Membership Link */}
+              <Link href="/products/zentrix-black-membership" onClick={onClose}>
+                <div className="flex items-center gap-3 py-3 cursor-pointer hover:opacity-70 transition-opacity">
+                  <Crown className="w-5 h-5 text-[#D4AF37] fill-[#D4AF37]" />
+                  <span className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider">Membership</span>
+                </div>
+              </Link>
+
               <Link href="/account" onClick={onClose}>
                 <div className="flex items-center gap-3 py-3 cursor-pointer hover:opacity-70 transition-opacity">
                   <User className="w-5 h-5 text-black" strokeWidth={1.5} />

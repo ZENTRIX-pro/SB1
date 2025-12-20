@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ShoppingBag, Menu, X, User } from "lucide-react";
+import { Search, ShoppingBag, Menu, X, User, Crown } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { MobileDrawer } from "@/components/mobile-drawer";
 
@@ -108,10 +108,26 @@ export function Navbar() {
                   </span>
                 </Link>
               ))}
+              {/* Crown Membership Link */}
+              <Link href="/products/zentrix-black-membership">
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  className="p-2 cursor-pointer"
+                >
+                  <Crown
+                    className={`w-5 h-5 transition-colors ${
+                      location === "/products/zentrix-black-membership"
+                        ? "text-[#D4AF37] fill-[#D4AF37]"
+                        : "text-[#D4AF37] hover:text-[#E8C547] fill-[#D4AF37]/40 hover:fill-[#E8C547]"
+                    }`}
+                    data-testid="icon-membership-crown"
+                  />
+                </motion.div>
+              </Link>
               {premiumLinks.map((link) => (
                 <Link key={link.name} href={link.href}>
                   <span
-                    className={`text-xs font-bold uppercase tracking-wider cursor-pointer transition-all ${
+                    className={`text-xs font-bold uppercase tracking-wider cursor-pointer transition-all hidden ${
                       location === link.href
                         ? "text-[#D4AF37]"
                         : "text-[#D4AF37] hover:text-[#E8C547] drop-shadow-sm"

@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Crown, Zap } from "lucide-react";
+import { Crown, Zap, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchProductByHandle } from "@/lib/shopify";
 import { useCart } from "@/lib/cart-context";
+import { useLocation } from "wouter";
 
 export function MembershipCard() {
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { addItem } = useCart();
+  const [, navigate] = useLocation();
 
   useEffect(() => {
     const fetchMembership = async () => {
@@ -34,15 +36,19 @@ export function MembershipCard() {
 
   const handleAddToCart = () => {
     if (product?.id) {
+      const imageUrl = product.images?.[0]?.src || "";
       addItem({
         id: product.id,
         name: product.title,
         description: product.description || "",
         price: parseFloat(product.variants?.[0]?.price?.amount || "9.99"),
         category: "membership",
-        image: imageUrl || "",
+        image: imageUrl,
         isNew: false,
       });
+      setTimeout(() => {
+        navigate("/checkout");
+      }, 300);
     }
   };
 
@@ -72,7 +78,7 @@ export function MembershipCard() {
         <div className="relative backdrop-blur-xl bg-gradient-to-br from-white/10 via-white/5 to-black/50 rounded-3xl border border-white/20 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 to-transparent pointer-events-none" />
 
-          <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 p-8 md:p-12">
+          <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 py-10 md:py-12 px-6 md:px-12">
             {/* Content Side */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -97,19 +103,19 @@ export function MembershipCard() {
                 UNLOCK ZENTRIX BLACK
               </h2>
 
-              {/* Features */}
-              <div className="space-y-3 pt-4">
-                <div className="flex items-start gap-3">
-                  <Zap className="w-5 h-5 text-[#D4AF37] mt-1 flex-shrink-0" />
-                  <p className="text-sm text-white/90">Priority Access to New Drops</p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Zap className="w-5 h-5 text-[#D4AF37] mt-1 flex-shrink-0" />
+              {/* Benefits List - Displayed above button */}
+              <div className="space-y-3 py-6 border-y border-white/20">
+                <div className="flex items-center gap-3">
+                  <Check className="w-5 h-5 text-[#D4AF37] flex-shrink-0" />
                   <p className="text-sm text-white/90">Lifetime Free Shipping</p>
                 </div>
-                <div className="flex items-start gap-3">
-                  <Zap className="w-5 h-5 text-[#D4AF37] mt-1 flex-shrink-0" />
-                  <p className="text-sm text-white/90">Exclusive Drops & VIP Status</p>
+                <div className="flex items-center gap-3">
+                  <Check className="w-5 h-5 text-[#D4AF37] flex-shrink-0" />
+                  <p className="text-sm text-white/90">Priority Access</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Check className="w-5 h-5 text-[#D4AF37] flex-shrink-0" />
+                  <p className="text-sm text-white/90">Exclusive Badge</p>
                 </div>
               </div>
 
@@ -117,7 +123,7 @@ export function MembershipCard() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="pt-4"
+                className="pt-2"
               >
                 <Button
                   onClick={handleAddToCart}
@@ -128,7 +134,7 @@ export function MembershipCard() {
               </motion.div>
             </motion.div>
 
-            {/* Image Side */}
+            {/* Image Side - Optimized for mobile */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -137,11 +143,11 @@ export function MembershipCard() {
               className="relative"
             >
               {imageUrl && (
-                <div className="relative h-96 md:h-full rounded-2xl overflow-hidden border border-white/20">
+                <div className="relative max-h-[200px] md:max-h-none md:h-96 rounded-2xl overflow-hidden border border-white/20">
                   <img
                     src={imageUrl}
                     alt={product.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain md:object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>
