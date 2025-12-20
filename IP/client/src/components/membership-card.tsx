@@ -130,6 +130,11 @@ export function MembershipCard() {
                 </div>
               </div>
 
+              {/* Coupon Policy Text */}
+              <p className="text-xs text-[#D4AF37] bg-[#D4AF37]/10 rounded-lg p-3 border border-[#D4AF37]/30">
+                🎁 <span className="font-semibold">First 500 Members:</span> Get <span className="font-bold">$20 OFF</span> orders over $70 automatically!
+              </p>
+
               {/* CTA Button */}
               <motion.div
                 whileHover={{ scale: 1.05 }}

@@ -176,7 +176,7 @@ export function GlobalAtelier() {
         <div className="flex-none w-4" />
       </div>
 
-      <div className="hidden md:grid max-w-7xl mx-auto px-4 grid-cols-4 gap-6">
+      <div className="hidden md:grid max-w-7xl mx-auto px-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {locationConfig.map((location, index) => {
           const imageSrc = getCollectionImage(location.collectionHandle, location.fallbackImage);
           
@@ -189,11 +189,11 @@ export function GlobalAtelier() {
               transition={{ delay: index * 0.1 }}
             >
               <Link href={location.href}>
-                <div className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[3/4] md:h-[600px] md:aspect-auto">
+                <div className="group relative rounded-2xl overflow-hidden cursor-pointer w-full aspect-[3/4]">
                   <img
                     src={imageSrc}
                     alt={location.name}
-                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+                    className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${
                       isLoading ? "opacity-50" : "opacity-100"
                     }`}
                   />
