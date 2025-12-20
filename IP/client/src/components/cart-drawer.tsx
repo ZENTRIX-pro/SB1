@@ -203,7 +203,19 @@ export function CartDrawer() {
                         </p>
                         <Button
                           onClick={() => {
-                            window.location.href = "/products/zentrix-black-membership";
+                            const membershipProduct = {
+                              id: "zentrix-black-membership",
+                              name: "ZENTRIX BLACK Membership",
+                              description: "",
+                              price: 9.99,
+                              category: "membership",
+                              image: "",
+                              isNew: false,
+                            };
+                            addItem(membershipProduct);
+                            setTimeout(() => {
+                              window.location.href = "/checkout";
+                            }, 100);
                           }}
                           className="w-full bg-[#D4AF37] text-black hover:bg-[#E8C547] font-bold text-xs uppercase tracking-wide"
                           size="sm"

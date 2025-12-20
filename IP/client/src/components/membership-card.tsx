@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Crown, Zap, Check } from "lucide-react";
+import { Crown, Check, Gift, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchProductByHandle } from "@/lib/shopify";
 import { useCart } from "@/lib/cart-context";
-import { useLocation } from "wouter";
 
 export function MembershipCard() {
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { addItem } = useCart();
-  const [, navigate] = useLocation();
 
   useEffect(() => {
     const fetchMembership = async () => {
@@ -47,8 +45,8 @@ export function MembershipCard() {
         isNew: false,
       });
       setTimeout(() => {
-        navigate("/checkout");
-      }, 300);
+        window.location.href = '/checkout';
+      }, 100);
     }
   };
 
@@ -105,17 +103,26 @@ export function MembershipCard() {
 
               {/* Benefits List - Displayed above button */}
               <div className="space-y-3 py-6 border-y border-white/20">
-                <div className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#D4AF37] flex-shrink-0" />
-                  <p className="text-sm text-white/90">Lifetime Free Shipping</p>
+                <div className="flex items-start gap-3">
+                  <Gift className="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-[#D4AF37]">Instant Benefit</p>
+                    <p className="text-xs text-white/80">Get a $20 Store Credit immediately</p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#D4AF37] flex-shrink-0" />
-                  <p className="text-sm text-white/90">Priority Access</p>
+                <div className="flex items-start gap-3">
+                  <Truck className="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-[#D4AF37]">Lifetime Privilege</p>
+                    <p className="text-xs text-white/80">Never pay for shipping again</p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#D4AF37] flex-shrink-0" />
-                  <p className="text-sm text-white/90">Exclusive Badge</p>
+                <div className="flex items-start gap-3">
+                  <Crown className="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-[#D4AF37]">VIP Status</p>
+                    <p className="text-xs text-white/80">Priority access to exclusive drops</p>
+                  </div>
                 </div>
               </div>
 

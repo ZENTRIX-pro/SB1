@@ -274,24 +274,39 @@ function ProductReviews() {
   );
 }
 
-function MembershipLandingPage({ product }: { product: ShopifyProduct }) {
+function MembershipLandingPage({ product }: { product: ShopifyProduct | null }) {
   const { addItem } = useCart();
   const [inventoryLeft, setInventoryLeft] = useState(500);
   
   useEffect(() => {
-    const totalInventory = product.variants.reduce((sum, v) => {
-      const match = v.sku.match(/(\d+)/);
-      return sum + (match ? parseInt(match[1]) : 0);
-    }, 0);
-    setInventoryLeft(Math.max(0, totalInventory));
+    if (product?.variants) {
+      const totalInventory = product.variants.reduce((sum, v) => {
+        const match = v.sku.match(/(\d+)/);
+        return sum + (match ? parseInt(match[1]) : 0);
+      }, 0);
+      setInventoryLeft(Math.max(0, totalInventory));
+    }
   }, [product]);
 
   const handleJoinClub = () => {
-    // Redirect to checkout with the membership product
-    const membershipVariant = product.variants[0];
-    if (membershipVariant) {
+    if (product?.variants?.[0]) {
+      const membershipVariant = product.variants[0];
       const checkoutUrl = buildCheckoutUrl(membershipVariant.id, 1);
       window.location.href = checkoutUrl;
+    } else {
+      const membershipProduct = {
+        id: "zentrix-black-membership",
+        name: "ZENTRIX BLACK Membership",
+        description: "",
+        price: 9.99,
+        category: "membership",
+        image: "",
+        isNew: false,
+      };
+      addItem(membershipProduct);
+      setTimeout(() => {
+        window.location.href = "/checkout";
+      }, 100);
     }
   };
 
